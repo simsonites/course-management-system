@@ -2,100 +2,76 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>CMS | students-profile </title>
+    <title>CMS | profile </title>
 
     <div th:replace="~{/includes/css-links :: cssFragment}"></div>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css"/>
+    <!--Card with Media-->
 </head>
 <body>
 
-<div class="container">
+<div class="container offset-md-1">
 
-    <h3>Registered Students</h3>
-    <hr>
-
-    <div class="container">
-        <div class="row mb-3">
-
-
-            <a th:href="@{/students/new}"
-               class="btn btn-primary btn-sm col-sm-2">
-                Add Student
-            </a>
-
-            <div class="input-group col-md-8">
-                <input type="text" class="form-control" placeholder="Enter student name to search"
-                       aria-label="Recipient's username" aria-describedby="basic-addon2">
-                <div class="input-group-append">
-                    <span class="input-group-text btn btn-primary" id="basic-addon2">Search</span>
-                </div>
-            </div>
-
-            <select class="form-control col-sm-2">
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
-            </select>
-
+     <div class="media block-update-card mt-md-5">
+        <a class="pull-left" href="#">
+            <img class="media-object update-card-MDimentions" src="http://3.bp.blogspot.com/-IbEOTNtCMyU/TfCAdHaAxEI/AAAAAAAAA8U/EATib38SSAM/s320/joe-mcelderry.jpg" alt="...">
+        </a>
+        <div class="media-body update-card-body ml-4">
+            <h4 class="media-heading">Student Registration Information</h4>
+            <p>First Name</p>
+            <p>Last Name</p>
+            <p>Gender</p>
+            <p>Email Address</p>
+            <p>Registration Date</p>
+            <p>Last Updated</p>
         </div>
+     </div>
+    <!--Simple Card Layout-->
+    <div class="block-update-card mt-1">
+        <div class="update-card-body">
+            <a th:href="@{students/photo}"> Upload photo</a>
+        </div>
+        <div class="container offset-md-4">
+            <div class="row ">
+                <a class="col-md-2" th:href="@{/students/update(studentId=${student.id})}">
+                    Edit information
+                </a>
+                <a class="col-md-2" th:href="@{/students/update(studentId=${student.id})}">
+                    Cancel Registration
+                </a>
+            </div>
+        </div>
+
     </div>
 
-
+    <div class="row">
+        <a class="col-sm-2" th:href="@{/students/remove-course}"><i class="fas fa-trash"></i></a>
+        <h5 class="col-md-4  offset-md-2 mt-2">Registered Courses</h5>
+    </div>
     <table class="table table-bordered table-striped table-hover">
         <thead class="text-center">
         <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Registration Date</th>
-            <th>Last Updated</th>
-            <th align="center" colspan="4">Action</th>
+            <th><input type="checkbox"></th>
+            <th>Code</th>
+            <th> Title</th>
+            <th>Number of Credits</th>
+            <th>Lecturer</th>
+            <th>Description</th>
         </tr>
         </thead>
 
         <tbody>
-      <!--  <tr th:each="student : ${student}">
-            <td th:text="${student.firstName}" />
+        <tr align="center">
+            <td><input type="checkbox"></td>
+             <td th:text="${student.id}" />
+             <td th:text="${student.firstName}" />
             <td th:text="${student.lastName}" />
+            <td th:text="${student.gender}" />
             <td th:text="${student.email}" />
-            <td th:text="${#dates.format(student.createdAt,'dd-MMM-yyyy')}" />
-            <td th:text="${#dates.format(student.updatedAt,'dd-MMM-yyyy')}" />
-            <td>
-                <a th:href="@{/student/update}" class="btn btn-info btn-sm">
-                    Edit
-                </a>
-            </td>
-            <td>
-                <a th:href="@{/student/delete}" class="btn btn-danger btn-sm">
-                    Delete
-                </a>
-            </td>
-
-        </tr>-->
+        </tr>
         </tbody>
     </table>
     <br><br>
-
-
-    <section id="student-profile">
-        <div class="row">
-
-            <div class="col-md-4">
-                <img src="#" alt="my photot"/>
-            </div>
-            <div class="col-md-8">
-                First Name    <h2>Name</h2>
-                Last Name    <h2>Name</h2>
-                Gender    <h2>Gender</h2>
-                Email Address    <h2>Email</h2>
-
-            </div>
-
-        </div>
-
-    </section>
-
 
     <footer th:replace="~{includes/footer :: footer}">
         <p>Footer contents go here </p>

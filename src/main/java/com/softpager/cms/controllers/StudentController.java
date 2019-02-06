@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 @Slf4j
 @Controller
@@ -34,8 +35,8 @@ public class StudentController {
         return "student/students";
     }
 
-    @GetMapping("/student")
-    public  String getStudent(@RequestParam long theId, Model model){
+    @GetMapping("/profile")
+    public  String getStudent(@RequestParam("studentId") long theId, Model model){
         Student theStudent = studentService.getStudent(theId);
         model.addAttribute("student", theStudent);
         return "student/student-profile";
@@ -48,16 +49,25 @@ public class StudentController {
         return "/student/add-student";
     }
 
+    @GetMapping("/update")
+    public String update(@RequestParam("studentId") long theId, Model model){
+        Student theStudent = studentService.getStudent(theId);
+        model.addAttribute("student", theStudent);
+        return "/student/add-student";
+    }
+
     @PostMapping("/create")
     public String create(@ModelAttribute("student") Student theStudent){
         studentService.save(theStudent);
         return "redirect:/students";
     }
 
-    @DeleteMapping(CMSMapping.DELETE)
+    @GetMapping("/delete")
     public String delete(@RequestParam("studentId") long theId){
         studentService.delete(theId);
-        return CMSMapping.REDIRECT;
+        return "redirect:/students";
     }
+
+
 
 }

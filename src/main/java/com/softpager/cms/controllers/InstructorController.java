@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("instructors")
+@RequestMapping("/instructors")
 public class InstructorController {
 
     private final InstructorService instructorService;
@@ -20,29 +20,29 @@ public class InstructorController {
         this.instructorService = instructorService;
     }
 
-    @GetMapping("/all")
+    @GetMapping("")
     public String getInstructors(Model model, @RequestParam(defaultValue ="0") int page){
        Page<Instructor> allInstructors = instructorService.getInstructors(PageRequest.of(page,5));
-       model.addAttribute("instructor", allInstructors);
-       return "instructors/instructors";
+       model.addAttribute("instructors", allInstructors);
+       return "instructor/instructors";
     }
 
     @GetMapping("/instructor")
     public String getInstructor(@RequestParam long theId, Model model){
         Instructor theInstructor = instructorService.getInstructor(theId);
         model.addAttribute("info", theInstructor);
-        return "instructors/instructor-profile";
+        return "instructor/instructor-profile";
     }
 
     @GetMapping("/new")
     public String showForm(Model model){
         model.addAttribute("instructor", new Instructor());
-        return "instructors/add-instructor";
+        return "instructor/add-instructor";
     }
 
     @PostMapping("/create")
     public String create(@ModelAttribute("instructor") Instructor theInstructor){
         instructorService.create(theInstructor);
-        return "redirect:/instructors/instructors";
+        return "redirect:/instructors";
     }
 }

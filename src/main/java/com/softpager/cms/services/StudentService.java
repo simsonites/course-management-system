@@ -4,6 +4,8 @@ import com.softpager.cms.entities.Student;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.Date;
+
 public interface StudentService {
     Page<Student> getStudents(PageRequest pageRequest);
 
@@ -13,5 +15,4 @@ public interface StudentService {
 
     void delete(long theId);
 
-    //void update(long theId);
 }

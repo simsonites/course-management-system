@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CMS | instructors </title>
+
+    <div th:replace="~{/includes/css-links :: cssFragment}"></div>ss">
+</head>
+<body>
+
+<div class="container">
+
+    <h3>List Of  All Instructors</h3>
+    <hr>
+
+    <div class="container">
+        <div class="row mb-3">
+
+
+            <a th:href="@{/instructors/new}"
+               class="btn btn-primary btn-sm col-sm-2">
+                Add instructor
+            </a>
+
+            <div class="input-group col-md-8">
+                <input type="text" class="form-control" placeholder="Enter instructor name to search"
+                       aria-label="Recipient's username" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <span class="input-group-text btn btn-primary" id="basic-addon2">Search</span>
+                </div>
+            </div>
+
+            <select class="form-control col-sm-2">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+            </select>
+
+        </div>
+    </div>
+
+
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="text-center">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Gender</th>
+            <th colspan="2">Contacts</th>
+            <th>Title</th>
+            <th></th>
+
+            <th align="center" colspan="4">Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="tempInstructor : ${instructors}">
+            <td th:text="${tempInstructor.firstName}" />
+            <td th:text="${tempInstructor.lastName}" />
+            <td th:text="${tempInstructor.gender}" />
+            <td th:text="${tempInstructor.email}" />
+            <td th:text="${tempInstructor.mobileContact}" />
+            <td th:text="${tempInstructor.title}" />
+            <td><a th:href="@{/instructors/profile}">View details</a> </td>
+            <td>
+                <a th:href="@{/instructors/update}" class="btn btn-info btn-sm">
+                    Edit
+                </a>
+            </td>
+            <td>
+                <a th:href="@{/instructors/delete}" class="btn btn-danger btn-sm">
+                    Delete
+                </a>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+    <nav class="border-info">
+        <ul class="nav nav-pills pagination">
+            <li class="nav-item"
+                th:each="i: ${#numbers.sequence(0, instructors.totalPages-1)}">
+                <a th:href="@{/instructors/(page=${i})}" th:text="${i}"
+                   class="nav-link"  th:classappend="${currentPage}==${i}? 'active':''"/>
+            </li>
+        </ul>
+    </nav>
+    <br><br>
+
+
+
+
+
+
+
+    <footer th:replace="~{includes/footer :: footer}">
+        <p>Footer contents go here </p>
+    </footer>
+</div>
+</div>
+</body>
+</html>

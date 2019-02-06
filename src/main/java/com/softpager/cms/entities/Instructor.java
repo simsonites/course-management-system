@@ -35,7 +35,7 @@ public class Instructor extends AuditModel {
     private String gender;
 
     @Column(name = "mobile")
-    private int mobileContact;
+    private String mobileContact;
 
     @Column(name = "email")
     private String email;
@@ -50,7 +50,7 @@ public class Instructor extends AuditModel {
 
     public Instructor() {	}
 
-    public Instructor(String firstName, String lastName, int mobileContact, String email,String gender, String title) {
+    public Instructor(String firstName, String lastName, String mobileContact, String email,String gender, String title) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.mobileContact = mobileContact;

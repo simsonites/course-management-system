@@ -55,33 +55,33 @@ public class SeedData {
 
 
     private List<Instructor> initInstructors = Arrays.asList(
-            new Instructor("Alexander", "Offison", 001-541-754-3010, "off@email.com", "M", "Prof"),
-            new Instructor("Chad", "Derby", 001-541-754-3010, "derby@email.com", "M", "Prof"),
-            new Instructor("Felicity", "Feminite", 001-541-754-3010, "fem@email.com", "F", "Prof"),
-            new Instructor("Jubilee", "Feminite", 001-541-754-3010, "fem@email.com", "F", "Prof"),
-            new Instructor("Andrea", "Putin", 001-541-754-3010, "put@email.com", "F", "Dr"),
-            new Instructor("Justin", "Muska", 001-541-754-3010, "mus@email.com", "M", "Dr"),
-            new Instructor("Sam", "Jefferson", 001-541-754-3010, "jeffer@email.com", "M", "Prof"),
-            new Instructor("Alex", "Lessa", 001-541-754-3010, "lisa@email.com", "M", "Prof"),
-            new Instructor("Leslay", "Brown", 001-541-754-3010, "bro@email.com", "M", "Prof"),
-            new Instructor("Wine", "Oranger", 001-541-754-3010, "oran@email.com", "M", "Prof"),
-            new Instructor("Skinn", "Rhoder", 001-541-754-3010, "rho@email.com", "M", "Dr"),
-            new Instructor("Rufus", "Panter", 001-541-754-3010, "pant@email.com", "M", "Prof"),
-            new Instructor("Johnson", "John", 001-541-754-3010, "john@email.com", "M", "Prof"),
-            new Instructor("Simon", "Cowell", 001-541-754-3010, "cowel@email.com", "M", "Dr"),
-            new Instructor("Lakshmi", "Jaya", 001-541-754-3010, "jaya@email.com", "F", "Prof"),
-            new Instructor("Silly", "Lecturer", 001-541-754-3010, "lec@email.com", "M", "Prof"),
-            new Instructor("Mazda", "Good", 001-541-754-3010, "good@email.com", "M", "Prof"),
-            new Instructor("David", "Bidem", 001-541-754-3010, "bid@email.com", "M", "Prof"),
-            new Instructor("Layla", "Vietnam", 001-541-754-3010, "viet@email.com", "F", "Dr"),
-            new Instructor("Selena", "Shore", 001-541-754-3010, "shore@email.com", "F", "Prof"),
-            new Instructor("Sophia", "Pretty", 001-541-754-3010, "pret@email.com", "F", "Dr"),
-            new Instructor("Erica", "Public", 001-541-754-3010, "pub@email.com", "F", "Prof")
+            new Instructor("Alexander", "Offison", "001-541-754-3010", "off@email.com", "M", "Prof"),
+            new Instructor("Chad", "Derby", "001-541-754-3010", "derby@email.com", "M", "Prof"),
+            new Instructor("Felicity", "Feminite", "001-541-754-3010", "fem@email.com", "F", "Prof"),
+            new Instructor("Jubilee", "Feminite", "001-541-754-3010", "fem@email.com", "F", "Prof"),
+            new Instructor("Andrea", "Putin", "001-541-754-3010", "put@email.com", "F", "Dr"),
+            new Instructor("Justin", "Muska", "001-541-754-3010", "mus@email.com", "M", "Dr"),
+            new Instructor("Sam", "Jefferson", "001-541-754-3010", "jeffer@email.com", "M", "Prof"),
+            new Instructor("Alex", "Lessa", "001-541-754-3010", "lisa@email.com", "M", "Prof"),
+            new Instructor("Leslay", "Brown", "001-541-754-3010", "bro@email.com", "M", "Prof"),
+            new Instructor("Wine", "Oranger", "001-541-754-3010", "oran@email.com", "M", "Prof"),
+            new Instructor("Skinn", "Rhoder", "001-541-754-3010", "rho@email.com", "M", "Dr"),
+            new Instructor("Rufus", "Panter", "001-541-754-3010", "pant@email.com", "M", "Prof"),
+            new Instructor("Johnson", "John", "001-541-754-3010", "john@email.com", "M", "Prof"),
+            new Instructor("Simon", "Cowell", "001-541-754-3010", "cowel@email.com", "M", "Dr"),
+            new Instructor("Lakshmi", "Jaya", "001-541-754-3010", "jaya@email.com", "F", "Prof"),
+            new Instructor("Silly", "Lecturer", "001-541-754-3010", "lec@email.com", "M", "Prof"),
+            new Instructor("Mazda", "Good", "001-541-754-3010", "good@email.com", "M", "Prof"),
+            new Instructor("David", "Bidem", "001-541-754-3010", "bid@email.com", "M", "Prof"),
+            new Instructor("Layla", "Vietnam", "001-541-754-3010", "viet@email.com", "F", "Dr"),
+            new Instructor("Selena", "Shore", "001-541-754-3010", "shore@email.com", "F", "Prof"),
+            new Instructor("Sophia", "Pretty", "001-541-754-3010", "pret@email.com", "F", "Dr"),
+            new Instructor("Erica", "Public", "001-541-754-3010", "pub@email.com", "F", "Prof")
 
     );
 
-
-   /* @PostConstruct
+/*
+    @PostConstruct
     public void doSave(){
         this.saveStudents();
         this.saveInstructors();
