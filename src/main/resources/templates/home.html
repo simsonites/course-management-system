@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CMS | Home </title>
+
+    <div th:replace="~{/includes/css-links :: cssFragment}"></div>
+</head>
+<body>
+
+ <div class="container">
+     <h2>welcome to my world of Spring Boot</h2>
+     <hr>
+     <a th:href="@{/templates/student/new}">
+         Add new student
+     </a>
+
+     <a th:href="@{instructors/new}">
+         Add new instructor
+     </a>
+ </div>
+
+</body>
+
+</html>
