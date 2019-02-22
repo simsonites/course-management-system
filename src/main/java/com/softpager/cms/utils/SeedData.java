@@ -5,13 +5,14 @@ import com.softpager.cms.entities.Student;
 import com.softpager.cms.repositories.InstructorRepository;
 import com.softpager.cms.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
+
 
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
+
 
 @Component
 public class SeedData {
@@ -77,15 +78,16 @@ public class SeedData {
             new Instructor("Selena", "Shore", "001-541-754-3010", "shore@email.com", "F", "Prof"),
             new Instructor("Sophia", "Pretty", "001-541-754-3010", "pret@email.com", "F", "Dr"),
             new Instructor("Erica", "Public", "001-541-754-3010", "pub@email.com", "F", "Prof")
-
     );
 
-/*
-    @PostConstruct
-    public void doSave(){
+
+    //@PostConstruct
+   // @PostMapping("/save")
+    public String doSave(){
         this.saveStudents();
         this.saveInstructors();
-    }*/
+        return "redirect:/students";
+    }
 
     private void saveStudents(){
         studentRepository.saveAll(initStudents);

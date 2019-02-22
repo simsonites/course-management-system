@@ -5,9 +5,9 @@ import javax.persistence.Table;
 
 
 import com.softpager.cms.utils.AuditModel;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -36,6 +36,11 @@ public class Student extends AuditModel {
 
     @Column(name="gender")
     private String gender;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "photo_id")
+    @ToString.Exclude
+    private StudentPhoto photo;
 
     @ManyToMany(fetch=FetchType.EAGER, cascade= {CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})

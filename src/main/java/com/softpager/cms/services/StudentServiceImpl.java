@@ -1,11 +1,13 @@
 package com.softpager.cms.services;
 
 import com.softpager.cms.entities.Student;
+import com.softpager.cms.entities.StudentPhoto;
 import com.softpager.cms.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.Optional;
@@ -40,5 +42,7 @@ public class StudentServiceImpl implements StudentService{
     public void delete(long theId) {
         studentRepository.deleteById(theId);
     }
+
+
 
 }
