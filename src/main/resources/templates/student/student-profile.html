@@ -5,61 +5,94 @@
     <title>CMS | profile </title>
 
     <div th:replace="~{/includes/css-links :: cssFragment}"></div>
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css"/>
     <!--Card with Media-->
 </head>
 <body>
 
 <div class="container offset-md-1">
+    <!-- Start Student information table-->
+     <div class="media block-update-card mt-lg-5">
 
-     <div class="media block-update-card mt-md-5">
-        <a class="pull-left" href="#">
-            <img class="media-object update-card-MDimentions" src="http://3.bp.blogspot.com/-IbEOTNtCMyU/TfCAdHaAxEI/AAAAAAAAA8U/EATib38SSAM/s320/joe-mcelderry.jpg" alt="...">
-        </a>
-        <div class="media-body update-card-body ml-4">
-            <h4 class="media-heading">Student Registration Information</h4>
-            <p>First Name</p>
-            <p>Last Name</p>
-            <p>Gender</p>
-            <p>Email Address</p>
-            <p>Registration Date</p>
-            <p>Last Updated</p>
+         <div class="row">
+        <div class="media-body update-card-body ml-3">
+            <h4 class="media-heading mb-2">Student Registration Information</h4>
+            <table class="table table-bordered">
+             <tbody>
+             <tr>
+                 <th rowspan="7">
+                     <a class="pull-left" href="#">
+                         <img class="media-object update-card-MDimentions"
+                              style="width:250px;height:250px;" src="/static/images/placeholder.jpeg"
+                              th:src="@{/students/student/photo(studentId=${student.id})}"/>
+                     </a>
+                 </th>
+             </tr>
+                <tr>
+                    <th scope="row">First Name </th>
+                    <td colspan="4" th:text="${student.firstName}" >The First Name</td>
+                </tr>
+                <tr>
+                    <th scope="row">Last Name </th>
+                    <td colspan="4" th:text="${student.lastName}" >The Last Name</td>
+                </tr>
+                <tr>
+                    <th scope="row">Gender </th>
+                    <td colspan="4" th:text="${student.gender}" >The Student Gender</td>
+                </tr>
+                <tr>
+                    <th scope="row">Email Address </th>
+                    <td colspan="4" th:text="${student.email}" >Student Email Address</td>
+                </tr>
+                <tr>
+                    <th scope="row">Registration Date </th>
+                    <td colspan="4" th:text="${#dates.format(student.createdAt, 'dd-MMM-yyyy')}" >Registration Date</td>
+                </tr>
+                <tr>
+                    <th scope="row">Last Updated </th>
+                    <td colspan="4" th:text="${#dates.format(student.updatedAt ,'dd-MMM-yyyy')}" >Last updated</td>
+                </tr>
+             <tr>
+                 <td>
+                     <a th:href="@{/photo/form(studentId=${student.id})}"> Update photo</a>
+                 </td>
+                 <td>
+                     <a class="col-md-2" th:href="@{/students/update(studentId=${student.id})}">
+                     Edit information
+                 </a>
+                 </td>
+                 <td>
+                     <a class="col-md-2" th:href="@{/students/delte(studentId=${student.id})}">
+                     Cancel Registration
+                 </a>
+                 </td>
+             </tr>
+                </tbody>
+            </table>
         </div>
+         </div>
      </div>
-    <!--Simple Card Layout-->
-    <div class="block-update-card mt-1">
-        <div class="update-card-body">
-            <a th:href="@{students/photo}"> Upload photo</a>
-        </div>
-        <div class="container offset-md-4">
-            <div class="row ">
-                <a class="col-md-2" th:href="@{/students/update(studentId=${student.id})}">
-                    Edit information
-                </a>
-                <a class="col-md-2" th:href="@{/students/update(studentId=${student.id})}">
-                    Cancel Registration
-                </a>
-            </div>
-        </div>
+<!--End Student information table-->
 
-    </div>
-
+    <!--Start registered courses table-->
     <div class="row">
-        <a class="col-sm-2" th:href="@{/students/remove-course}"><i class="fas fa-trash"></i></a>
-        <h5 class="col-md-4  offset-md-2 mt-2">Registered Courses</h5>
+        <div class="col-sm-4">
+            <a class="col-sm-2" th:href="@{/students}">Back to students list</i></a>
+        </div>
+
+        <div class="col-sm-6"> <h4>Registered Courses</h4> </div>
     </div>
+
     <table class="table table-bordered table-striped table-hover">
         <thead class="text-center">
         <tr>
             <th><input type="checkbox"></th>
-            <th>Code</th>
-            <th> Title</th>
+            <th>Course Code</th>
+            <th> Course Title</th>
             <th>Number of Credits</th>
             <th>Lecturer</th>
             <th>Description</th>
         </tr>
         </thead>
-
         <tbody>
         <tr align="center">
             <td><input type="checkbox"></td>
@@ -71,6 +104,8 @@
         </tr>
         </tbody>
     </table>
+    <!--End registered courses table-->
+
     <br><br>
 
     <footer th:replace="~{includes/footer :: footer}">

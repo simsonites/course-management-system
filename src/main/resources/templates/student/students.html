@@ -63,7 +63,7 @@
             <td th:text="${student.email}" />
             <td th:text="${#dates.format(student.createdAt,'dd-MMM-yyyy')}" />
             <td th:text="${#dates.format(student.updatedAt,'dd-MMM-yyyy')}" />
-            <td><a th:href="@{/students/profile(studentId=${student.id})}">View details</a> </td>
+            <td><a th:href="@{/students/student(studentId=${student.id})}">View details</a> </td>
             <td>
                 <a th:href="@{/students/update(studentId=${student.id})}" class="btn btn-info btn-sm">
                     Edit
@@ -88,10 +88,6 @@
         </ul>
     </nav>
 <br><br>
-
-
-
-
 
 
 

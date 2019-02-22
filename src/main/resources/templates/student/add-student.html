@@ -15,6 +15,7 @@
         <form action="#" th:action="@{/students/create}"  th:object="${student}" method="POST">
 
             <input type="hidden" th:field="*{id}" id="id">
+            <input type="hidden" th:field="*{photo.id}" id="photoId">
 
             <div class="form-group row">
                 <label for="firstName" class="col-sm-2 col-form-label">First Name</label>

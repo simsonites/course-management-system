@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CMS | Photo Upload</title>
+
+    <div th:replace="~{/includes/css-links :: cssFragment}"></div>
+
+</head>
+<body>
+<div class="container offset-md-2 ">
+    <div class="upload-header col-6 mt-10">
+        <p>
+        <h5>Upload  a profile photo that you would like to display with your account</h5>
+        </p>
+    </div>
+
+    <form th:action="@{/photo/upload(studentId=${student.id})}" method="post"
+          th:object="${student}" enctype="multipart/form-data">
+        <div class="input-group col-md-8 mb-3">
+            <input type="text" name="userId" class="form-control" th:field="*{id}"/>
+        </div>
+        <div class="input-group col-md-8 mb-3">
+            <input type="file" name="file" class="file-input form-control" required />
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary submit-btn">upload</button>
+            </div>
+        </div>
+    </form>
+    <div class="upload-response">
+        <div id="singleFileUploadError"></div>
+        <div id="singleFileUploadSuccess"></div>
+    </div>
+
+    <footer th:replace="~{includes/footer :: footer}">
+        <p>Footer contents go here </p>
+    </footer>
+</div>
+</body>
+</html>

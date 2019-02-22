@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-</body>
+
+<div th:fragment="cssFragment">
+    <script src="../../static/bootstrap/js/file-upload-scripts.js"
+            th:href="@{/static/bootstrap/js/file-upload-scripts.js}"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+</div>
+
 </html>

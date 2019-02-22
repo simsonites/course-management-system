@@ -53,9 +53,6 @@ public class StudentPhotoController {
         if(theStudent != null){
             theStudent.setPhoto(this.uploadFile(theStudent,file));
         }
-        return "redirect:/students/student";
+        return "redirect:/students";
     }
-
-
-
 }

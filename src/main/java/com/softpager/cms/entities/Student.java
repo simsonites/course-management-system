@@ -37,7 +37,8 @@ public class Student extends AuditModel {
     @Column(name="gender")
     private String gender;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "photo_id")
     @ToString.Exclude
     private StudentPhoto photo;
