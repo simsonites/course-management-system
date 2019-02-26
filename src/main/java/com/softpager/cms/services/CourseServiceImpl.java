@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 
 
 @Service
@@ -22,5 +23,22 @@ public class CourseServiceImpl implements CourseService{
     @Override
     public Page<Course> getCourses(PageRequest pageRequest) {
         return courseRepository.findAll(pageRequest);
+    }
+
+    @Override
+    public void saveCourse(Course theCourse) {
+        courseRepository.save(theCourse);
+    }
+
+    @Override
+    public Course getCourse(long theId) {
+        Optional<Course> theCourse = courseRepository.findById(theId);
+        return theCourse.orElse(null);
+
+    }
+
+    @Override
+    public void deleteCourse(long theId) {
+        courseRepository.deleteById(theId);
     }
 }

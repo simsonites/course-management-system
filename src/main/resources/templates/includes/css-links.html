@@ -1,21 +1,35 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
+   <div th:fragment="cssFragment">
 
-    <div th:fragment="cssFragment">
+    <script th:href="@{/bootstrap/js/file-upload-scripts.js}"></script>
 
-    <!--<script src="../../static/bootstrap/js/file-upload-scripts.js"
-                th:href="@{/static/bootstrap/js/file-upload-scripts.js}"></script>
-        <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.css"
-              th:href="@{/static/bootstrap/css/bootstrap.css}">
+        <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}">
 
-        <link rel="stylesheet" href="../../static/bootstrap/css/styles.css"
-              th:href="@{/static/bootstrap/css/styles.css}">-->
+        <link rel="stylesheet" th:href="@{/bootstrap/css/styles.css}">
 
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"/>
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-
 </div>
-
 </html>
+
+<!--
+&lt;!&ndash; include css in the header &ndash;&gt;
+<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+<title>Adding Static Resources (css, JavaScript, Images) to Thymeleaf</title>
+</head>
+<body>
+<div class="container">
+    <h1>
+        &lt;!&ndash; include image from static resources &ndash;&gt;
+        <img th:src="@{/img/logo.png}" alt="memorynotfound logo"/>
+        Adding Static Resources (css, JavaScript, Images) to Thymeleaf
+    </h1>
+</div>
+&lt;!&ndash; include javascript in the footer &ndash;&gt;
+<script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/lib.js}"></script>-->

@@ -38,7 +38,7 @@ public class StudentController {
     }
 
     //Fetching a single existing students from the database by the ID.
-    @GetMapping(value = "/student")
+    @GetMapping("/student")
     public  String getStudent(@RequestParam("studentId") long theId, Model model){
         Student theStudent = studentService.getStudent(theId);
         model.addAttribute("student", theStudent);

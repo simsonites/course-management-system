@@ -11,11 +11,13 @@ public class CMSWebMvcConfiguration  implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/css/**")
-                .addResourceLocations("/resources/static/bootstrap/**");
-
-        registry.addResourceHandler("/js/**")
-                .addResourceLocations("/resources/static/bootstrap/**");
+        registry.addResourceHandler("/webjars/**",
+                "/images/**", "/css/**","/js/**")
+                .addResourceLocations(
+                        "classpath:/META-INF/resources/webjars/",
+                        "classpath:/static/images/",
+                        "classpath:/static/bootstrap/css/",
+                        "classpath:/static/bootstrap/js/");
     }
 
     @Override

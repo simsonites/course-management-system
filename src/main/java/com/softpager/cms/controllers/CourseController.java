@@ -7,11 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @Controller
 @RequestMapping("/courses")
@@ -27,8 +24,42 @@ public class CourseController {
     @GetMapping
     public String getCourses(Model model, @RequestParam(defaultValue = "0") int page){
         Page<Course> allCourses = courseService.getCourses(PageRequest.of(page, 5));
-        model.addAttribute("course", allCourses);
+        model.addAttribute("courses", allCourses);
         model.addAttribute("currentPage", page);
-        return "courses/courses";
+        return "course/courses";
+    }
+
+    @GetMapping("/new")
+    public String showForm(Model model){
+        Course course = new Course();
+        model.addAttribute("course", course);
+        return "course/add-course";
+    }
+
+    @PostMapping("/create")
+    public String createCourse(@ModelAttribute("course") Course theCourse){
+        courseService.saveCourse(theCourse);
+        return "redirect:/courses";
+    }
+
+    @GetMapping("/course")
+    public String getCourse(@RequestParam("courseId") long theId, Model model){
+        Course theCourse = courseService.getCourse(theId);
+        model.addAttribute("course", theCourse);
+        return "course/course-detail";
+    }
+
+    //This method deletes a course from the database by the ID
+    @GetMapping("/delete")
+    public String deleteCourse(@RequestParam("courseId") long theId){
+        courseService.deleteCourse(theId);
+        return "redirect:/courses";
+    }
+
+    @GetMapping("/update")
+    public String updateCourse(@RequestParam("courseId") long theId, Model model){
+        Course theCourse = courseService.getCourse(theId);
+        model.addAttribute("course", theCourse);
+        return "course/add-course";
     }
 }

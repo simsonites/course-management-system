@@ -1,12 +1,13 @@
 package com.softpager.cms.utils;
 
+import com.softpager.cms.entities.Course;
 import com.softpager.cms.entities.Instructor;
 import com.softpager.cms.entities.Student;
+import com.softpager.cms.repositories.CourseRepository;
 import com.softpager.cms.repositories.InstructorRepository;
 import com.softpager.cms.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 
 
 import javax.annotation.PostConstruct;
@@ -14,14 +15,24 @@ import java.util.Arrays;
 import java.util.List;
 
 
+
 @Component
 public class SeedData {
+
+    private  String description="Lorem Ipsum is simply dummy text of the printing " +
+            "and typesetting industry. Lorem Ipsum has been the " +
+            "industry's standard dummy text ever since the 1500s," +
+            " when an unknown printer took a galley of type and " +
+            "scrambled it to make a type ";
+
 
     @Autowired
     private StudentRepository studentRepository;
 
     @Autowired
     private InstructorRepository instructorRepository;
+    @Autowired
+    private CourseRepository courseRepository;
 
      private List<Student> initStudents = Arrays.asList(
             new Student("Sam", "Jefferson", "jeffer@email.com", "M"),
@@ -81,12 +92,31 @@ public class SeedData {
     );
 
 
+    private List<Course> initCourses = Arrays.asList(
+            new Course("A Practical guide to Java Programming", this.description, 30),
+            new Course("Oracle Database Development", this.description, 15),
+            new Course("A Practical guide to SQL Programming", this.description, 30),
+            new Course("A Practical guide to OOP in Java", this.description, 30),
+            new Course("Programming with Spring Frameworks", this.description, 30),
+            new Course("A Practical guide to Hibernate ORM", this.description, 25),
+            new Course("Programming Frameworks", this.description, 15),
+            new Course("Mobile Apps Development with Java ", this.description, 30),
+            new Course("Introduction to MYSQL Database", this.description, 15),
+            new Course("Practical guide to C++ Programming", this.description, 30),
+            new Course("Working with Git (A Practical guide)", this.description, 30),
+            new Course("Programming in PHP", this.description, 25),
+            new Course("AWS Architecture", this.description, 15),
+            new Course("Web Development with HTML,CSS an JavaScript", this.description, 30),
+            new Course("Java Annotations", this.description, 15)
+    );
+
+
     //@PostConstruct
-   // @PostMapping("/save")
-    public String doSave(){
+    public void doSave(){
         this.saveStudents();
         this.saveInstructors();
-        return "redirect:/students";
+        saveCourses();
+       //return "redirect:/students";
     }
 
     private void saveStudents(){
@@ -96,6 +126,10 @@ public class SeedData {
 
     private void saveInstructors(){
         instructorRepository.saveAll(initInstructors);
+    }
+
+    private void saveCourses(){
+        courseRepository.saveAll(initCourses);
     }
 
 

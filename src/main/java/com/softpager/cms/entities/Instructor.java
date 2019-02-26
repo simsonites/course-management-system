@@ -43,14 +43,16 @@ public class Instructor extends AuditModel {
     @Column(name = "title")
     private String title;
 
-    @OneToMany(mappedBy = "instructor", cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+    @OneToMany(mappedBy = "instructor", fetch = FetchType.EAGER,
+            cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.REFRESH })
-    @JsonIgnoreProperties("instructor")
-    private List<Course> courses;
+   // @JsonIgnoreProperties("instructor")
+    private List<Course> assignedCourses;
 
     public Instructor() {	}
 
-    public Instructor(String firstName, String lastName, String mobileContact, String email,String gender, String title) {
+    public Instructor(String firstName, String lastName, String mobileContact,
+                      String email,String gender, String title) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.mobileContact = mobileContact;
@@ -62,10 +64,10 @@ public class Instructor extends AuditModel {
     // add convenience methods for bi-directional relationship
 
     public void addCourseForInstructor(Course tempCourse) {
-        if (courses == null) {
-            courses = new ArrayList<>();
+        if (assignedCourses == null) {
+            assignedCourses = new ArrayList<>();
         }
-        courses.add(tempCourse);
+        assignedCourses.add(tempCourse);
         tempCourse.setInstructor(this);
     }
 

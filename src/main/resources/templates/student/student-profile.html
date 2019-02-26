@@ -2,16 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>CMS | profile </title>
+    <title>CMS |Student profile </title>
 
     <div th:replace="~{/includes/css-links :: cssFragment}"></div>
     <!--Card with Media-->
 </head>
 <body>
+<div th:replace="~{/includes/nav-bar :: navBar}"></div>
 
 <div class="container offset-md-1">
     <!-- Start Student information table-->
-     <div class="media block-update-card mt-lg-5">
+     <div class="media block-update-card mt-lg-1">
 
          <div class="row">
         <div class="media-body update-card-body ml-3">
@@ -73,7 +74,7 @@
      </div>
 <!--End Student information table-->
 
-    <!--Start registered courses table-->
+    <!--Start registered course table-->
     <div class="row">
         <div class="col-sm-4">
             <a class="col-sm-2" th:href="@{/students}">Back to students list</i></a>
@@ -104,7 +105,7 @@
         </tr>
         </tbody>
     </table>
-    <!--End registered courses table-->
+    <!--End registered course table-->
 
     <br><br>
 

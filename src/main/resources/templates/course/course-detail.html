@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CMS |Student profile </title>
+
+    <div th:replace="~{/includes/css-links :: cssFragment}"></div>
+    <!--Card with Media-->
+</head>
+<body>
+<div th:replace="~{/includes/nav-bar :: navBar}"></div>
+
+<div class="container offset-md-1">
+    <!-- Start Student information table-->
+    <div class="media block-update-card mt-md-1">
+
+        <div class="row">
+            <div class="media-body update-card-body ml-3">
+                <div class="row">
+                    <a class="col-md-4" th:href="@{/courses}">
+                        Back to list of courses
+                    </a>
+
+                    <h4  class="media-heading mb-2 col-md-6" th:text="${course.title}">
+                    </h4>
+                </div><br>
+                <h5  class="media-heading mb-2 col-md-6 text-primary">Course Overview</h5>
+
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <th nowrap scope="row">Course Code </th>
+                        <td th:text="${course.id}"></td>
+                    </tr>
+                    <tr>
+                        <th nowrap scope="row">Course title </th>
+                        <td nowrap th:text="${course.title}" ></td>
+                    </tr>
+                    <tr>
+                        <th nowrap scope="row">Number of Credits </th>
+                        <td th:text="${course.numberOfCredits}" ></td>
+                    </tr>
+                    <tr>
+                        <th nowrap scope="row">Course Instructor </th>
+                        <td><a th:href="@{instructors/instructor}" th:text="${course.title}"></a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th nowrap scope="row">Course Description </th>
+                        <td colspan="6" th:text="${course.description}" ></td>
+                    </tr>
+                 <!--   <tr>
+                        <th scope="row">Course Instructor </th>
+                        <td nowrap="3" th:text="${course.instructor.title}
+                                   ${course.instructor.firstName} ${course.instructor.lastName}"/>
+                    </tr>-->
+               </tbody>
+                </table>
+                <div class="row">
+
+
+                    <a class="col-md-2" th:href="@{/courses/delete(courseId=${course.id})}">
+                        Enrol for this course
+                    </a>
+
+
+                    <a class="col-md-2" th:href="@{/courses/update(courseId=${course.id})}">
+                        Edit Course
+                    </a>
+
+
+                    <a class="col-md-2" th:href="@{/courses/delete(courseId=${course.id})}">
+                        Delete Course
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Student information table-->
+    <br>
+
+    <footer th:replace="~{includes/footer :: footer}">
+        <p>Footer contents go here </p>
+    </footer>
+</div>
+</div>
+</body>
+</html>
