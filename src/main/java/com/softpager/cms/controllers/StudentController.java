@@ -1,18 +1,16 @@
 package com.softpager.cms.controllers;
 
 import com.softpager.cms.entities.Student;
-import com.softpager.cms.entities.StudentPhoto;
-import com.softpager.cms.services.StudentPhotoService;
-import com.softpager.cms.services.StudentService;import lombok.extern.slf4j.Slf4j;
+import com.softpager.cms.services.UserPhotoService;
+import com.softpager.cms.services.StudentService;
+import com.softpager.cms.services.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 
 
 @Slf4j
@@ -24,7 +22,10 @@ public class StudentController {
     private StudentService studentService;
 
     @Autowired
-    private StudentPhotoService studentPhotoService;
+    private UserPhotoService userPhotoService;
+
+    @Autowired
+    private UserService userService;
 
 
     //Fetching all existing students from the database.
@@ -39,55 +40,55 @@ public class StudentController {
 
     //Fetching a single existing students from the database by the ID.
     @GetMapping("/student")
-    public  String getStudent(@RequestParam("studentId") long theId, Model model){
-        Student theStudent = studentService.getStudent(theId);
+    public  String getStudent(@RequestParam("studentEmail") String email, Model model){
+        Student theStudent = studentService.getStudent(email);
         model.addAttribute("student", theStudent);
         return "student/student-profile";
     }
 
-    //Fetching the student photo from the database
+
+  /*  //Fetching the the user photo from the database
     @GetMapping(value="/student/photo", produces = MediaType.IMAGE_JPEG_VALUE)
-    public @ResponseBody byte[] getImageWithMediaType(@RequestParam("studentId") long theId)
+    public @ResponseBody byte[] getImageWithMediaType(@RequestParam("userEmail") String email)
             throws IOException{
-        Student theStudent = studentService.getStudent(theId);
-        StudentPhoto theStudentPhoto = studentPhotoService.getStudentPhoto(theStudent.getPhoto().getId());
-       return theStudentPhoto.getImage();
-    }
+        User theUser = userService.getUser(email);
+        UserPhoto theUserPhoto = userPhotoService.getUserPhoto(theUser.getPhoto().getId());
+       return theUserPhoto.getImage();
+    }*/
+
 
    //This method shows the form to create new student
     @GetMapping("/new")
     public String showForm(Model model){
-        Student newStudent = new Student();
-        model.addAttribute("student", newStudent);
+        model.addAttribute("student", new Student());
         return "/student/add-student";
     }
 
+
     // This method create a new student
     @PostMapping("/create")
-    public String create(@ModelAttribute("student") Student theStudent){
-        studentService.save(theStudent);
+    public String createStudent(@ModelAttribute("student") Student theStudent){
+        studentService.saveStudent(theStudent);
         return "redirect:/students";
     }
 
+
     // This method updates an existing student
     @GetMapping("/update")
-    public String update(@RequestParam("studentId") long theId, Model model){
-        Student theStudent = studentService.getStudent(theId);
+    public String update(@RequestParam("studentEmail") String email, Model model){
+        Student theStudent = studentService.getStudent(email);
         model.addAttribute("student", theStudent);
         return "/student/add-student";
     }
 
+
     //This method deletes  a student by the ID
     @GetMapping("/delete")
-    public String delete(@RequestParam("studentId") long theId){
-        studentService.delete(theId);
+    public String delete(@RequestParam("studentEmail") String email){
+        studentService.delete(email);
         return "redirect:/students";
     }
 
     //saving the student photo
-
-
-
-
 
 }

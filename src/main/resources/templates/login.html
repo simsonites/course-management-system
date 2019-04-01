@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    <div th:replace="fragments/css-links:: cssLinks"/>
+</head>
+
+<body>
+<div th:replace="fragments/header:: header"></div>
+<div class="container">
+    <div class="col-md-8">
+        <form th:action="@{/registration/login}" method="POST" class="form-signin">
+            <h3 class="form-signin-heading" th:text="LogIn"></h3>
+            <br/>
+
+            <input type="text" id="email" name="username" placeholder="enter you username or email"
+                   class="form-control" /> <br/>
+            <input type="password"  th:placeholder="Password"
+                   id="password" name="password" class="form-control" /> <br />
+
+            <div align="center" th:if="${param.error}">
+                <p style="font-size: 20px; color: #FF1C19;">Email or Password invalid, please verify and try again</p>
+            </div>
+            <input   type="Submit" class="btn btn-sm btn-primary" value="Login"/>
+        </form>
+    </div>
+</div>
+</body>
+</html>

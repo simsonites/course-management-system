@@ -1,76 +1,31 @@
 package com.softpager.cms.entities;
 
-
-import java.util.ArrayList;
-import java.util.List;
+import com.softpager.cms.abstracts.User;
+import lombok.Data;
 
 import javax.persistence.*;
-
-import com.softpager.cms.utils.AuditModel;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
-@Table(name="instructors")
-@SuppressWarnings("serial")
-@EqualsAndHashCode(callSuper=false)
-public class Instructor extends AuditModel {
-    @Id
-    @Column(name = "instructor_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+@Table(name = "instructors")
+public class Instructor extends User {
 
-    @Column(name = "first_name")
-    private String firstName;
 
-    @Column(name = "last_name")
-    private String lastName;
-
-    @Column(name = "gender")
-    private String gender;
-
-    @Column(name = "mobile")
-    private String mobileContact;
-
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "title")
     private String title;
 
-    @OneToMany(mappedBy = "instructor", fetch = FetchType.EAGER,
-            cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
-            CascadeType.REFRESH })
-   // @JsonIgnoreProperties("instructor")
-    private List<Course> assignedCourses;
+    @OneToMany(mappedBy="instructor", cascade = {CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
+    private Set<Course> courses = new HashSet<>();
 
-    public Instructor() {	}
 
-    public Instructor(String firstName, String lastName, String mobileContact,
-                      String email,String gender, String title) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.mobileContact = mobileContact;
-        this.email = email;
-        this.gender = gender;
+    public Instructor(String email, String password, String firstName,
+                      String lastName,String gender, String title) {
+        super(email, password, firstName, lastName, gender);
         this.title = title;
     }
 
-    // add convenience methods for bi-directional relationship
-
-    public void addCourseForInstructor(Course tempCourse) {
-        if (assignedCourses == null) {
-            assignedCourses = new ArrayList<>();
-        }
-        assignedCourses.add(tempCourse);
-        tempCourse.setInstructor(this);
+    public Instructor() {
     }
-
-
-
 }

@@ -16,3 +16,6 @@
 .panel-body{
     display: none;
 }
+body{
+    padding-top: 100px;
+}

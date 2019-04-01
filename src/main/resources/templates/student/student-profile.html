@@ -8,13 +8,13 @@
     <!--Card with Media-->
 </head>
 <body>
-<div th:replace="~{/includes/nav-bar :: navBar}"></div>
+<div th:replace="~{/includes/nav-bar :: navBar}"></div><br><br><br>
 
 <div class="container offset-md-1">
     <!-- Start Student information table-->
-     <div class="media block-update-card mt-lg-1">
+     <div class="media block-update-card">
 
-         <div class="row">
+         <div class="row mt-lg-50">
         <div class="media-body update-card-body ml-3">
             <h4 class="media-heading mb-2">Student Registration Information</h4>
             <table class="table table-bordered">
@@ -24,7 +24,7 @@
                      <a class="pull-left" href="#">
                          <img class="media-object update-card-MDimentions"
                               style="width:250px;height:250px;" src="/static/images/placeholder.jpeg"
-                              th:src="@{/students/student/photo(studentId=${student.id})}"/>
+                              th:src="@{/photo/user/photo(userEmail=${student.email})}"/>
                      </a>
                  </th>
              </tr>
@@ -54,15 +54,15 @@
                 </tr>
              <tr>
                  <td>
-                     <a th:href="@{/photo/form(studentId=${student.id})}"> Update photo</a>
+                     <a th:href="@{/photo/form(email=${student.email})}"> Update photo</a>
                  </td>
                  <td>
-                     <a class="col-md-2" th:href="@{/students/update(studentId=${student.id})}">
+                     <a class="col-md-2" th:href="@{/students/update(studentEmail=${student.email})}">
                      Edit information
                  </a>
                  </td>
                  <td>
-                     <a class="col-md-2" th:href="@{/students/delte(studentId=${student.id})}">
+                     <a class="col-md-2" th:href="@{/students/delte(studentEmail=${student.email})}">
                      Cancel Registration
                  </a>
                  </td>
@@ -77,10 +77,15 @@
     <!--Start registered course table-->
     <div class="row">
         <div class="col-sm-4">
-            <a class="col-sm-2" th:href="@{/students}">Back to students list</i></a>
+            <a th:href="@{/students}">Back to students list</i></a>
         </div>
 
-        <div class="col-sm-6"> <h4>Registered Courses</h4> </div>
+        <div class="col-sm-4"> <h4>Registered Courses</h4></div>
+
+        <div class="col-sm-4">
+            <a th:href="@{/courses(student=${student.email})}">
+                <h6>Register for Courses</h6></a>
+        </div>
     </div>
 
     <table class="table table-bordered table-striped table-hover">
@@ -97,7 +102,7 @@
         <tbody>
         <tr align="center">
             <td><input type="checkbox"></td>
-             <td th:text="${student.id}" />
+             <td th:text="${student.email}" />
              <td th:text="${student.firstName}" />
             <td th:text="${student.lastName}" />
             <td th:text="${student.gender}" />

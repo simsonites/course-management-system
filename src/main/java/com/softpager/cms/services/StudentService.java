@@ -1,19 +1,20 @@
 package com.softpager.cms.services;
 
 import com.softpager.cms.entities.Student;
-import com.softpager.cms.entities.StudentPhoto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 
 public interface StudentService {
     Page<Student> getStudents(PageRequest pageRequest);
 
-    Student getStudent(long theId);
+    Student getStudent(String email);
 
-    void save(Student theStudent);
+    void saveStudent(Student theStudent);
 
-    void delete(long theId);
+    void delete(String email);
 
+    List<Student> getListOfSelectedStudents(boolean containsAll);
 }

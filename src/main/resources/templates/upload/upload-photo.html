@@ -15,10 +15,10 @@
         </p>
     </div>
 
-    <form th:action="@{/photo/upload(studentId=${student.id})}" method="post"
-          th:object="${student}" enctype="multipart/form-data">
+    <form th:action="@{/photo/upload(email=${user.email})}" method="post"
+          th:object="${user}" enctype="multipart/form-data">
         <div class="input-group col-md-8 mb-3">
-            <input type="text" name="userId" class="form-control" th:field="*{id}"/>
+            <input type="text" name="email" class="form-control" th:field="*{email}"/>
         </div>
         <div class="input-group col-md-8 mb-3">
             <input type="file" name="file" class="file-input form-control" required />

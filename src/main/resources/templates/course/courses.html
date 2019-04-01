@@ -42,14 +42,16 @@
        <table class="table table-bordered table-striped table-hover">
         <thead class="text-center">
         <tr>
+            <th><input type="checkbox" id="selectAll"></th>
             <th>Course title</th>
             <th>Credits</th>
             <th>Instructor</th>
-            <th align="center" colspan="3">Action</th>
+            <th align="center" colspan="4">Action</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="course : ${courses}">
+            <td><input type="checkbox" id="selectedCourse"></td>
             <td nowrap="4" th:text="${course.title}" />
 
             <td th:text="${course.numberOfCredits}" />
@@ -69,6 +71,16 @@
                    class="btn btn-danger btn-sm">
                     Delete
                 </a>
+            </td>
+            <td>
+                <form action="@{/courses/enrol-for-course}" method="post">
+                    <a th:href="@{/courses/enrol-for-course(courseId=${course.id})}"
+                       class="btn btn-primary btn-sm">
+                        register for course
+                    </a>
+
+                </form>
+
             </td>
         </tr>
         </tbody>

@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 public interface InstructorService {
     Page<Instructor> getInstructors(PageRequest of);
 
-    Instructor getInstructor(long theId);
-    void create(Instructor instructor);
+    void createInstructor(Instructor theInstructor);
+
+    Instructor getInstructor(String email);
 }

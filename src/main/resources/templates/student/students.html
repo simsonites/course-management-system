@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 </head>
 <body>
-<div th:replace="~{/includes/nav-bar :: navBar}"></div>
+<div th:replace="~{/includes/nav-bar :: navBar}"></div><br><br><br>
 
 <div class="container">
 
@@ -64,14 +64,14 @@
             <td th:text="${student.email}" />
             <td th:text="${#dates.format(student.createdAt,'dd-MMM-yyyy')}" />
             <td th:text="${#dates.format(student.updatedAt,'dd-MMM-yyyy')}" />
-            <td><a th:href="@{/students/student(studentId=${student.id})}">View details</a> </td>
+            <td><a th:href="@{/students/student(studentEmail=${student.email})}">View details</a> </td>
             <td>
-                <a th:href="@{/students/update(studentId=${student.id})}" class="btn btn-info btn-sm">
+                <a th:href="@{/students/update(studentEmail=${student.email})}" class="btn btn-info btn-sm">
                     Edit
                 </a>
             </td>
             <td>
-                <a th:href="@{/students/delete(studentId=${student.id})}" class="btn btn-danger btn-sm">
+                <a th:href="@{/students/delete(studentEmail=${student.email})}" class="btn btn-danger btn-sm">
                Delete
             </a>
             </td>

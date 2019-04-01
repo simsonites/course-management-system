@@ -1,5 +1,6 @@
 package com.softpager.cms.entities;
 
+import com.softpager.cms.abstracts.User;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -7,7 +8,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name="photos")
-public class StudentPhoto {
+public class UserPhoto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,17 +25,23 @@ public class StudentPhoto {
     @Column(name="photo_image")
     private byte[] image;
 
-    @OneToOne(mappedBy = "photo", cascade= {CascadeType.MERGE,
-            CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
-    private Student student;
+    @OneToOne(mappedBy = "photo", cascade = {CascadeType.MERGE,CascadeType.PERSIST,
+            CascadeType.DETACH, CascadeType.REFRESH})
+    public User user;
 
-
-    public StudentPhoto() {
+    public UserPhoto() {
     }
 
-    public StudentPhoto(String photoName, String photoType, byte[] image) {
+    public UserPhoto(String photoName, String photoType, byte[] image) {
         this.photoName = photoName;
         this.photoType = photoType;
         this.image = image;
+
+
+    }   public UserPhoto(String photoName, String photoType, byte[] image, User user) {
+        this.photoName = photoName;
+        this.photoType = photoType;
+        this.image = image;
+        this.user =user;
     }
 }

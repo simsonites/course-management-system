@@ -1,16 +1,13 @@
 package com.softpager.cms.utils;
 
 import com.softpager.cms.entities.Course;
-import com.softpager.cms.entities.Instructor;
 import com.softpager.cms.entities.Student;
 import com.softpager.cms.repositories.CourseRepository;
-import com.softpager.cms.repositories.InstructorRepository;
 import com.softpager.cms.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
-import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,11 +27,9 @@ public class SeedData {
     private StudentRepository studentRepository;
 
     @Autowired
-    private InstructorRepository instructorRepository;
-    @Autowired
     private CourseRepository courseRepository;
 
-     private List<Student> initStudents = Arrays.asList(
+   /*  private List<Student> initStudents = Arrays.asList(
             new Student("Sam", "Jefferson", "jeffer@email.com", "M"),
             new Student("Rosemary", "Moore", "moore@email.com", "F"),
             new Student("Janice", "Manissa", "jane@email.com", "F"),
@@ -63,8 +58,8 @@ public class SeedData {
             new Student("Bill", "Gates", "bill@email.com", "M"),
             new Student("Lisa", "Diamond", "lisdia@email.com", "F"),
             new Student("Alexander", "Offison", "alexa@email.com", "M")
-            );
-
+            );*/
+/*
 
     private List<Instructor> initInstructors = Arrays.asList(
             new Instructor("Alexander", "Offison", "001-541-754-3010", "off@email.com", "M", "Prof"),
@@ -89,7 +84,7 @@ public class SeedData {
             new Instructor("Selena", "Shore", "001-541-754-3010", "shore@email.com", "F", "Prof"),
             new Instructor("Sophia", "Pretty", "001-541-754-3010", "pret@email.com", "F", "Dr"),
             new Instructor("Erica", "Public", "001-541-754-3010", "pub@email.com", "F", "Prof")
-    );
+    );*/
 
 
     private List<Course> initCourses = Arrays.asList(
@@ -113,23 +108,17 @@ public class SeedData {
 
     //@PostConstruct
     public void doSave(){
-        this.saveStudents();
-        this.saveInstructors();
+      //  this.saveStudents();
         saveCourses();
        //return "redirect:/students";
     }
 
-    private void saveStudents(){
-        studentRepository.saveAll(initStudents);
-    }
-
-
-    private void saveInstructors(){
-        instructorRepository.saveAll(initInstructors);
-    }
+ /*   private void saveStudents(){
+      studentRepository.saveAll(initStudents);
+    }*/
 
     private void saveCourses(){
-        courseRepository.saveAll(initCourses);
+      courseRepository.saveAll(initCourses);
     }
 
 
