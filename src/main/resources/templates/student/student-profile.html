@@ -1,78 +1,76 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{includes/main_layout}">
 <head>
-    <meta charset="UTF-8">
-    <title>CMS |Student profile </title>
 
-    <div th:replace="~{/includes/css-links :: cssFragment}"></div>
-    <!--Card with Media-->
+    <title>CMS |Student profile </title>
 </head>
 <body>
-<div th:replace="~{/includes/nav-bar :: navBar}"></div><br><br><br>
-
-<div class="container offset-md-1">
+<div layout:fragment="content" class="container">
     <!-- Start Student information table-->
-     <div class="media block-update-card">
+    <div class="media block-update-card">
 
-         <div class="row mt-lg-50">
-        <div class="media-body update-card-body ml-3">
-            <h4 class="media-heading mb-2">Student Registration Information</h4>
-            <table class="table table-bordered">
-             <tbody>
-             <tr>
-                 <th rowspan="7">
-                     <a class="pull-left" href="#">
-                         <img class="media-object update-card-MDimentions"
-                              style="width:250px;height:250px;" src="/static/images/placeholder.jpeg"
-                              th:src="@{/photo/user/photo(userEmail=${student.email})}"/>
-                     </a>
-                 </th>
-             </tr>
-                <tr>
-                    <th scope="row">First Name </th>
-                    <td colspan="4" th:text="${student.firstName}" >The First Name</td>
-                </tr>
-                <tr>
-                    <th scope="row">Last Name </th>
-                    <td colspan="4" th:text="${student.lastName}" >The Last Name</td>
-                </tr>
-                <tr>
-                    <th scope="row">Gender </th>
-                    <td colspan="4" th:text="${student.gender}" >The Student Gender</td>
-                </tr>
-                <tr>
-                    <th scope="row">Email Address </th>
-                    <td colspan="4" th:text="${student.email}" >Student Email Address</td>
-                </tr>
-                <tr>
-                    <th scope="row">Registration Date </th>
-                    <td colspan="4" th:text="${#dates.format(student.createdAt, 'dd-MMM-yyyy')}" >Registration Date</td>
-                </tr>
-                <tr>
-                    <th scope="row">Last Updated </th>
-                    <td colspan="4" th:text="${#dates.format(student.updatedAt ,'dd-MMM-yyyy')}" >Last updated</td>
-                </tr>
-             <tr>
-                 <td>
-                     <a th:href="@{/photo/form(email=${student.email})}"> Update photo</a>
-                 </td>
-                 <td>
-                     <a class="col-md-2" th:href="@{/students/update(studentEmail=${student.email})}">
-                     Edit information
-                 </a>
-                 </td>
-                 <td>
-                     <a class="col-md-2" th:href="@{/students/delte(studentEmail=${student.email})}">
-                     Cancel Registration
-                 </a>
-                 </td>
-             </tr>
-                </tbody>
-            </table>
+        <div class="row">
+            <div class="media-body update-card-body ml-3">
+                <h4 class="media-heading mb-2 text-primary">Student Registration Information</h4>
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <th rowspan="7">
+                            <a class="pull-left" href="#">
+                                <img class="media-object update-card-MDimentions"
+                                     style="width:250px;height:250px;" src="/static/images/placeholder.jpeg"
+                                     th:src="@{/photo/user/photo(userEmail=${student.email})}"/>
+                            </a>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th scope="row">First Name</th>
+                        <td colspan="4" th:text="${student.firstName}">The First Name</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Last Name</th>
+                        <td colspan="4" th:text="${student.lastName}">The Last Name</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Gender</th>
+                        <td colspan="4" th:text="${student.gender}">The Student Gender</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Email Address</th>
+                        <td colspan="4" th:text="${student.email}">Student Email Address</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Registration Date</th>
+                        <td colspan="4" th:text="${#dates.format(student.createdAt, 'dd-MMM-yyyy')}">Registration Date
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Last Updated</th>
+                        <td colspan="4" th:text="${#dates.format(student.updatedAt ,'dd-MMM-yyyy')}">Last updated</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a th:href="@{/photo/form(userEmail=${student.email})}"> Update photo</a>
+                        </td>
+                        <td>
+                            <a class="col-md-2" th:href="@{/students/update(userEmail=${student.email})}">
+                                Edit Information
+                            </a>
+                        </td>
+                        <td>
+                            <a class="col-md-2" th:href="@{/students/delete(userEmail=${student.email})}">
+                                Cancel Registration
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-         </div>
-     </div>
-<!--End Student information table-->
+    </div>
+    <!--End Student information table-->
 
     <!--Start registered course table-->
     <div class="row">
@@ -80,10 +78,10 @@
             <a th:href="@{/students}">Back to students list</i></a>
         </div>
 
-        <div class="col-sm-4"> <h4>Registered Courses</h4></div>
+        <div class="col-sm-4"><h4>Registered Courses</h4></div>
 
         <div class="col-sm-4">
-            <a th:href="@{/courses(student=${student.email})}">
+            <a th:href="@{/courses(userEmail=${student.email})}">
                 <h6>Register for Courses</h6></a>
         </div>
     </div>
@@ -92,31 +90,23 @@
         <thead class="text-center">
         <tr>
             <th><input type="checkbox"></th>
-            <th>Course Code</th>
-            <th> Course Title</th>
-            <th>Number of Credits</th>
-            <th>Lecturer</th>
+            <th nowrap>Course ID</th>
+            <th nowrap> Course Title</th>
+            <th nowrap>Number of Credits</th>
             <th>Description</th>
         </tr>
         </thead>
         <tbody>
-        <tr align="center">
+        <tr align="center" th:each="course : ${student.getCourses()}">
             <td><input type="checkbox"></td>
-             <td th:text="${student.email}" />
-             <td th:text="${student.firstName}" />
-            <td th:text="${student.lastName}" />
-            <td th:text="${student.gender}" />
-            <td th:text="${student.email}" />
+            <td th:text="${course.id}"/>
+            <td th:text="${course.title}"/>
+            <td th:text="${course.numberOfCredits}"/>
+            <td wr th:text="${course.description}"/>
         </tr>
         </tbody>
     </table>
     <!--End registered course table-->
-
-    <br><br>
-
-    <footer th:replace="~{includes/footer :: footer}">
-        <p>Footer contents go here </p>
-    </footer>
 </div>
 </div>
 </body>

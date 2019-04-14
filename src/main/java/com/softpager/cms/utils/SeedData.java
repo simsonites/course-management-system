@@ -5,9 +5,11 @@ import com.softpager.cms.entities.Student;
 import com.softpager.cms.repositories.CourseRepository;
 import com.softpager.cms.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 
+import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,36 +31,39 @@ public class SeedData {
     @Autowired
     private CourseRepository courseRepository;
 
-   /*  private List<Student> initStudents = Arrays.asList(
-            new Student("Sam", "Jefferson", "jeffer@email.com", "M"),
-            new Student("Rosemary", "Moore", "moore@email.com", "F"),
-            new Student("Janice", "Manissa", "jane@email.com", "F"),
-            new Student("Sally", "Jefferson", "sally@email.com", "F"),
-            new Student("Jessica", "Private", "jess@email.com", "F"),
-            new Student("Jane", "Public", "jane@email.com", "F"),
-            new Student("Pete", "Markson", "pete@email.com", "M"),
-            new Student("Jefferson", "Moore", "jeff@email.com", "M"),
-            new Student("Alex", "Forrest", "alex@email.com", "M"),
-            new Student("Amanda", "Yvonne", "amanda@email.com", "F"),
-            new Student("Anita", "World", "anita@email.com", "F"),
-            new Student("Alice", "Morgan", "alice@email.com", "F"),
-            new Student("Mary", "Private", "mary@email.com", "F"),
-            new Student("Elsa", "Vietnam", "elas@email.com", "F"),
-            new Student("Emmy", "Hung Yen", "emmy@email.com", "F"),
-            new Student("Emma", "Pretty", "ema@email.com", "F"),
-            new Student("Leo", "Wilson", "leo@email.com", "M"),
-            new Student("Misa", "Protected", "mis@email.com", "F"),
-            new Student("Lisa", "Jumia", "lis@email.com", "F"),
-            new Student("Tracy", "Jumia", "tracy@email.com", "F"),
-            new Student("Akon", "Konvict", "konv@email.com", "M"),
-            new Student("Ricky", "Ross", "rick@email.com", "M"),
-            new Student("Vicky", "Pope", "lis@email.com", "F"),
-            new Student("Rose", "Van", "van@email.com", "F"),
-            new Student("Mavin", "Gate", "mavi@email.com", "F"),
-            new Student("Bill", "Gates", "bill@email.com", "M"),
-            new Student("Lisa", "Diamond", "lisdia@email.com", "F"),
-            new Student("Alexander", "Offison", "alexa@email.com", "M")
-            );*/
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
+     private List<Student> initStudents = Arrays.asList(
+            new Student("jeffer@email.com","1234567","Sam", "Jefferson", "M"),
+            new Student("moore@email.com","1234567","Rosemary", "Moore", "F"),
+            new Student("jane@email.com","1234567","Janice","Manissa", "F"),
+            new Student("sally@email.com","1234567","Sally", "Jefferson","F"),
+            new Student("jess@email.com", "1234567","Jessica", "Private", "F"),
+            new Student("jane@email.com", "1234567","Jane", "Public", "F"),
+            new Student("pete@email.com","1234567","Pete", "Markson", "M"),
+            new Student("jeff@email.com","1234567","Jefferson", "Moore", "M"),
+            new Student( "alex@email.com", "1234567","Alex", "Forrest","M"),
+            new Student("amanda@email.com", "1234567","Amanda", "Yvonne", "F"),
+            new Student("anita@email.com", "1234567","Anita", "World", "F"),
+            new Student("alice@email.com", "1234567","Alice", "Morgan", "F"),
+            new Student("mary@email.com", "1234567","Mary", "Private","F"),
+            new Student( "elas@email.com", "1234567","Elsa", "Vietnam","F"),
+            new Student("emmy@email.com", "1234567","Emmy", "Hung Yen", "F"),
+            new Student("ema@email.com", "1234567","Emma", "Pretty", "F"),
+            new Student("leo@email.com","1234567","Leo", "Wilson",  "M"),
+            new Student("mis@email.com","1234567","Misa", "Protected",  "F"),
+            new Student("lis@email.com", "1234567","Lisa", "Jumia", "F"),
+            new Student("tracy@email.com","1234567","Tracy", "Jumia",  "F"),
+            new Student("konv@email.com","1234567","Akon", "Konvict", "M"),
+            new Student("rick@email.com", "1234567","Ricky", "Ross","M"),
+            new Student("lis@email.com","1234567","Vicky", "Pope",  "F"),
+            new Student("van@email.com", "1234567","Rose", "Van","F"),
+            new Student("mavi@email.com","1234567","Mavin", "Gate",  "F"),
+            new Student("bill@email.com", "1234567","Bill", "Gates", "M"),
+            new Student("lisdia@email.com", "1234567","Lisa", "Diamond", "F"),
+            new Student("alexa@email.com", "1234567","Alexander", "Offison","M")
+            );
 /*
 
     private List<Instructor> initInstructors = Arrays.asList(
@@ -106,16 +111,20 @@ public class SeedData {
     );
 
 
-    //@PostConstruct
+   // @PostConstruct
     public void doSave(){
-      //  this.saveStudents();
+        this.saveStudents();
         saveCourses();
        //return "redirect:/students";
     }
 
- /*   private void saveStudents(){
+   private void saveStudents(){
       studentRepository.saveAll(initStudents);
-    }*/
+    }
+
+    private void doSaveStudent(){
+
+    }
 
     private void saveCourses(){
       courseRepository.saveAll(initCourses);

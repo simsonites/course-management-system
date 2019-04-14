@@ -17,6 +17,7 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "userClass")
 public abstract class User extends AuditModel {
 
     @Id

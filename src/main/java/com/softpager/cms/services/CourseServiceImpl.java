@@ -1,6 +1,7 @@
 package com.softpager.cms.services;
 
 import com.softpager.cms.entities.Course;
+import com.softpager.cms.entities.Instructor;
 import com.softpager.cms.entities.Student;
 import com.softpager.cms.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,21 +11,20 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 @Service
 public class CourseServiceImpl implements CourseService{
 
+    @Autowired
     private CourseRepository courseRepository;
 
+    @Autowired
     private StudentService studentService;
 
     @Autowired
-    public CourseServiceImpl(CourseRepository courseRepository,
-                             StudentService studentService) {
-        this.courseRepository = courseRepository;
-        this.studentService = studentService;
-    }
+    private InstructorService instructorService;
 
     @Override
     public Page<Course> getCourses(PageRequest pageRequest) {
@@ -49,7 +49,7 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     public void addCourseForStudent(Course theCourse, Student theStudent) {
-        theCourse.getListOfStudents().add(theStudent);
+        theCourse.getStudents().add(theStudent);
         courseRepository.save(theCourse);
     }
 
@@ -57,5 +57,11 @@ public class CourseServiceImpl implements CourseService{
     public List<Course> getStudentCourses(String studentEmail) {
         Student theStudent = studentService.getStudent(studentEmail);
         return theStudent.getCourses();
+    }
+
+    @Override
+    public Set<Course> getInstructorCourses(String instructorEmail) {
+        Instructor theInstructor = instructorService.getInstructor(instructorEmail);
+        return theInstructor.getCourses();
     }
 }

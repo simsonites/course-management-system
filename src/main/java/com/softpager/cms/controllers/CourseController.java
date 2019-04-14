@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 
 
 @Slf4j
@@ -31,7 +32,7 @@ public class CourseController {
 
 
     //This method will get all courses from the database.
-    @GetMapping
+    @GetMapping()
     public String getCourses(Model model, @RequestParam(defaultValue = "0") int page){
         Page<Course> allCourses = courseService.getCourses(PageRequest.of(page, 5));
         model.addAttribute("courses", allCourses);
@@ -39,6 +40,12 @@ public class CourseController {
         return "course/courses";
     }
 
+    @GetMapping("/course")
+    public String getCourse(@RequestParam("courseId") long theId, Model model){
+        Course theCourse = courseService.getCourse(theId);
+        model.addAttribute("course", theCourse);
+        return "course/course-detail";
+    }
 
     //This method show the form to create new courses
     @GetMapping("/new")
@@ -48,19 +55,11 @@ public class CourseController {
         return "course/add-course";
     }
 
-
     //This method actually saves the course to the database
     @PostMapping("/create")
     public String createCourse(@ModelAttribute("course") Course theCourse){
         courseService.saveCourse(theCourse);
         return "redirect:/courses";
-    }
-
-    @GetMapping("/course")
-    public String getCourse(@RequestParam("courseId") long theId, Model model){
-        Course theCourse = courseService.getCourse(theId);
-        model.addAttribute("course", theCourse);
-        return "course/course-detail";
     }
 
     //This method deletes a course from the database by the ID
@@ -77,14 +76,14 @@ public class CourseController {
         return "course/add-course";
     }
 
-    @RequestMapping("/enrol-for-course")
-    public String registerForCourse(@RequestParam("courseId") long theId, @RequestParam("studentEmail") String studentEmail,
+    @RequestMapping("/add-user-course")
+    public String registerForCourse(@RequestParam("courseId") long theId, Principal principal,
                                     HttpSession httpSession, Model model){
         Course theCourse = courseService.getCourse(theId);
-        studentEmail = (String) httpSession.getAttribute("email");
-        log.info("The Course : {}", theCourse);
-        courseService.addCourseForStudent(theCourse,studentService.getStudent(studentEmail));
-        model.addAttribute("studentEmail", studentEmail);
+        String email =  principal.getName();
+         httpSession.setAttribute("email", email);
+        courseService.addCourseForStudent(theCourse,studentService.getStudent(email));
+        model.addAttribute("userEmail", email);
         return "redirect:/students/student";
 
     }

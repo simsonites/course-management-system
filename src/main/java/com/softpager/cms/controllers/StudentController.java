@@ -40,7 +40,7 @@ public class StudentController {
 
     //Fetching a single existing students from the database by the ID.
     @GetMapping("/student")
-    public  String getStudent(@RequestParam("studentEmail") String email, Model model){
+    public  String getStudent(@RequestParam("userEmail") String email, Model model){
         Student theStudent = studentService.getStudent(email);
         model.addAttribute("student", theStudent);
         return "student/student-profile";
@@ -72,10 +72,9 @@ public class StudentController {
         return "redirect:/students";
     }
 
-
     // This method updates an existing student
     @GetMapping("/update")
-    public String update(@RequestParam("studentEmail") String email, Model model){
+    public String update(@RequestParam("userEmail") String email, Model model){
         Student theStudent = studentService.getStudent(email);
         model.addAttribute("student", theStudent);
         return "/student/add-student";
@@ -84,7 +83,7 @@ public class StudentController {
 
     //This method deletes  a student by the ID
     @GetMapping("/delete")
-    public String delete(@RequestParam("studentEmail") String email){
+    public String delete(@RequestParam("userEmail") String email){
         studentService.delete(email);
         return "redirect:/students";
     }

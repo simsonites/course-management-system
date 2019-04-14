@@ -33,7 +33,7 @@ public class UserPhotoController {
 
     // This method gets the form for the image upload
     @GetMapping("/form")
-    public String getUploadForm(@RequestParam("email") User abUser,
+    public String getUploadForm(@RequestParam("userEmail") User abUser,
                                                   Model model) {
         User theUser =userService.getUser(abUser.getEmail());
         log.info("The user email is : {} " + theUser.getFirstName());
@@ -59,8 +59,9 @@ public class UserPhotoController {
             log.info("This is the found User  {}", theUser.getFirstName());
             theUser.setPhoto(this.uploadFile(theUser, file));
         }
-        if (theUser != null) {
-            if (theUser.getClass().isInstance(student)) {
+      if (theUser != null) {
+            if (theUser.equals(student)) {
+                log.info("The User is a student", theUser.getFirstName());
                 return "redirect:/students";
             }
             else{

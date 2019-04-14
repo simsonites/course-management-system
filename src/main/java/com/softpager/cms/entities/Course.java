@@ -28,10 +28,9 @@ public class Course extends AuditModel {
     private String title;
 
     @Column(name="description")
-    private String description = " Lorem Ipsum is simply dummy text of the printing\n" +
-            "                        and typesetting industry.Lorem Ipsum has been the\n" +
-            "                        industry's standard dummy text ever since the 1500s,\n" +
-            "                        like Aldus PageMaker including versions of Lorem Ipsum.";
+    private String description = " Lorem Ipsum is simply dummy text of the" +
+            " printing and typesetting industry.Lorem Ipsum has been " +
+            "the like Aldus PageMaker including versions of Lorem Ipsum.";
 
     @Column(name="credits")
     private int numberOfCredits;
@@ -43,7 +42,7 @@ public class Course extends AuditModel {
             referencedColumnName = "course_id" )},
             inverseJoinColumns={@JoinColumn(name="STUDENT_EMAIL",
                     referencedColumnName = "email")})
-    private List<Student>listOfStudents;
+    private List<Student> students;
 
     @ManyToOne()
     @JoinColumn(name = "user_id")
@@ -56,7 +55,7 @@ public class Course extends AuditModel {
         this.title = title;
         this.description = description;
         this.numberOfCredits = numberOfCredits;
-        this.listOfStudents = listOfStudents;
+        this.students = listOfStudents;
         this.instructor = instructor;
     }
 
@@ -64,13 +63,13 @@ public class Course extends AuditModel {
         this.title = title;
         this.description = description;
         this.numberOfCredits = numberOfCredits;
-        this.listOfStudents = new ArrayList<>();
+        this.students = new ArrayList<>();
     }
 
     public void addCourseForUser(List<Course> theCourse, Student theStudent){
-        if (this.getListOfStudents().isEmpty()){
-            this.listOfStudents = new ArrayList<>();
-            this.listOfStudents.add(theStudent);
+        if (this.getStudents().isEmpty()){
+            this.students = new ArrayList<>();
+            this.students.add(theStudent);
             theStudent.setCourses(theCourse);
         }
 

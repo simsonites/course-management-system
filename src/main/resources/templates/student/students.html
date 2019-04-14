@@ -1,47 +1,39 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{includes/main_layout}">
 <head>
-    <meta charset="UTF-8">
     <title>CMS | students </title>
-
-    <div th:replace="~{/includes/css-links :: cssFragment}"></div>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 </head>
 <body>
-<div th:replace="~{/includes/nav-bar :: navBar}"></div><br><br><br>
-
-<div class="container">
-
+<div layout:fragment="content" class="container">
     <h3>Registered Students</h3>
     <hr>
-
     <div class="container">
-    <div class="row mb-3">
+        <div class="row mb-3">
 
+            <a th:href="@{/students/new}"
+               class="btn btn-primary btn-sm col-sm-2">
+                Add Student
+            </a>
 
-        <a th:href="@{/students/new}"
-           class="btn btn-primary btn-sm col-sm-2">
-            Add Student
-        </a>
-
-        <div class="input-group col-md-8">
-            <input type="text" class="form-control" placeholder="Enter student name to search"
-                   aria-label="Recipient's username" aria-describedby="basic-addon2">
-            <div class="input-group-append">
-            <span class="input-group-text btn btn-primary" id="basic-addon2">Search</span>
+            <div class="input-group col-md-8">
+                <input type="text" class="form-control" placeholder="Enter student name to search"
+                       aria-label="Recipient's username" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <span class="input-group-text btn btn-primary" id="basic-addon2">Search</span>
+                </div>
             </div>
+
+            <select class="form-control col-sm-2">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+            </select>
+
         </div>
-
-        <select class="form-control col-sm-2">
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
-            <option value="20">20</option>
-        </select>
-
     </div>
-    </div>
-
 
     <table class="table table-bordered table-striped table-hover">
         <thead class="text-center">
@@ -64,16 +56,16 @@
             <td th:text="${student.email}" />
             <td th:text="${#dates.format(student.createdAt,'dd-MMM-yyyy')}" />
             <td th:text="${#dates.format(student.updatedAt,'dd-MMM-yyyy')}" />
-            <td><a th:href="@{/students/student(studentEmail=${student.email})}">View details</a> </td>
+            <td><a th:href="@{/students/student(userEmail=${student.email})}">View details</a> </td>
             <td>
-                <a th:href="@{/students/update(studentEmail=${student.email})}" class="btn btn-info btn-sm">
+                <a th:href="@{/students/update(userEmail=${student.email})}" class="btn btn-info btn-sm">
                     Edit
                 </a>
             </td>
             <td>
-                <a th:href="@{/students/delete(studentEmail=${student.email})}" class="btn btn-danger btn-sm">
-               Delete
-            </a>
+                <a th:href="@{/students/delete(userEmail=${student.email})}" class="btn btn-danger btn-sm">
+                    Delete
+                </a>
             </td>
 
         </tr>
@@ -88,14 +80,7 @@
             </li>
         </ul>
     </nav>
-<br><br>
-
-
-
-        <footer th:replace="~{includes/footer :: footer}">
-            <p>Footer contents go here </p>
-        </footer>
-    </div>
+</div>
 </div>
 </body>
 </html>

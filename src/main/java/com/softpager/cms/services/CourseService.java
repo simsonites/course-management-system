@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
+import java.util.Set;
 
 public interface CourseService {
     Page<Course> getCourses(PageRequest pageRequest);
@@ -19,4 +20,6 @@ public interface CourseService {
     void deleteCourse(long theId);
 
     List<Course> getStudentCourses(String studentEmail);
+
+    Set<Course> getInstructorCourses(String instructorEmail);
 }

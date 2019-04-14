@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{includes/main_layout}">
 <head>
-    <meta charset="UTF-8">
     <title>CMS | Photo Upload</title>
-
-    <div th:replace="~{/includes/css-links :: cssFragment}"></div>
-
 </head>
 <body>
-<div class="container offset-md-2 ">
+<div layout:fragment="content" class="container">
+
     <div class="upload-header col-6 mt-10">
         <p>
         <h5>Upload  a profile photo that you would like to display with your account</h5>
@@ -32,9 +31,6 @@
         <div id="singleFileUploadSuccess"></div>
     </div>
 
-    <footer th:replace="~{includes/footer :: footer}">
-        <p>Footer contents go here </p>
-    </footer>
 </div>
 </body>
 </html>

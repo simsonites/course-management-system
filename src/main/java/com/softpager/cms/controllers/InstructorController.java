@@ -41,19 +41,5 @@ public class InstructorController {
         return "instructor/instructor-profile";
     }
 
-    @GetMapping("/new")
-    public String getForm(Model model){
-        model.addAttribute("instructor", new Instructor());
-        return "instructor/add-instructor";
-    }
-
-    @PostMapping("/create")
-    public String createInstructor(@Valid @ModelAttribute("instructor") Instructor theInstructor){
-        instructorService.createInstructor(theInstructor);
-        return "redirect:/instructors";
-    }
-
-
-
 
 }

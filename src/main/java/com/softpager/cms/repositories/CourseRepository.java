@@ -1,5 +1,6 @@
 package com.softpager.cms.repositories;
 
+import com.softpager.cms.abstracts.User;
 import com.softpager.cms.entities.Course;
 import com.softpager.cms.entities.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,6 +11,6 @@ public interface CourseRepository  extends JpaRepository<Course, Long> {
 
     List<Course> findByInstructor(String email);
 
-    Student findByListOfStudents(String email);
+    List<User> findByStudents(String email);
 
 }

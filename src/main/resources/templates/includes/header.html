@@ -1,10 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <!--Header Start-->
+    <div class="full-width-header"  th:fragment="header">
+    <header id="rs-header" class="rs-header ">
+        <!-- Header Top Start -->
+        <div class="rs-header-top"></div>
+        <div class="menu-area menu-sticky">
+            <div class="container">
+                <div class="main-menu">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <a class="rs-menu-toggle"><i class="fa fa-bars"></i>Menu</a>
+                            <nav class="rs-menu">
+                                <ul class="nav-menu">
+                                    <!-- Home -->
+                                    <li class="current-menu-item current_page_item menu-item-has-children">
+                                        <a href="/" th:href="@{/}" class="home">Home</a>
+                                    </li>
 
-</body>
-</html>
+                                    <li><a href="/courses"   th:href="@{/courses}">Courses</a></li>
+
+                                    <li class="menu-item-has-children">
+                                        <a href="/students"  th:href="@{/students}">Students</a>
+                                    </li>
+
+                                    <li class="menu-item-has-children">
+                                        <a href="/instructors"  th:href="@{/instructors}">Instructors</a>
+                                    </li>
+
+                                    <li class="menu-item-has-children">
+                                        <a href="#">About CMS</a></li>
+
+                                    <li><a href="contact.html">Contact</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+
+                        <div class="col-sm-4 pull-right">
+                            <nav class="rs-menu">
+                                <ul class="nav-menu">
+                                    <li><a href="contact.html">Login</a></li>
+
+                                    <li><a href="contact.html">Logout</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Menu End -->
+    </header>        <!--Header End-->
+
+    </div>
+

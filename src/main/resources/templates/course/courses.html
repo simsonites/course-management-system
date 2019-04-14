@@ -1,22 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{includes/main_layout}">
 <head>
-    <meta charset="UTF-8">
-    <title>CMS | Courses </title>
-
-    <div th:replace="~{/includes/css-links :: cssFragment}"></div>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <title>CMS | all-courses </title>
 </head>
-<body>
-<div th:replace="~{/includes/nav-bar :: navBar}"></div>
-
-<div class="container">
-
-    <h3>Available Course</h3>
-    <hr>
-
-    <div class="container">
-        <div class="row mb-3">
+<body class="main-body">
+<div layout:fragment="content" class="container">
+        <div class="row mt-50 mb-3">
             <a th:href="@{/courses/new}"
                class="btn btn-primary btn-sm col-sm-2">
                 Add New Course
@@ -36,70 +27,64 @@
                 <option value="15">15</option>
                 <option value="20">20</option>
             </select>
-
         </div>
-    </div>
-       <table class="table table-bordered table-striped table-hover">
-        <thead class="text-center">
-        <tr>
-            <th><input type="checkbox" id="selectAll"></th>
-            <th>Course title</th>
-            <th>Credits</th>
-            <th>Instructor</th>
-            <th align="center" colspan="4">Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="course : ${courses}">
-            <td><input type="checkbox" id="selectedCourse"></td>
-            <td nowrap="4" th:text="${course.title}" />
 
-            <td th:text="${course.numberOfCredits}" />
-            <td>
-                <a th:href="@{/courses/course(courseId=${course.id})}">
-                view course content
-            </a>
-            </td>
-            <td>
-                <a th:href="@{/courses/update(courseId=${course.id})}"
-                   class="btn btn-info btn-sm">
-                    Edit
-                </a>
-            </td>
-            <td>
-                <a th:href="@{/courses/delete(courseId=${course.id})}"
-                   class="btn btn-danger btn-sm">
-                    Delete
-                </a>
-            </td>
-            <td>
-                <form action="@{/courses/enrol-for-course}" method="post">
-                    <a th:href="@{/courses/enrol-for-course(courseId=${course.id})}"
-                       class="btn btn-primary btn-sm">
-                        register for course
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="text-center">
+            <tr>
+                <th><input type="checkbox" id="checkAll"></th>
+                <th>Course title</th>
+                <th>Credits</th>
+                <th>Instructor</th>
+                <th align="center" colspan="4">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="course : ${courses}">
+                <td><input type="checkbox" class="checkbox"></td>
+                <td nowrap="4" th:text="${course.title}"/>
+
+                <td th:text="${course.numberOfCredits}"/>
+                <td>
+                    <a th:href="@{/courses/course(courseId=${course.id})}">
+                        view course content
                     </a>
+                </td>
+                <td>
+                    <a th:href="@{/courses/update(courseId=${course.id})}"
+                       class="btn btn-info btn-sm">
+                        Edit
+                    </a>
+                </td>
+                <td>
+                    <a th:href="@{/courses/delete(courseId=${course.id})}"
+                       class="btn btn-danger btn-sm">
+                        Delete
+                    </a>
+                </td>
+                <td>
+                    <form action="@{/courses/enrol-for-course}" method="post">
+                        <a th:href="@{/courses/add-user-course(courseId=${course.id},userEmail=${email})}"
+                           class="btn btn-primary btn-sm">
+                            register for course
+                        </a>
 
-                </form>
+                    </form>
 
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <nav class="border-info">
-        <ul class="nav nav-pills pagination">
-            <li class="nav-item"
-                th:each="i: ${#numbers.sequence(0, courses.totalPages-1)}">
-                <a th:href="@{/courses(page=${i})}" th:text="${i}"
-                   class="nav-link"  th:classappend="${currentPage}==${i}? 'active':''"/>
-            </li>
-        </ul>
-    </nav>
-    <br>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <nav class="border-info">
+            <ul class="nav nav-pills pagination">
+                <li class="nav-item"
+                    th:each="i: ${#numbers.sequence(0, courses.totalPages-1)}">
+                    <a th:href="@{/courses(page=${i})}" th:text="${i}"
+                       class="nav-link" th:classappend="${currentPage}==${i}? 'active':''"/>
+                </li>
+            </ul>
+        </nav>
+    </div>
 
-    <footer th:replace="~{includes/footer :: footer}">
-        <p>Footer contents go here </p>
-    </footer>
-</div>
-</div>
 </body>
 </html>
