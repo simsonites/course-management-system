@@ -30,8 +30,8 @@ public class InstructorServiceImpl implements InstructorService {
 
     @Override
     public Instructor getInstructor(String email) {
-         Optional<Instructor> theInstructor =instructorRepository.findById(email);
-         return  theInstructor.orElse(null);
+        Optional<Instructor> theInstructor = instructorRepository.findById(email);
+        return theInstructor.orElse(null);
     }
 
     @Override

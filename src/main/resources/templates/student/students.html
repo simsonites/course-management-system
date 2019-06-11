@@ -4,83 +4,63 @@
       layout:decorate="~{includes/main_layout}">
 <head>
     <title>CMS | students </title>
+
+    <link rel="stylesheet" href="/static/bootstrap/css/admin.css"
+          th:href="@{/css/admin.css}"/>
+
+    <script src="/js/admin.js"
+            th:src="@{/js/admin.js}"></script>
 </head>
-<body>
-<div layout:fragment="content" class="container">
-    <h3>Registered Students</h3>
-    <hr>
+<body class="main-body">
+
+<div layout:fragment="content">
+
     <div class="container">
-        <div class="row mb-3">
 
-            <a th:href="@{/students/new}"
-               class="btn btn-primary btn-sm col-sm-2">
-                Add Student
-            </a>
 
-            <div class="input-group col-md-8">
-                <input type="text" class="form-control" placeholder="Enter student name to search"
-                       aria-label="Recipient's username" aria-describedby="basic-addon2">
-                <div class="input-group-append">
-                    <span class="input-group-text btn btn-primary" id="basic-addon2">Search</span>
+        <div class="card">
+            <div class="card-body">
+
+        <div class="sec-title mb-50 mt-50">
+            <h2>CURRENT REGISTERED STUDENTS</h2>
+            <p>Fusce sem dolor, interdum in efficitur at, faucibus nec lorem.</p>
+            <div class="view-more">
+                <a href="/students" th:href="@{/students}">See all students
+                    <i class="fa fa-angle-double-right">
+                    </i></a>
+            </div>
+        </div>
+        <div class="row grid">
+            <div class="col-lg-3 col-md-6 col-xs-6 grid-item filter1"
+                 th:each="student : ${students}">
+                <div class="team-item">
+                    <div class="team-img">
+                        <a href="#" th:href="@{/students/student(userEmail=${student.email})}">
+                            <img src="/images/placeholder.jpg" alt=""
+                                 th:src="@{/photo/user/photo(userEmail=${student.email})}"
+                            /></a>
+                    </div>
+                    <div class="team-body">
+                        <a href="#" th:href="@{/students/student(userEmail=${student.email})}">
+                            <h3 class="name" th:text="${student.firstName}"></h3></a>
+                        <span class="designation">Registered Student</span>
+                    </div>
                 </div>
             </div>
-
-            <select class="form-control col-sm-2">
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
-            </select>
-
         </div>
+
+        <nav class="border-info">
+            <ul class="nav nav-pills pagination">
+                <li class="nav-item"
+                    th:each="i: ${#numbers.sequence(0, students.totalPages-1)}">
+                    <a th:href="@{/students/(page=${i})}" th:text="${i}"
+                       class="nav-link" th:classappend="${currentPage}==${i}? 'active':''"/>
+                </li>
+            </ul>
+        </nav>
     </div>
-
-    <table class="table table-bordered table-striped table-hover">
-        <thead class="text-center">
-        <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Gender</th>
-            <th>Email</th>
-            <th>Registration Date</th>
-            <th>Last Updated</th>
-            <th align="center" colspan="4">Action</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <tr th:each="student : ${students}">
-            <td th:text="${student.firstName}" />
-            <td th:text="${student.lastName}" />
-            <td th:text="${student.gender}" />
-            <td th:text="${student.email}" />
-            <td th:text="${#dates.format(student.createdAt,'dd-MMM-yyyy')}" />
-            <td th:text="${#dates.format(student.updatedAt,'dd-MMM-yyyy')}" />
-            <td><a th:href="@{/students/student(userEmail=${student.email})}">View details</a> </td>
-            <td>
-                <a th:href="@{/students/update(userEmail=${student.email})}" class="btn btn-info btn-sm">
-                    Edit
-                </a>
-            </td>
-            <td>
-                <a th:href="@{/students/delete(userEmail=${student.email})}" class="btn btn-danger btn-sm">
-                    Delete
-                </a>
-            </td>
-
-        </tr>
-        </tbody>
-    </table>
-    <nav class="border-info">
-        <ul class="nav nav-pills pagination">
-            <li class="nav-item"
-                th:each="i: ${#numbers.sequence(0, students.totalPages-1)}">
-                <a th:href="@{/students/(page=${i})}" th:text="${i}"
-                   class="nav-link"  th:classappend="${currentPage}==${i}? 'active':''"/>
-            </li>
-        </ul>
-    </nav>
 </div>
+    </div>
 </div>
 </body>
 </html>

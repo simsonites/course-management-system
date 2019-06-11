@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-public class StudentServiceImpl implements StudentService{
+public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private StudentRepository studentRepository;
@@ -45,10 +45,12 @@ public class StudentServiceImpl implements StudentService{
         studentRepository.save(theStudent);
     }
 
+
     @Override
     public void delete(String email) {
         studentRepository.deleteById(email);
     }
+
 
     @Override
     public List<Student> getListOfSelectedStudents(boolean containsAll) {

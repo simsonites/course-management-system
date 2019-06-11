@@ -1,46 +1,48 @@
 package com.softpager.cms.entities;
 
 
-
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
-
-import com.softpager.cms.abstracts.AuditModel;
+import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 
+
 @Data
 @Entity
-@Table(name="courses")
+@Table(name = "courses")
 @SuppressWarnings("serial")
-@EqualsAndHashCode(callSuper=false)
-public class Course extends AuditModel {
+@EqualsAndHashCode(callSuper = false)
+public class Course {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "course_id")
     private long id;
 
-    @Column(name="title")
+    @NotEmpty
+    @Column(name = "title")
     private String title;
 
-    @Column(name="description")
+    @NotEmpty
+    @Column(name = "description")
     private String description = " Lorem Ipsum is simply dummy text of the" +
             " printing and typesetting industry.Lorem Ipsum has been " +
             "the like Aldus PageMaker including versions of Lorem Ipsum.";
 
-    @Column(name="credits")
+   // @NotEmpty
+    @Column(name = "credits")
     private int numberOfCredits;
 
+
     @ToString.Exclude
-    @ManyToMany(fetch=FetchType.EAGER,  cascade= {CascadeType.MERGE,
-            CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(name="course_student", joinColumns={@JoinColumn(name="COURSE_ID",
-            referencedColumnName = "course_id" )},
-            inverseJoinColumns={@JoinColumn(name="STUDENT_EMAIL",
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH,
+            CascadeType.DETACH})
+    @JoinTable(name = "course_student", joinColumns = {@JoinColumn(name = "COURSE_ID",
+            referencedColumnName = "course_id")},
+            inverseJoinColumns = {@JoinColumn(name = "USER_EMAIL",
                     referencedColumnName = "email")})
     private List<Student> students;
 
@@ -48,31 +50,20 @@ public class Course extends AuditModel {
     @JoinColumn(name = "user_id")
     private Instructor instructor;
 
-    public Course() {}
-
-    public Course(String title, String description, int numberOfCredits,
-                  List<Student> listOfStudents, Instructor instructor) {
-        this.title = title;
-        this.description = description;
-        this.numberOfCredits = numberOfCredits;
-        this.students = listOfStudents;
-        this.instructor = instructor;
+    public Course() {
     }
 
     public Course(String title, String description, int numberOfCredits) {
         this.title = title;
         this.description = description;
         this.numberOfCredits = numberOfCredits;
-        this.students = new ArrayList<>();
-    }
-
-    public void addCourseForUser(List<Course> theCourse, Student theStudent){
-        if (this.getStudents().isEmpty()){
-            this.students = new ArrayList<>();
-            this.students.add(theStudent);
-            theStudent.setCourses(theCourse);
-        }
 
     }
+
+    public void removeCourseFromStudent(Student theStudent){
+        this.getStudents().remove(theStudent);
+        theStudent.getCourses().remove(this);
+    }
+
 
 }

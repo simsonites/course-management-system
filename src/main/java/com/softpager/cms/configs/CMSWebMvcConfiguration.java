@@ -1,5 +1,8 @@
 package com.softpager.cms.configs;
+
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -8,7 +11,19 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 //@EnableWebMvc
-public class CMSWebMvcConfiguration  extends WebMvcConfigurationSupport {
+public class CMSWebMvcConfiguration extends WebMvcConfigurationSupport {
+
+
+/*
+
+    @Bean(name = "multipartResolver")
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(5242880);
+        return multipartResolver;
+    }
+*/
+
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -16,7 +31,7 @@ public class CMSWebMvcConfiguration  extends WebMvcConfigurationSupport {
                 .addResourceLocations("classpath:/static/bootstrap/css/");
 
         registry.addResourceHandler("/js/**")
-                .addResourceLocations("classpath:/static/js/");
+                .addResourceLocations("classpath:/static/bootstrap/js/");
 
         registry.addResourceHandler("/fonts/**")
                 .addResourceLocations("classpath:/static/fonts/");
@@ -34,6 +49,6 @@ public class CMSWebMvcConfiguration  extends WebMvcConfigurationSupport {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("home");
-   }
+    }
 
 }

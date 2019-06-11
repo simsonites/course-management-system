@@ -1,4 +1,5 @@
 package com.softpager.cms;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -77,11 +78,9 @@ public class CourseManagementSystemApplicationTests {
     }*/
 
 
-
-
- @Test
-    public void load(){
-   }
+    @Test
+    public void load() {
+    }
 
 }
 

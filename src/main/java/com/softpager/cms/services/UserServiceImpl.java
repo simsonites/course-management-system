@@ -1,6 +1,6 @@
 package com.softpager.cms.services;
 
-import com.softpager.cms.abstracts.User;
+import com.softpager.cms.abstracts.AbstractUser;
 import com.softpager.cms.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,12 +13,12 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public User getUser(String email) {
+    public AbstractUser getUser(String email) {
         return userRepository.findByEmail(email);
     }
 
     @Override
-    public void save(User theUser) {
+    public void save(AbstractUser theUser) {
         userRepository.save(theUser);
 
     }

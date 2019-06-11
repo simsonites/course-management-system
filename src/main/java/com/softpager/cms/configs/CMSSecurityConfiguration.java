@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+
 
 import javax.sql.DataSource;
 
@@ -38,25 +38,20 @@ public class CMSSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(
                 "/",
                 "/users/**",
-                "/courses/**",
+                "/courses","/courses/course",
                 "/students/**",
+                "/photo/**",
+                "/admin/**",
                 "/login",
-                "/static/**",
-                "/css/**",
-                "/js/**",
-                "/images/**",
-                "/webjars/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
+                "/static/**", "/css/**", "/js/**", "/images/**",
+                "/fonts/**", "/webjars/**")
+                .permitAll().anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .loginPage("/login")
+                .formLogin().loginPage("/login")
                 .permitAll()
                 .defaultSuccessUrl("/")
                 .and()
-                .logout()
-                .logoutSuccessUrl("/");
+                .logout().logoutSuccessUrl("/");
     }
 
     @Bean

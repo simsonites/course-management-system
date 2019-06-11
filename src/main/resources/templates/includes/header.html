@@ -1,5 +1,5 @@
-    <!--Header Start-->
-    <div class="full-width-header"  th:fragment="header">
+<!--Header Start-->
+<div class="full-width-header" th:fragment="header">
     <header id="rs-header" class="rs-header ">
         <!-- Header Top Start -->
         <div class="rs-header-top"></div>
@@ -11,25 +11,25 @@
                             <a class="rs-menu-toggle"><i class="fa fa-bars"></i>Menu</a>
                             <nav class="rs-menu">
                                 <ul class="nav-menu">
-                                    <!-- Home -->
-                                    <li class="current-menu-item current_page_item menu-item-has-children">
-                                        <a href="/" th:href="@{/}" class="home">Home</a>
-                                    </li>
-
-                                    <li><a href="/courses"   th:href="@{/courses}">Courses</a></li>
 
                                     <li class="menu-item-has-children">
-                                        <a href="/students"  th:href="@{/students}">Students</a>
-                                    </li>
+                                        <a href="/about" th:href="@{/about}">About CMS</a></li>
+
+                                    <li class="current-menu-item current_page_item">
+                                        <a href="/" th:href="@{/}" class="home">Courses</a></li>
 
                                     <li class="menu-item-has-children">
-                                        <a href="/instructors"  th:href="@{/instructors}">Instructors</a>
+                                        <a href="/students" th:href="@{/students}">Students</a>
                                     </li>
 
                                     <li class="menu-item-has-children">
-                                        <a href="#">About CMS</a></li>
+                                        <a href="/instructors" th:href="@{/instructors}">Instructors</a>
+                                    </li>
 
-                                    <li><a href="contact.html">Contact</a></li>
+
+                                    <li sec:authorize="hasRole('ROLE_ADMIN')">
+                                        <a href="/admin" th:href="@{/admin}">Admin</a>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>
@@ -37,9 +37,25 @@
                         <div class="col-sm-4 pull-right">
                             <nav class="rs-menu">
                                 <ul class="nav-menu">
-                                    <li><a href="contact.html">Login</a></li>
+                                    <li sec:authorize="isAuthenticated()">
+                                        <a href="/user/student" th:href="@{/user/student}">Profile</a>
+                                    </li>
 
-                                    <li><a href="contact.html">Logout</a></li>
+                                    <li sec:authorize="!isAuthenticated()">
+                                        <a href="/students/new" th:href="@{/students/new}">Register</a>
+                                    </li>
+
+                                    <li sec:authorize="!isAuthenticated()">
+                                        <a href="/login" th:href="@{/login}">Login</a>
+                                    </li>
+                                     <li sec:authorize="isAuthenticated()">
+
+                                    <form th:action="@{/logout}" method="post">
+                                        <input type="hidden">
+                                        <button class="btn btn-dark" type="submit">Logout</button>
+                                    </form>
+                                    </li>
+
                                 </ul>
                             </nav>
                         </div>
@@ -49,7 +65,6 @@
             </div>
         </div>
         <!-- Menu End -->
-    </header>        <!--Header End-->
-
-    </div>
-
+    </header>
+    <!--Header End-->
+</div>

@@ -1,6 +1,6 @@
 package com.softpager.cms.exceptions;
 
-public class FileStorageException extends RuntimeException {
+public class FileStorageException  extends RuntimeException {
     public FileStorageException(String message) {
         super(message);
     }

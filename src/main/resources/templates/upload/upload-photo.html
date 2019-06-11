@@ -5,32 +5,34 @@
 <head>
     <title>CMS | Photo Upload</title>
 </head>
-<body>
-<div layout:fragment="content" class="container">
+<body class="main-body">
+<div layout:fragment="content">
 
-    <div class="upload-header col-6 mt-10">
-        <p>
-        <h5>Upload  a profile photo that you would like to display with your account</h5>
-        </p>
-    </div>
+    <div class="container pt-50">
 
-    <form th:action="@{/photo/upload(email=${user.email})}" method="post"
-          th:object="${user}" enctype="multipart/form-data">
-        <div class="input-group col-md-8 mb-3">
-            <input type="text" name="email" class="form-control" th:field="*{email}"/>
+        <div class="upload-header col-6 mt-10">
+            <p>
+            <h5>Upload a profile photo that you would like to display with your account</h5>
+            </p>
         </div>
-        <div class="input-group col-md-8 mb-3">
-            <input type="file" name="file" class="file-input form-control" required />
-            <div class="input-group-append">
-                <button type="submit" class="btn btn-primary submit-btn">upload</button>
+
+        <form th:action="@{/photo/upload(userEmail=${user.email})}" method="post"
+              th:object="${user}" enctype="multipart/form-data">
+            <div class="input-group col-md-8 mb-3">
+                <input type="text" name="email" class="form-control" th:field="*{email}"/>
             </div>
+            <div class="input-group col-md-8 mb-3">
+                <input type="file" name="file" class="file-input form-control" required/>
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary submit-btn">upload</button>
+                </div>
+            </div>
+        </form>
+        <div class="upload-response">
+            <div id="singleFileUploadError"></div>
+            <div id="singleFileUploadSuccess"></div>
         </div>
-    </form>
-    <div class="upload-response">
-        <div id="singleFileUploadError"></div>
-        <div id="singleFileUploadSuccess"></div>
     </div>
-
 </div>
 </body>
 </html>

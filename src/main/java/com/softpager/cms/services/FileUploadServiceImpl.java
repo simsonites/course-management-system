@@ -1,9 +1,9 @@
 package com.softpager.cms.services;
 
-import com.softpager.cms.entities.UserPhoto;
+import com.softpager.cms.entities.FileUpload;
 import com.softpager.cms.exceptions.FileStorageException;
 import com.softpager.cms.exceptions.MyFileNotFoundException;
-import com.softpager.cms.repositories.UserPhotoRepository;
+import com.softpager.cms.repositories.FileUploadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -12,33 +12,34 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @Service
-public class UserPhotoServiceImpl implements UserPhotoService {
+public class FileUploadServiceImpl implements FileUploadService {
 
 
-    private UserPhotoRepository userPhotoRepository;
+    private FileUploadRepository fileUploadRepository;
 
     @Autowired
-    public UserPhotoServiceImpl(UserPhotoRepository studentPhotoRepository) {
-        this.userPhotoRepository = studentPhotoRepository;
+    public FileUploadServiceImpl(FileUploadRepository fileUploadRepository) {
+        this.fileUploadRepository = fileUploadRepository;
     }
 
     @Override
-    public UserPhoto saveUserPhoto(MultipartFile file) {
+    public FileUpload saveUserPhoto(MultipartFile file) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         try {
-            if(fileName.contains("..")) {
+            if (fileName.contains("..")) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }
-            UserPhoto theFile = new UserPhoto(fileName, file.getContentType(), file.getBytes());
-            return userPhotoRepository.save(theFile);
-        }
-         catch (IOException ex) {
+            FileUpload theFile = new FileUpload(fileName, file.getContentType(), file.getBytes());
+            return fileUploadRepository.save(theFile);
+        } catch (IOException ex) {
             throw new FileStorageException("Could not save file " + fileName + ". Please try again!", ex);
         }
     }
+
+
     @Override
-    public UserPhoto getUserPhoto(long fileId) {
-        return userPhotoRepository.findById(fileId)
+    public FileUpload getUserPhoto(long fileId) {
+        return fileUploadRepository.findById(fileId)
                 .orElseThrow(() -> new MyFileNotFoundException("File not found with id " + fileId));
     }
 

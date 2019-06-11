@@ -1,7 +1,7 @@
 package com.softpager.cms.abstracts;
 
 import com.softpager.cms.entities.Role;
-import com.softpager.cms.entities.UserPhoto;
+import com.softpager.cms.entities.FileUpload;
 import lombok.Data;
 import lombok.ToString;
 
@@ -18,47 +18,46 @@ import java.util.Set;
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "userClass")
-public abstract class User extends AuditModel {
+public abstract class AbstractUser extends AuditModel {
 
     @Id
     @Email
     @NotEmpty
-    @Column(unique=true)
+    @Column(unique = true)
     private String email;
 
     @NotEmpty
     private String password;
 
     @NotEmpty
-    @Column(name="first_name")
+    @Column(name = "first_name")
     private String firstName;
 
     @NotEmpty
-    @Column(name="last_name")
+    @Column(name = "last_name")
     private String lastName;
 
     @NotEmpty
-    @Column(name="gender")
+    @Column(name = "gender")
     private String gender;
 
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="photo_id")
+    @JoinColumn(name = "photo_id")
     @ToString.Exclude
-    private UserPhoto photo;
+    private FileUpload photo;
 
-    @ManyToMany(fetch=FetchType.LAZY,  cascade= {CascadeType.MERGE,
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(name="user_roles", joinColumns={@JoinColumn(name="USER_EMAIL",
-            referencedColumnName = "email" )},
-            inverseJoinColumns={@JoinColumn(name="ROLES",
+    @JoinTable(name = "user_roles", joinColumns = {@JoinColumn(name = "USER_EMAIL",
+            referencedColumnName = "email")},
+            inverseJoinColumns = {@JoinColumn(name = "ROLES",
                     referencedColumnName = "name")})
     private Set<Role> roles = new HashSet<>();
 
 
-
-    public User(String email, String password, String firstName, String lastName,
-                String gender, UserPhoto photo, Set<Role> roles) {
+    public AbstractUser(String email, String password, String firstName, String lastName,
+                        String gender, FileUpload photo, Set<Role> roles) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -68,8 +67,8 @@ public abstract class User extends AuditModel {
         this.roles = roles;
     }
 
-    public User(String email, String password, String firstName, String lastName,
-                String gender, Set<Role> roles) {
+    public AbstractUser(String email, String password, String firstName, String lastName,
+                        String gender, Set<Role> roles) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -79,8 +78,8 @@ public abstract class User extends AuditModel {
     }
 
 
-    public User(String email, String password, String firstName,
-                String lastName, String gender) {
+    public AbstractUser(String email, String password, String firstName,
+                        String lastName, String gender) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -88,5 +87,6 @@ public abstract class User extends AuditModel {
         this.gender = gender;
     }
 
-    public User(){}
+    public AbstractUser() {
+    }
 }

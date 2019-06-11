@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
+
+
 @Controller
 public class HomeController {
 
@@ -19,7 +21,7 @@ public class HomeController {
     private CourseService courseService;
 
     @GetMapping("/")
-    public String homePage(Model model, @RequestParam(defaultValue = "0") int page){
+    public String homePage(Model model, @RequestParam(defaultValue = "0") int page) {
         Page<Course> allCourses = courseService.getCourses(PageRequest.of(page, 6));
         model.addAttribute("courses", allCourses);
         model.addAttribute("currentPage", page);
@@ -27,11 +29,9 @@ public class HomeController {
     }
 
 
-
-
-
     @GetMapping("/login")
-    public String loginForm(){
+    public String loginForm() {
         return "login";
     }
+
 }

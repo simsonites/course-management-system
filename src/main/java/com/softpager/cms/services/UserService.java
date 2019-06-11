@@ -1,9 +1,9 @@
 package com.softpager.cms.services;
 
-import com.softpager.cms.abstracts.User;
+import com.softpager.cms.abstracts.AbstractUser;
 
 public interface UserService {
-    User getUser(String email);
+    AbstractUser getUser(String email);
 
-    void save(User theUser);
+    void save(AbstractUser theUser);
 }

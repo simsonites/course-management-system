@@ -4,18 +4,20 @@ import com.softpager.cms.entities.Course;
 import com.softpager.cms.entities.Instructor;
 import com.softpager.cms.entities.Student;
 import com.softpager.cms.repositories.CourseRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-
+@Slf4j
 @Service
-public class CourseServiceImpl implements CourseService{
+public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private CourseRepository courseRepository;
@@ -54,14 +56,9 @@ public class CourseServiceImpl implements CourseService{
     }
 
     @Override
-    public List<Course> getStudentCourses(String studentEmail) {
-        Student theStudent = studentService.getStudent(studentEmail);
-        return theStudent.getCourses();
+    public List<Course> getAllCourses() {
+        return courseRepository.findAll();
     }
 
-    @Override
-    public Set<Course> getInstructorCourses(String instructorEmail) {
-        Instructor theInstructor = instructorService.getInstructor(instructorEmail);
-        return theInstructor.getCourses();
-    }
+
 }

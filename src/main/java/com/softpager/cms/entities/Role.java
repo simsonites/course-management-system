@@ -1,6 +1,6 @@
 package com.softpager.cms.entities;
 
-import com.softpager.cms.abstracts.User;
+import com.softpager.cms.abstracts.AbstractUser;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,9 +19,9 @@ public class Role {
     private String name;
 
     @ManyToMany(mappedBy = "roles")
-    private Set<User> users = new HashSet<>();
+    private Set<AbstractUser> users = new HashSet<>();
 
-    public Role(String name, Set<User> users) {
+    public Role(String name, Set<AbstractUser> users) {
         this.name = name;
         this.users = users;
 

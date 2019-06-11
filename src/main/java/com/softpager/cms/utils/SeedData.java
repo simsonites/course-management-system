@@ -14,11 +14,10 @@ import java.util.Arrays;
 import java.util.List;
 
 
-
 @Component
 public class SeedData {
 
-    private  String description="Lorem Ipsum is simply dummy text of the printing " +
+    private String description = "Lorem Ipsum is simply dummy text of the printing " +
             "and typesetting industry. Lorem Ipsum has been the " +
             "industry's standard dummy text ever since the 1500s," +
             " when an unknown printer took a galley of type and " +
@@ -34,36 +33,36 @@ public class SeedData {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-     private List<Student> initStudents = Arrays.asList(
-            new Student("jeffer@email.com","1234567","Sam", "Jefferson", "M"),
-            new Student("moore@email.com","1234567","Rosemary", "Moore", "F"),
-            new Student("jane@email.com","1234567","Janice","Manissa", "F"),
-            new Student("sally@email.com","1234567","Sally", "Jefferson","F"),
-            new Student("jess@email.com", "1234567","Jessica", "Private", "F"),
-            new Student("jane@email.com", "1234567","Jane", "Public", "F"),
-            new Student("pete@email.com","1234567","Pete", "Markson", "M"),
-            new Student("jeff@email.com","1234567","Jefferson", "Moore", "M"),
-            new Student( "alex@email.com", "1234567","Alex", "Forrest","M"),
-            new Student("amanda@email.com", "1234567","Amanda", "Yvonne", "F"),
-            new Student("anita@email.com", "1234567","Anita", "World", "F"),
-            new Student("alice@email.com", "1234567","Alice", "Morgan", "F"),
-            new Student("mary@email.com", "1234567","Mary", "Private","F"),
-            new Student( "elas@email.com", "1234567","Elsa", "Vietnam","F"),
-            new Student("emmy@email.com", "1234567","Emmy", "Hung Yen", "F"),
-            new Student("ema@email.com", "1234567","Emma", "Pretty", "F"),
-            new Student("leo@email.com","1234567","Leo", "Wilson",  "M"),
-            new Student("mis@email.com","1234567","Misa", "Protected",  "F"),
-            new Student("lis@email.com", "1234567","Lisa", "Jumia", "F"),
-            new Student("tracy@email.com","1234567","Tracy", "Jumia",  "F"),
-            new Student("konv@email.com","1234567","Akon", "Konvict", "M"),
-            new Student("rick@email.com", "1234567","Ricky", "Ross","M"),
-            new Student("lis@email.com","1234567","Vicky", "Pope",  "F"),
-            new Student("van@email.com", "1234567","Rose", "Van","F"),
-            new Student("mavi@email.com","1234567","Mavin", "Gate",  "F"),
-            new Student("bill@email.com", "1234567","Bill", "Gates", "M"),
-            new Student("lisdia@email.com", "1234567","Lisa", "Diamond", "F"),
-            new Student("alexa@email.com", "1234567","Alexander", "Offison","M")
-            );
+    private List<Student> initStudents = Arrays.asList(
+            new Student("jeffer@email.com", "1234567", "Sam", "Jefferson", "M"),
+            new Student("moore@email.com", "1234567", "Rosemary", "Moore", "F"),
+            new Student("jane@email.com", "1234567", "Janice", "Manissa", "F"),
+            new Student("sally@email.com", "1234567", "Sally", "Jefferson", "F"),
+            new Student("jess@email.com", "1234567", "Jessica", "Private", "F"),
+            new Student("jane@email.com", "1234567", "Jane", "Public", "F"),
+            new Student("pete@email.com", "1234567", "Pete", "Markson", "M"),
+            new Student("jeff@email.com", "1234567", "Jefferson", "Moore", "M"),
+            new Student("alex@email.com", "1234567", "Alex", "Forrest", "M"),
+            new Student("amanda@email.com", "1234567", "Amanda", "Yvonne", "F"),
+            new Student("anita@email.com", "1234567", "Anita", "World", "F"),
+            new Student("alice@email.com", "1234567", "Alice", "Morgan", "F"),
+            new Student("mary@email.com", "1234567", "Mary", "Private", "F"),
+            new Student("elas@email.com", "1234567", "Elsa", "Vietnam", "F"),
+            new Student("emmy@email.com", "1234567", "Emmy", "Hung Yen", "F"),
+            new Student("ema@email.com", "1234567", "Emma", "Pretty", "F"),
+            new Student("leo@email.com", "1234567", "Leo", "Wilson", "M"),
+            new Student("mis@email.com", "1234567", "Misa", "Protected", "F"),
+            new Student("lis@email.com", "1234567", "Lisa", "Jumia", "F"),
+            new Student("tracy@email.com", "1234567", "Tracy", "Jumia", "F"),
+            new Student("konv@email.com", "1234567", "Akon", "Konvict", "M"),
+            new Student("rick@email.com", "1234567", "Ricky", "Ross", "M"),
+            new Student("lis@email.com", "1234567", "Vicky", "Pope", "F"),
+            new Student("van@email.com", "1234567", "Rose", "Van", "F"),
+            new Student("mavi@email.com", "1234567", "Mavin", "Gate", "F"),
+            new Student("bill@email.com", "1234567", "Bill", "Gates", "M"),
+            new Student("lisdia@email.com", "1234567", "Lisa", "Diamond", "F"),
+            new Student("alexa@email.com", "1234567", "Alexander", "Offison", "M")
+    );
 /*
 
     private List<Instructor> initInstructors = Arrays.asList(
@@ -92,7 +91,7 @@ public class SeedData {
     );*/
 
 
-    private List<Course> initCourses = Arrays.asList(
+/*    private List<Course> initCourses = Arrays.asList(
             new Course("A Practical guide to Java Programming", this.description, 30),
             new Course("Oracle Database Development", this.description, 15),
             new Course("A Practical guide to SQL Programming", this.description, 30),
@@ -108,27 +107,27 @@ public class SeedData {
             new Course("AWS Architecture", this.description, 15),
             new Course("Web Development with HTML,CSS an JavaScript", this.description, 30),
             new Course("Java Annotations", this.description, 15)
-    );
+    );*/
 
 
-   // @PostConstruct
-    public void doSave(){
+    // @PostConstruct
+    public void doSave() {
         this.saveStudents();
-        saveCourses();
-       //return "redirect:/students";
+        // saveCourses();
+        //return "redirect:/students";
     }
 
-   private void saveStudents(){
-      studentRepository.saveAll(initStudents);
+    private void saveStudents() {
+        studentRepository.saveAll(initStudents);
     }
 
-    private void doSaveStudent(){
+    private void doSaveStudent() {
 
     }
-
+/*
     private void saveCourses(){
       courseRepository.saveAll(initCourses);
-    }
+    }*/
 
 
 }
