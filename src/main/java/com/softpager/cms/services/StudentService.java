@@ -1,5 +1,6 @@
 package com.softpager.cms.services;
 
+import com.softpager.cms.entities.Course;
 import com.softpager.cms.entities.Student;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,4 +18,5 @@ public interface StudentService {
     void delete(String email);
 
     List<Student> getListOfSelectedStudents(boolean containsAll);
+
 }

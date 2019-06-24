@@ -14,10 +14,11 @@
     <!-- Search Courses Start -->
     <div class="rs-search-courses">
         <div class="container">
-            <form class="row search-form">
+
+            <form class="row search-form" th:action="@{/search-course}">
                 <div class="col-md-8">
                     <div class="keyword">
-                        <input type="text" placeholder="Enter course keyword to search...">
+                        <input type="text" name="title" placeholder="Enter course keyword to search...">
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -26,6 +27,7 @@
                     </div>
                 </div>
             </form>
+
         </div>
     </div>
     <!-- Search Courses End -->
@@ -72,6 +74,7 @@
                                     Enroll this course
                                 </a>
                             </form>
+
                         </div>
 
                     </div>

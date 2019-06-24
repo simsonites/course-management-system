@@ -2,9 +2,11 @@ package com.softpager.cms.controllers;
 
 import com.softpager.cms.entities.Admin;
 import com.softpager.cms.entities.Course;
+import com.softpager.cms.entities.Instructor;
 import com.softpager.cms.entities.Student;
 import com.softpager.cms.services.AdminService;
 import com.softpager.cms.services.CourseService;
+import com.softpager.cms.services.InstructorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,17 +27,22 @@ public class AdminController {
     @Autowired
     private CourseService courseService;
 
+    @Autowired
+    private InstructorService instructorService;
+
 
     //This method will get all courses from the database.
     @GetMapping()
     public String adminHome(Model model, @RequestParam(defaultValue = "0") int page) {
-        Page<Course> allCourses = courseService.getCourses(PageRequest.of(page, 5));
+        Page<Course> allCourses = courseService.getCourses(PageRequest.of(page, 6));
+        Page<Instructor> allInstructors = instructorService.getInstructors(PageRequest.of(page, 6));
         List<Admin> allAdmin = adminService.getAdmins();
         int adminCount = allAdmin.size();
         model.addAttribute("courses", allCourses);
+        model.addAttribute("instructors", allInstructors);
         model.addAttribute("currentPage", page);
         model.addAttribute("admins", adminCount);
-        return "/admin/admin-home";
+        return "admin/admin-home";
     }
 
     //Fetching all existing students from the database.
@@ -43,14 +50,14 @@ public class AdminController {
     public String getAdmins(Model model) {
         List<Admin> allAdmin = adminService.getAdmins();
         model.addAttribute("admin", allAdmin);
-        return "/admin/all-admin";
+        return "admin/all-admin";
     }
 
     //This method shows the form to create new student
     @GetMapping("/new")
     public String adminForm(Model model) {
         model.addAttribute("admin", new Admin());
-        return "/admin/add-admin";
+        return "admin/add-admin";
     }
 
 
@@ -73,7 +80,7 @@ public class AdminController {
     @GetMapping("/delete")
     public String delete(@RequestParam("userEmail") String email) {
         adminService.delete(email);
-        return "redirect:/admins";
+        return "redirect:/admin";
     }
 
 
@@ -85,17 +92,6 @@ public class AdminController {
      */
 
     /*START ADMIN COURSE MANAGEMENT*/
-
-
-    //This method will get all courses from the database.
-    @GetMapping("/courses")
-    public String getCourses(Model model, @RequestParam(defaultValue = "0") int page) {
-        Page<Course> allCourses = courseService.getCourses(PageRequest.of(page, 5));
-        model.addAttribute("courses", allCourses);
-        model.addAttribute("currentPage", page);
-        return "admin/admin-home";
-    }
-
 
     //This method show the form to create new courses
     @GetMapping("/course-form")
@@ -109,7 +105,7 @@ public class AdminController {
     @PostMapping("/create-course")
     public String saveCourse(@ModelAttribute Course theCourse) {
         courseService.saveCourse(theCourse);
-        return "redirect:/admin/courses";
+        return "redirect:/admin";
     }
 
 
@@ -117,10 +113,10 @@ public class AdminController {
     @GetMapping("/delete-course")
     public String deleteCourse(@RequestParam("courseId") long theId) {
         courseService.deleteCourse(theId);
-        return "redirect:/admins/courses";
+        return "redirect:/admin";
     }
 
-
+    //This method updates a course in the database by the ID
     @GetMapping("/update-course")
     public String updateCourse(@RequestParam("courseId") long theId, Model model) {
         Course theCourse = courseService.getCourse(theId);

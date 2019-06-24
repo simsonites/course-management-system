@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @Slf4j
 @Controller
@@ -27,12 +28,8 @@ public class FileUploadController {
     @Autowired
     private FileUploadService fileUploadService;
 
-    @Autowired
-    private StudentService studentService;
-    private Student student;
 
-
-    // This method gets the form for the image upload
+    //This method gets the form for the image upload
     @GetMapping("/form")
     public String getUploadForm(@RequestParam("userEmail") String userEmail, Model model) {
         AbstractUser theUser = userService.getUser(userEmail);
@@ -43,23 +40,26 @@ public class FileUploadController {
     // this method saves the user photo to the database
     @PostMapping("/upload")
     public String updateUserPhoto(@RequestParam("userEmail") String userEmail,
-                                  MultipartFile file) {
+                                  MultipartFile file, Model model) {
         AbstractUser theUser = userService.getUser(userEmail);
         if (theUser != null) {
-            log.info("This is the found AbstractUser  {}", theUser.getFirstName());
             theUser.setPhoto(this.uploadFile(theUser, file));
         }
-        return "redirect:/";
+        model.addAttribute("userEmail",theUser.getEmail());
+        return "redirect:/user/profile";
     }
 
     // this is the helper method for the image upload
     private FileUpload uploadFile(@RequestParam("userEmail") AbstractUser user,
                                   @RequestParam("file") MultipartFile photo) {
         AbstractUser theUser = userService.getUser(user.getEmail());
-        FileUpload fileUpload = fileUploadService.saveUserPhoto(photo);
-        theUser.setPhoto(fileUpload);
-        userService.save(theUser);
-        return fileUpload;
+        if (theUser != null) {
+            FileUpload fileUpload = fileUploadService.saveUserPhoto(photo);
+            theUser.setPhoto(fileUpload);
+            userService.save(theUser);
+            return fileUpload;
+        }
+        return null;
     }
 
 

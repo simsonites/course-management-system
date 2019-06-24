@@ -1,5 +1,6 @@
 package com.softpager.cms.services;
 
+import com.softpager.cms.entities.Course;
 import com.softpager.cms.entities.Role;
 import com.softpager.cms.entities.Student;
 import com.softpager.cms.repositories.StudentRepository;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -56,4 +58,5 @@ public class StudentServiceImpl implements StudentService {
     public List<Student> getListOfSelectedStudents(boolean containsAll) {
         return null;
     }
+
 }

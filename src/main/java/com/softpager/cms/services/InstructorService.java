@@ -10,4 +10,6 @@ public interface InstructorService {
     void createInstructor(Instructor theInstructor);
 
     Instructor getInstructor(String email);
+
+    void delete(String email);
 }

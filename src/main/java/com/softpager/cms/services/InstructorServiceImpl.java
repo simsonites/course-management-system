@@ -44,4 +44,8 @@ public class InstructorServiceImpl implements InstructorService {
         instructorRepository.save(theInstructor);
     }
 
+    @Override
+    public void delete(String email) {
+        instructorRepository.deleteById(email);
+    }
 }

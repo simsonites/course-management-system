@@ -53,19 +53,21 @@
                             <span class="glyphicon glyphicon-plus"></span>
                             Add
                         </a>
-                        <center>
+                        <section>
 
                             <h2 class="glyphicon glyphicon-user admin-tabs">
                                 admin
                             </h2>
-                        </center>
+                        </section>
                         <a href="#">Current administrators :
                             <span class="badge" th:text="${admins}"></span></a><br>
 
                     </div>
+
+
                     <!-- course section -->
                     <div class="admin-tab-content mb-50">
-                        <center>
+                        <section>
 
                             <div class="col-md-12 mb-30">
                               <div class="row">
@@ -131,33 +133,97 @@
                                     </li>
                                 </ul>
                             </nav>
-                        </center>
+                        </section>
                     </div>
+                     <!--End courses section-->
 
-                    <!-- train section -->
+                    <!-- start student  section -->
                     <div class="admin-tab-content">
-                        <center>
+                        <section>
                             <h1 class="glyphicon glyphicon-user admin-tabs">
                                 Students
                             </h1>
 
-                        </center>
+                        </section>
                     </div>
+                    <!-- End student  section -->
 
 
-                    <!-- hotel search -->
+
+                    <!-- start instructor section -->
                     <div class="admin-tab-content">
-                        <center>
-                            <h1 class="glyphicon glyphicon-home admin-tabs">
-                                Instructors
-                            </h1>
-                        </center>
+                        <section>
+                            <h2>List Of all Instructors</h2>
+                            <div class="col-md-12 mb-md-30">
+                                <div class="row">
+                                    <a th:href="@{/instructors/new}" class="col-md-2 btn btn-primary">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                        Add new
+                                    </a>
+
+                                    <div class="input-group col-md-10">
+                                        <input type="text" class="form-control" placeholder="Enter student name to search"
+                                               aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text btn btn-primary" id="basic-addon2">Search course</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                                <table class="table table-bordered table-striped table-hover">
+                                    <thead class="text-center">
+                                    <tr>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Gender</th>
+                                        <th>Contact Email</th>
+                                        <th>Title</th>
+                                        <th></th>
+                                        <th align="center" colspan="4">Action</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <tr th:each="tempInstructor : ${instructors}">
+                                        <td th:text="${tempInstructor.firstName}"/>
+                                        <td th:text="${tempInstructor.lastName}"/>
+                                        <td th:text="${tempInstructor.gender}"/>
+                                        <td th:text="${tempInstructor.email}"/>
+                                        <td th:text="${tempInstructor.title}"/>
+                                        <td><a th:href="@{/instructors/profile(email=${tempInstructor.email})}">View details</a></td>
+                                        <td>
+                                            <a th:href="@{/instructors/update(email=${tempInstructor.email})}" class="btn btn-info btn-sm">
+                                                Edit
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a th:href="@{/instructors/delete(email=tempInstructor.email)}" class="btn btn-danger btn-sm">
+                                                Delete
+                                            </a>
+                                        </td>
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <nav class="border-info">
+                                    <ul class="nav nav-pills pagination">
+                                        <li class="nav-item"
+                                            th:each="i: ${#numbers.sequence(0, instructors.totalPages-1)}">
+                                            <a th:href="@{/instructors/(page=${i})}" th:text="${i}"
+                                               class="nav-link" th:classappend="${currentPage}==${i}? 'active':''"/>
+                                        </li>
+                                    </ul>
+                                </nav>
+                        </section>
                     </div>
+                    <!-- End instructor section -->
 
                 </div>
             </div>
         </div>
     </div>
-
 </body>
 </html>

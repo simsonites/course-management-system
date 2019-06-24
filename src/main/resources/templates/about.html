@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{includes/main_layout}">
+<head>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+    <link rel="stylesheet" href="/static/bootstrap/css/admin.css"
+          th:href="@{/css/admin.css}"/>
+
+    <script src="/js/admin.js"
+            th:src="@{/js/admin.js}"></script>
+
+</head>
+<body class="main-body">
+<div layout:fragment="content" class="container">
+
+    <!------ Include the above in your HEAD tag ---------->
+    <div class="row">
+
+        <div class="col-lg-12 admin-tab-container mt-50">
+
+            <div class=" col-md-2 admin-tab-menu">
+
+                <div class="list-group">
+
+                    <a href="#" class="list-group-item text-center active">
+                        <h4 class="glyphicon glyphicon-folder-open"></h4><br/> Overview
+                    </a>
+
+                    <a href="#" class="list-group-item  text-center">
+                        <h4 class="glyphicon glyphicon-cog"></h4><br/>How it works
+                    </a>
+
+                    <a href="#" class="list-group-item text-center">
+                        <h4 class="glyphicon glyphicon-user"></h4><br/>Technologies used
+                    </a>
+
+
+                    <a href="#" class="list-group-item text-center">
+                        <h4 class="glyphicon glyphicon-calendar"></h4><br/>Future work (functionalities)
+                    </a>
+
+                </div>
+            </div>
+
+
+            <div class="col-lg-10 admin-tab">
+                <!-- Admin section -->
+                <div class="admin-tab-content active">
+                    <h3>Course Registration  Management (CRM) Overview</h3>
+
+                        <section>
+                              <p>CRM is a simple course registration management system where
+                                students can go and register for maximum of three (3) to offer for a semester.
+                            </p>
+                        </section>
+                </div>
+                <!-- course section -->
+                <div class="admin-tab-content mb-50">
+                    <section>
+                        <h3 class="text text-primary">How it works</h3>
+                        <p>CRM consist of two roles, The STUDENT ROLE and THE ADMIN ROLE.
+                            The Admin panel is restricted to only users that login with ADMIN ROLE
+                        </p>
+                        <h3 class="text text-primary">What can a student do ? </h3>
+                        <h4>A student can: </h4>
+                        <ul>
+                            <li>Create account.</li>
+                            <li>Register for courses.</li>
+                            <li>Update their profile</li>
+                            <li>Add and Remove courses for their profile</li>
+                            <li>Delete their profile</li>
+                            <li>Browse courses.</li>
+                        </ul>
+                        <h3 class="text text-primary">What can Admin do ? </h3>
+                        <h4>Admin can : </h4>
+                        <ul>
+                            <li>Create account.</li>
+                            <li>Manage courses: (Perform full CRUD operation)
+                            <li>Manage students (Perform full CRUD operation)</li>
+                            <li>Manage lecturers (Perform full CRUD operation)</li>
+                            <li>Add and Remove courses for lecturers and students</li>
+                            <li>Add and remove Admins.</li>
+                        </ul>
+
+                    </section>
+                </div>
+
+                <!-- train section -->
+                <div class="admin-tab-content">
+                    <section>
+                        <h3 class="text text-primary">Technologies Used</h3>
+                        <ul>
+                            <li>Java.</li>
+                            <li>MySQL Database.</li>
+                            <li>Hibernate (ORM)</li>
+                            <li>Spring Frameworks (MVC, DATA-JPA, BOOT, SECURITY)</li>
+                            <li>Maven dependency management</li>
+                            <li>Thymeleaf view</li>
+                            <li>Bootstrap 4 (CSS)</li>
+                            <li>GitHub (source control)</li>
+                            <li>App hosted on AWS</li>
+                        </ul>
+
+                    </section>
+                </div>
+
+                <div class="admin-tab-content">
+                    <section>
+                        <h3 class="text text-primary">What more could be done in future?</h3>
+                        <p>This app does not contain all fuctionalities  that a standard CRM should have.
+                            But it has all basic CRUD AND SECURITY  functionalities as a building block for more functionalites as needed.
+                            Which means including advance features in later schedule will be just as
+                            easy as a piece of cake. :-) :-)
+                        </p>
+                    </section>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

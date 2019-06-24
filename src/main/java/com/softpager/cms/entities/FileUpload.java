@@ -25,8 +25,7 @@ public class FileUpload {
     @Column(name = "photo_image")
     private byte[] image;
 
-    @OneToOne(mappedBy = "photo", cascade = {CascadeType.MERGE, CascadeType.PERSIST,
-            CascadeType.DETACH, CascadeType.REFRESH})
+    @OneToOne(mappedBy = "photo")
     public AbstractUser user;
 
     public FileUpload() {

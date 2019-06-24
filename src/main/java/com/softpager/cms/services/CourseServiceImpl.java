@@ -1,32 +1,24 @@
 package com.softpager.cms.services;
 
+import com.softpager.cms.abstracts.AbstractUser;
 import com.softpager.cms.entities.Course;
-import com.softpager.cms.entities.Instructor;
 import com.softpager.cms.entities.Student;
 import com.softpager.cms.repositories.CourseRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
-@Slf4j
+
 @Service
 public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private CourseRepository courseRepository;
 
-    @Autowired
-    private StudentService studentService;
-
-    @Autowired
-    private InstructorService instructorService;
 
     @Override
     public Page<Course> getCourses(PageRequest pageRequest) {
@@ -50,15 +42,25 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public void addCourseForStudent(Course theCourse, Student theStudent) {
-        theCourse.getStudents().add(theStudent);
-        courseRepository.save(theCourse);
-    }
-
-    @Override
     public List<Course> getAllCourses() {
         return courseRepository.findAll();
     }
 
+    @Override
+    public void addUserToCourse(Course theCourse, AbstractUser theUser) {
+       theCourse.addUserToUser(theUser);
+        courseRepository.save(theCourse);
+    }
 
+    @Override
+    public void removeUserFromCourse(Course theCourse, AbstractUser theUser) {
+       theCourse.removeUserFromCourse(theUser);
+        courseRepository.delete(theCourse);
+    }
+
+
+    @Override
+    public List<Course> findByTitle(String theTitle) {
+        return courseRepository.findByTitleLike("%" +theTitle+ "%");
+    }
 }

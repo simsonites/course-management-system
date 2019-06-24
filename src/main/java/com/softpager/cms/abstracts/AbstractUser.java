@@ -1,5 +1,6 @@
 package com.softpager.cms.abstracts;
 
+import com.softpager.cms.entities.Course;
 import com.softpager.cms.entities.Role;
 import com.softpager.cms.entities.FileUpload;
 import lombok.Data;
@@ -10,14 +11,16 @@ import javax.persistence.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
 @Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "userClass")
+@DiscriminatorColumn(name = "USER_GROUP")
 public abstract class AbstractUser extends AuditModel {
 
     @Id
@@ -47,13 +50,24 @@ public abstract class AbstractUser extends AuditModel {
     @ToString.Exclude
     private FileUpload photo;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE,
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(name = "user_roles", joinColumns = {@JoinColumn(name = "USER_EMAIL",
             referencedColumnName = "email")},
             inverseJoinColumns = {@JoinColumn(name = "ROLES",
                     referencedColumnName = "name")})
     private Set<Role> roles = new HashSet<>();
+
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,
+            CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinTable(name = "user_courses", joinColumns = {@JoinColumn(name = "USER_ID",
+            referencedColumnName = "email")},
+            inverseJoinColumns = {@JoinColumn(name = "COURSE_ID",
+                    referencedColumnName = "course_id")})
+    private List<Course> courses = new ArrayList<>();
+
 
 
     public AbstractUser(String email, String password, String firstName, String lastName,
@@ -89,4 +103,5 @@ public abstract class AbstractUser extends AuditModel {
 
     public AbstractUser() {
     }
+
 }

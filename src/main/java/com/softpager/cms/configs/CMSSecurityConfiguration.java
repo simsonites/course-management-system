@@ -41,7 +41,9 @@ public class CMSSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/courses","/courses/course",
                 "/students/**",
                 "/photo/**",
+                "/about",
                 "/admin/**",
+                "/instructors/**",
                 "/login",
                 "/static/**", "/css/**", "/js/**", "/images/**",
                 "/fonts/**", "/webjars/**")

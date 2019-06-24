@@ -32,7 +32,8 @@
                             <ul class="course-meta-style">
                                 <li class="author">
                                     <div class="image">
-                                        <img src="/images/teachers/2.jpg" th:src="@{/images/teachers/2.jpg}" width="60"
+                                        <img src="/images/teachers/2.jpg"
+                                             th:src="@{/images/teachers/2.jpg}" width="60"
                                              alt="">
                                     </div>
                                     <div class="author-name">
@@ -47,8 +48,8 @@
                             </ul>
                         </div>
 
-                         <div sec:authorize="hasRole('ROLE_ADMIN')">
-                        <div class="col-md-1">
+
+                        <div class="col-md-1" sec:authorize="hasRole('ROLE_ADMIN')">
                             <div class="btn-area">
                                 <a href="#"
                                    th:href="@{/admin/delete-course(courseId=${course.id})}">
@@ -56,21 +57,19 @@
                             </div>
                         </div>
 
-                        <div class="col-md-1">
+                        <div class="col-md-1" sec:authorize="hasRole('ROLE_ADMIN')">
                             <div class="btn-info">
                                 <a href="#"
                                    th:href="@{/admin/update-course(courseId=${course.id})}">
                                     Edit</a>
                             </div>
-                        </div>
                          </div>
-
 
                         <div class="col-md-4">
                             <div class="btn-area">
                                 <a href="#"
                                    th:href="@{/courses/add-user-course(courseId=${course.id},userEmail=${email})}">
-                                    Enroll This Course</a>
+                                    Enroll this course</a>
                             </div>
                         </div>
                     </div>

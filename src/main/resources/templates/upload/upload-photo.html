@@ -18,9 +18,7 @@
 
         <form th:action="@{/photo/upload(userEmail=${user.email})}" method="post"
               th:object="${user}" enctype="multipart/form-data">
-            <div class="input-group col-md-8 mb-3">
-                <input type="text" name="email" class="form-control" th:field="*{email}"/>
-            </div>
+                <input type="hidden" name="email" class="form-control" th:field="*{email}"/>
             <div class="input-group col-md-8 mb-3">
                 <input type="file" name="file" class="file-input form-control" required/>
                 <div class="input-group-append">
@@ -28,10 +26,6 @@
                 </div>
             </div>
         </form>
-        <div class="upload-response">
-            <div id="singleFileUploadError"></div>
-            <div id="singleFileUploadSuccess"></div>
-        </div>
     </div>
 </div>
 </body>

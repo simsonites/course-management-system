@@ -6,4 +6,6 @@ public interface UserService {
     AbstractUser getUser(String email);
 
     void save(AbstractUser theUser);
+
+    void delete(String email);
 }
