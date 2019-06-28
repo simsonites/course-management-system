@@ -53,17 +53,19 @@ public class Course {
    public Course() {
     }
 
+
     public Course(String title, String description, int numberOfCredits) {
         this.title = title;
         this.description = description;
         this.numberOfCredits = numberOfCredits;
-
     }
+
 
     public void addUserToUser(AbstractUser theUser){
         this.getUsers().add(theUser);
         theUser.getCourses().add(this);
     }
+
 
     public void removeUserFromCourse(AbstractUser theUser){
         this.getUsers().remove(theUser);

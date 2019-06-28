@@ -104,4 +104,15 @@ public abstract class AbstractUser extends AuditModel {
     public AbstractUser() {
     }
 
+
+    public void addCourseForUser(Course theCourse){
+        this.getCourses().add(theCourse);
+        theCourse.getUsers().add(this);
+    }
+
+    public void removeCourseForUser(Course theCourse){
+        this.getCourses().remove(theCourse);
+        theCourse.getUsers().remove(this);
+    }
+
 }

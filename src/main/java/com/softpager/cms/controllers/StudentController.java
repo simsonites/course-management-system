@@ -4,6 +4,7 @@ import com.softpager.cms.abstracts.AbstractUser;
 import com.softpager.cms.entities.Course;
 import com.softpager.cms.entities.Instructor;
 import com.softpager.cms.entities.Student;
+import com.softpager.cms.services.CourseService;
 import com.softpager.cms.services.StudentService;
 import com.softpager.cms.services.UserService;
 import com.softpager.cms.utils.CurrentUser;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -33,6 +35,9 @@ public class StudentController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CourseService courseService;
 
    @Autowired
     private CurrentUser currentUser;
@@ -71,6 +76,7 @@ public class StudentController {
         return "student/student-details";
     }
 
+
     // This method updates an existing student
     @GetMapping("/update")
     public String update(@RequestParam("userEmail") String email, Model model) {
@@ -82,11 +88,17 @@ public class StudentController {
 
     //This method deletes  a student by the ID
     @GetMapping("/delete")
-    public String delete(@RequestParam("userEmail") String email,
+    public String deleteStudent(@RequestParam("userEmail") String email,
                          Principal principal, Model model) {
-        if (currentUser.getCurrentUser(principal, email)){
-            userService.delete(email);
-            return "redirect:/students";
+        if (currentUser.getCurrentUser(principal, email)) {
+            List<Course> userCourses = userService.getUser(email).getCourses();
+            if (userCourses != null){
+                for (Course course : userCourses){
+                    courseService.removeUserFromCourse(course,userService.getUser(email));
+                }
+            }
+            userService.deleteUser(email);
+                return "redirect:/students";
     }else {
         model.addAttribute("errorMessage", ErrorMessage.UNAUTHORIZED_OPERATION);
         model.addAttribute("goBack", ErrorMessage.GO_BACK);

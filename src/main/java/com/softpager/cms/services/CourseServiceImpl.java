@@ -58,7 +58,6 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.delete(theCourse);
     }
 
-
     @Override
     public List<Course> findByTitle(String theTitle) {
         return courseRepository.findByTitleLike("%" +theTitle+ "%");

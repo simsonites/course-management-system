@@ -1,9 +1,11 @@
 package com.softpager.cms.services;
 
+import com.softpager.cms.abstracts.AbstractUser;
 import com.softpager.cms.entities.Course;
 import com.softpager.cms.entities.Role;
 import com.softpager.cms.entities.Student;
 import com.softpager.cms.repositories.StudentRepository;
+import com.softpager.cms.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,7 +25,13 @@ public class StudentServiceImpl implements StudentService {
     private StudentRepository studentRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private CourseService courseService;
 
 
     @Override
@@ -47,10 +55,9 @@ public class StudentServiceImpl implements StudentService {
         studentRepository.save(theStudent);
     }
 
-
     @Override
-    public void delete(String email) {
-        studentRepository.deleteById(email);
+    public void deleteStudent(String email) {
+     studentRepository.deleteById(email);
     }
 
 

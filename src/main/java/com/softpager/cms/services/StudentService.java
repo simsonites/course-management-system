@@ -15,7 +15,7 @@ public interface StudentService {
 
     void saveStudent(Student theStudent);
 
-    void delete(String email);
+    void deleteStudent(String email);
 
     List<Student> getListOfSelectedStudents(boolean containsAll);
 

@@ -91,7 +91,6 @@ public class CourseController {
         String email = principal.getName();
         Course theCourse = courseService.getCourse(theId);
         List<AbstractUser> students = theCourse.getUsers();
-
         for (AbstractUser studentsInCourse : students) {
             if (studentsInCourse.getEmail().equals(email)){
                 httpSession.setAttribute("email", email);
