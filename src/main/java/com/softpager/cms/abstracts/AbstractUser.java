@@ -66,7 +66,7 @@ public abstract class AbstractUser extends AuditModel {
             referencedColumnName = "email")},
             inverseJoinColumns = {@JoinColumn(name = "COURSE_ID",
                     referencedColumnName = "course_id")})
-    private List<Course> courses = new ArrayList<>();
+    private Set<Course> courses = new HashSet<>();
 
 
 
@@ -104,13 +104,12 @@ public abstract class AbstractUser extends AuditModel {
     public AbstractUser() {
     }
 
-
     public void addCourseForUser(Course theCourse){
         this.getCourses().add(theCourse);
         theCourse.getUsers().add(this);
     }
 
-    public void removeCourseForUser(Course theCourse){
+    public void removeCourseFromUser(Course theCourse){
         this.getCourses().remove(theCourse);
         theCourse.getUsers().remove(this);
     }

@@ -19,6 +19,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -46,6 +47,12 @@ public class InstructorController {
         return "instructor/instructors";
     }
 
+
+    @GetMapping("/manage")
+    public String manageInstructors(Model model) {
+        model.addAttribute("instructors", this.getAllInstructors());
+        return  "admin/manage-instructors";
+    }
 
     @GetMapping("/new")
     public String instructorForm(Model model){
@@ -89,6 +96,10 @@ public class InstructorController {
             model.addAttribute("goBack", ErrorMessage.GO_BACK);
         }
         return "error-page";
+    }
+
+    private List<Instructor> getAllInstructors() {
+        return instructorService.getAllCourses();
     }
 
 

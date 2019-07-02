@@ -33,14 +33,9 @@ public class AdminController {
 
     //This method will get all courses from the database.
     @GetMapping()
-    public String adminHome(Model model, @RequestParam(defaultValue = "0") int page) {
-        Page<Course> allCourses = courseService.getCourses(PageRequest.of(page, 6));
-        Page<Instructor> allInstructors = instructorService.getInstructors(PageRequest.of(page, 6));
+    public String adminHome(Model model) {
         List<Admin> allAdmin = adminService.getAdmins();
         int adminCount = allAdmin.size();
-        model.addAttribute("courses", allCourses);
-        model.addAttribute("instructors", allInstructors);
-        model.addAttribute("currentPage", page);
         model.addAttribute("admins", adminCount);
         return "admin/admin-home";
     }
@@ -105,7 +100,7 @@ public class AdminController {
     @PostMapping("/create-course")
     public String saveCourse(@ModelAttribute Course theCourse) {
         courseService.saveCourse(theCourse);
-        return "redirect:/admin";
+        return "redirect:/courses";
     }
 
 

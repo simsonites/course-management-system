@@ -69,7 +69,7 @@
                                 </p>
                             </div>
                             <form action="@{/courses/enrol-for-course}" method="post">
-                                <a th:href="@{/courses/add-user-course(courseId=${course.id},userEmail=${email})}"
+                                <a th:href="@{/courses/add-course-to-user(courseId=${course.id})}"
                                    class="cource-btn">
                                     Enroll this course
                                 </a>

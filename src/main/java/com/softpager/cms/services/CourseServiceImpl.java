@@ -2,7 +2,6 @@ package com.softpager.cms.services;
 
 import com.softpager.cms.abstracts.AbstractUser;
 import com.softpager.cms.entities.Course;
-import com.softpager.cms.entities.Student;
 import com.softpager.cms.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 @Service
@@ -48,7 +48,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void addUserToCourse(Course theCourse, AbstractUser theUser) {
-       theCourse.addUserToUser(theUser);
+       theCourse.addUserToCourse(theUser);
         courseRepository.save(theCourse);
     }
 
@@ -58,8 +58,14 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.delete(theCourse);
     }
 
+
     @Override
     public List<Course> findByTitle(String theTitle) {
         return courseRepository.findByTitleLike("%" +theTitle+ "%");
+    }
+
+    @Override
+    public Set<Course> getSelectedCourses(long[] theIds) {
+        return courseRepository.getCoursesByIdIn(theIds);
     }
 }

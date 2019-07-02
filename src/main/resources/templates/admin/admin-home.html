@@ -3,225 +3,29 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{includes/main_layout}">
 <head>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-
-    <link rel="stylesheet" href="/static/bootstrap/css/admin.css"
-          th:href="@{/css/admin.css}"/>
-
-    <script src="/js/admin.js"
-            th:src="@{/js/admin.js}"></script>
 
 </head>
 <body class="main-body">
 <div layout:fragment="content" class="container">
 
     <!------ Include the above in your HEAD tag ---------->
+    <div th:replace="includes/admin-header :: adminHeader"></div>
         <div class="row">
 
             <div class="col-lg-12 admin-tab-container mt-50">
-
-                <div class=" col-md-2 admin-tab-menu">
-
-                    <div class="list-group">
-
-                        <a href="#" class="list-group-item text-center active">
-                            <h4 class="glyphicon glyphicon-user"></h4><br/>Administrators
-                        </a>
-
-
-                        <a href="#" class="list-group-item  text-center">
-                            <h4 class="glyphicon glyphicon-book"></h4><br/>Courses
-                        </a>
-
-                        <a href="#" class="list-group-item text-center">
-                            <h4 class="glyphicon glyphicon-user"></h4><br/>Students
-                        </a>
-
-
-                        <a href="#" class="list-group-item text-center">
-                            <h4 class="glyphicon glyphicon-user"></h4><br/>Instructors
-                        </a>
-                    </div>
+                <div th:if="${message}">
+                <h4 class="alert alert-info" th:text="${message}"></h4>
                 </div>
-
-                <div class="col-lg-10 admin-tab">
-                    <!-- Admin section -->
-                    <div class="admin-tab-content active">
-                        <a th:href="@{/admin/new}">
-                            <span class="glyphicon glyphicon-plus"></span>
-                            Add
-                        </a>
                         <section>
-
                             <h2 class="glyphicon glyphicon-user admin-tabs">
                                 admin
                             </h2>
                         </section>
-                        <a href="#">Current administrators :
-                            <span class="badge" th:text="${admins}"></span></a><br>
+                        <a href="#" th:text="'Current Administrators : ' + ' '+${admins}"></a><br>
 
-                    </div>
-
-
-                    <!-- course section -->
-                    <div class="admin-tab-content mb-50">
-                        <section>
-
-                            <div class="col-md-12 mb-30">
-                              <div class="row">
-                                <a th:href="@{/admin/course-form}" class="col-md-2 btn btn-primary">
-                                    <span class="glyphicon glyphicon-plus"></span>
-                                    Add new
-                                </a>
-
-                                <div class="input-group col-md-10">
-                                    <input type="text" class="form-control" placeholder="Enter student name to search"
-                                           aria-label="Recipient's username" aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text btn btn-primary" id="basic-addon2">Search course</span>
-                                    </div>
-                                </div>
-
-                            </div>
-                              </div>
-
-                            <table class="table table-bordered table-striped table-hover">
-                                <thead class="text-center">
-                                <tr>
-                                    <th><input type="checkbox" id="checkAll"></th>
-                                    <th>Course title</th>
-                                    <th>Credits</th>
-                                    <th>Details</th>
-                                    <th align="center" colspan="4">Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="course : ${courses}">
-                                    <td><input type="checkbox" class="checkbox"></td>
-                                    <td nowrap="4" th:text="${course.title}"/>
-
-                                    <td th:text="${course.numberOfCredits}"/>
-                                    <td>
-                                        <a th:href="@{/courses/course(courseId=${course.id})}">
-                                            view course details
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a th:href="@{/admin/update-course(courseId=${course.id})}"
-                                           class="btn btn-info btn-sm">
-                                            Edit
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a th:href="@{/admin/delete-course(courseId=${course.id})}"
-                                           class="btn btn-danger btn-sm">
-                                            Delete
-                                        </a>
-                                    </td>
-
-                                </tr>
-                                </tbody>
-                            </table>
-                            <nav class="border-info">
-                                <ul class="nav nav-pills pagination">
-                                    <li class="nav-item"
-                                        th:each="i: ${#numbers.sequence(0, courses.totalPages-1)}">
-                                        <a th:href="@{/admin/courses(page=${i})}" th:text="${i}"
-                                           class="nav-link" th:classappend="${currentPage}==${i}? 'active':''"/>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </section>
-                    </div>
-                     <!--End courses section-->
-
-                    <!-- start student  section -->
-                    <div class="admin-tab-content">
-                        <section>
-                            <h1 class="glyphicon glyphicon-user admin-tabs">
-                                Students
-                            </h1>
-
-                        </section>
-                    </div>
-                    <!-- End student  section -->
-
-
-
-                    <!-- start instructor section -->
-                    <div class="admin-tab-content">
-                        <section>
-                            <h2>List Of all Instructors</h2>
-                            <div class="col-md-12 mb-md-30">
-                                <div class="row">
-                                    <a th:href="@{/instructors/new}" class="col-md-2 btn btn-primary">
-                                        <span class="glyphicon glyphicon-plus"></span>
-                                        Add new
-                                    </a>
-
-                                    <div class="input-group col-md-10">
-                                        <input type="text" class="form-control" placeholder="Enter student name to search"
-                                               aria-label="Recipient's username" aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text btn btn-primary" id="basic-addon2">Search course</span>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-
-                                <table class="table table-bordered table-striped table-hover">
-                                    <thead class="text-center">
-                                    <tr>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Gender</th>
-                                        <th>Contact Email</th>
-                                        <th>Title</th>
-                                        <th></th>
-                                        <th align="center" colspan="4">Action</th>
-                                    </tr>
-                                    </thead>
-
-                                    <tbody>
-                                    <tr th:each="tempInstructor : ${instructors}">
-                                        <td th:text="${tempInstructor.firstName}"/>
-                                        <td th:text="${tempInstructor.lastName}"/>
-                                        <td th:text="${tempInstructor.gender}"/>
-                                        <td th:text="${tempInstructor.email}"/>
-                                        <td th:text="${tempInstructor.title}"/>
-                                        <td><a th:href="@{/instructors/profile(email=${tempInstructor.email})}">View details</a></td>
-                                        <td>
-                                            <a th:href="@{/instructors/update(email=${tempInstructor.email})}" class="btn btn-info btn-sm">
-                                                Edit
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a th:href="@{/instructors/delete(email=tempInstructor.email)}" class="btn btn-danger btn-sm">
-                                                Delete
-                                            </a>
-                                        </td>
-
-                                    </tr>
-                                    </tbody>
-                                </table>
-                                <nav class="border-info">
-                                    <ul class="nav nav-pills pagination">
-                                        <li class="nav-item"
-                                            th:each="i: ${#numbers.sequence(0, instructors.totalPages-1)}">
-                                            <a th:href="@{/instructors/(page=${i})}" th:text="${i}"
-                                               class="nav-link" th:classappend="${currentPage}==${i}? 'active':''"/>
-                                        </li>
-                                    </ul>
-                                </nav>
-                        </section>
-                    </div>
-                    <!-- End instructor section -->
-
-                </div>
+                    <a th:href="@{/admin/new}" class="btn btn-primary btn-sm">
+                        Add admin
+                    </a>
             </div>
         </div>
     </div>

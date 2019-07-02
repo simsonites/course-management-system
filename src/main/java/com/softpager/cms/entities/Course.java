@@ -2,6 +2,7 @@ package com.softpager.cms.entities;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -61,7 +62,7 @@ public class Course {
     }
 
 
-    public void addUserToUser(AbstractUser theUser){
+    public void addUserToCourse(AbstractUser theUser){
         this.getUsers().add(theUser);
         theUser.getCourses().add(this);
     }
@@ -71,4 +72,6 @@ public class Course {
         this.getUsers().remove(theUser);
         theUser.getCourses().remove(this);
     }
+
+
 }

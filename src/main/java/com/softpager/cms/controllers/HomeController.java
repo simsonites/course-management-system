@@ -1,6 +1,8 @@
 package com.softpager.cms.controllers;
 
 import com.softpager.cms.entities.Course;
+import com.softpager.cms.entities.Instructor;
+import com.softpager.cms.entities.Student;
 import com.softpager.cms.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +29,8 @@ public class HomeController {
         Page<Course> allCourses = courseService.getCourses(PageRequest.of(page, 6));
         model.addAttribute("courses", allCourses);
         model.addAttribute("currentPage", page);
+        model.addAttribute("student", new Student());
+        model.addAttribute("instructor", new Instructor());
         return "course/courses";
     }
 

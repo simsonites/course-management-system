@@ -91,7 +91,7 @@ public class StudentController {
     public String deleteStudent(@RequestParam("userEmail") String email,
                          Principal principal, Model model) {
         if (currentUser.getCurrentUser(principal, email)) {
-            List<Course> userCourses = userService.getUser(email).getCourses();
+            Set<Course> userCourses = userService.getUser(email).getCourses();
             if (userCourses != null){
                 for (Course course : userCourses){
                     courseService.removeUserFromCourse(course,userService.getUser(email));

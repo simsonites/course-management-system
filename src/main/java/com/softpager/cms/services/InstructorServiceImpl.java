@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -47,5 +48,11 @@ public class InstructorServiceImpl implements InstructorService {
     @Override
     public void delete(String email) {
         instructorRepository.deleteById(email);
+    }
+
+
+    @Override
+    public List<Instructor> getAllCourses() {
+        return instructorRepository.findAll();
     }
 }
