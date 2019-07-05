@@ -37,7 +37,7 @@ public class ProfileController {
         String email = principal.getName();
         AbstractUser theUser = userService.getUser(email);
         if (theUser !=null){
-            Set<Course> userCourses = theUser.getCourses();
+            List<Course> userCourses = theUser.getCourses();
             model.addAttribute("user",theUser);
             model.addAttribute("courses", userCourses);
         }

@@ -2,27 +2,22 @@ package com.softpager.cms.controllers;
 
 import com.softpager.cms.abstracts.AbstractUser;
 import com.softpager.cms.entities.Course;
-import com.softpager.cms.entities.Instructor;
 import com.softpager.cms.entities.Student;
 import com.softpager.cms.services.CourseService;
 import com.softpager.cms.services.StudentService;
 import com.softpager.cms.services.UserService;
-import com.softpager.cms.utils.CurrentUser;
+import com.softpager.cms.utils.UserHelper;
 import com.softpager.cms.utils.ErrorMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.security.Principal;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 
 @Slf4j
@@ -40,7 +35,7 @@ public class StudentController {
     private CourseService courseService;
 
    @Autowired
-    private CurrentUser currentUser;
+    private UserHelper userHelper;
 
 
     //Fetching all existing students from the database.
@@ -90,14 +85,8 @@ public class StudentController {
     @GetMapping("/delete")
     public String deleteStudent(@RequestParam("userEmail") String email,
                          Principal principal, Model model) {
-        if (currentUser.getCurrentUser(principal, email)) {
-            Set<Course> userCourses = userService.getUser(email).getCourses();
-            if (userCourses != null){
-                for (Course course : userCourses){
-                    courseService.removeUserFromCourse(course,userService.getUser(email));
-                }
-            }
-            userService.deleteUser(email);
+        if (userHelper.getCurrentUser(principal, email)) {
+            userHelper.deleteUser(email);
                 return "redirect:/students";
     }else {
         model.addAttribute("errorMessage", ErrorMessage.UNAUTHORIZED_OPERATION);

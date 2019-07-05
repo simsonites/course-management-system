@@ -19,7 +19,11 @@
 
                 <!-- course section -->
                 <div class="admin-tab-content mb-50">
+                    <div th:if="${courseAlreadyAdded}">
+                        <h4 class="alert alert-info" th:text="${courseAlreadyAdded}"></h4>
+                    </div>
                     <section>
+                        <h2>Available Courses</h2>
 
                         <div class="col-md-12 mb-30">
                             <div class="row">

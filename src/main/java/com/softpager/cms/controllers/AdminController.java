@@ -1,20 +1,19 @@
 package com.softpager.cms.controllers;
 
+import com.softpager.cms.abstracts.AbstractUser;
 import com.softpager.cms.entities.Admin;
 import com.softpager.cms.entities.Course;
-import com.softpager.cms.entities.Instructor;
 import com.softpager.cms.entities.Student;
 import com.softpager.cms.services.AdminService;
 import com.softpager.cms.services.CourseService;
-import com.softpager.cms.services.InstructorService;
+import com.softpager.cms.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 import java.util.Optional;
 
 @Controller
@@ -28,7 +27,7 @@ public class AdminController {
     private CourseService courseService;
 
     @Autowired
-    private InstructorService instructorService;
+    private StudentService studentService;
 
 
     //This method will get all courses from the database.
@@ -70,12 +69,21 @@ public class AdminController {
         model.addAttribute("admin", theAdmin);
         return "admin/add-admin";
     }
-
-    //This method deletes  a student by the ID
+    //This method deletes  a admin by the ID
     @GetMapping("/delete")
     public String delete(@RequestParam("userEmail") String email) {
         adminService.delete(email);
         return "redirect:/admin";
+    }
+
+
+  /*THIS METHOD RETURNS ALL STUDENTS TO ADMIN MANAGE STUDENT PAGE*/
+
+    @GetMapping("/manage-students")
+    public String getAllStudents(Model model){
+        List<Student> allStudents = studentService.getAllStudents();
+        model.addAttribute("students",allStudents);
+        return "admin/manage-students";
     }
 
 
@@ -103,12 +111,17 @@ public class AdminController {
         return "redirect:/courses";
     }
 
-
     //This method deletes a course from the database by the ID
     @GetMapping("/delete-course")
     public String deleteCourse(@RequestParam("courseId") long theId) {
+        List<AbstractUser> coursesUsers = courseService.getCourse(theId).getUsers();
+        if (coursesUsers != null){
+            for (AbstractUser user : coursesUsers){
+                courseService.removeUserFromCourse(courseService.getCourse(theId),user);
+            }
+        }
         courseService.deleteCourse(theId);
-        return "redirect:/admin";
+        return "redirect:/courses";
     }
 
     //This method updates a course in the database by the ID

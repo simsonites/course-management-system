@@ -26,10 +26,6 @@
                                         <a href="/instructors" th:href="@{/instructors}">Instructors</a>
                                     </li>
 
-
-                                    <li>
-                                        <a href="/admin" th:href="@{/admin}">Admin</a>
-                                    </li>
                                 </ul>
                             </nav>
                         </div>
@@ -58,6 +54,10 @@
                                         <form th:action="@{/logout}" method="post" class="form-inline">
                                             <input type="submit" value="Logout" class="btn btn-dark"/>
                                         </form>
+                                    </li>
+
+                                    <li>
+                                        <a href="/admin" th:href="@{/admin}">Admin</a>
                                     </li>
 
                                 </ul>

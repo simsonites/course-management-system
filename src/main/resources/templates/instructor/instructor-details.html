@@ -99,7 +99,7 @@
                  </div>
 
             <div class="col-sm-2" sec:authorize="hasRole('ROLE_ADMIN')">
-                <a th:href="@{/courses(userEmail=${instructor.email})}">
+                <a th:href="@{/courses/get-courses(userEmail=${instructor.email})}">
                     <h6 class="text text-primary">Assign courses</h6></a>
             </div>
              </div>
@@ -122,7 +122,7 @@
                 <td th:text="${course.title}"/>
                 <td th:text="${course.numberOfCredits}"/>
                 <td wr th:text="${course.description}"/>
-                <td>
+                <td sec:authorize="hasRole('ROLE_ADMIN')">
 
                     <a th:href="@{/courses/remove-user-course(courseId=${course.getId()})}">
                         remove

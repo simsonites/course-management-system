@@ -2,20 +2,17 @@ package com.softpager.cms.controllers;
 
 import com.softpager.cms.abstracts.AbstractUser;
 import com.softpager.cms.entities.Instructor;
-import com.softpager.cms.entities.Student;
 import com.softpager.cms.services.InstructorService;
 import com.softpager.cms.services.FileUploadService;
 import com.softpager.cms.services.UserService;
-import com.softpager.cms.utils.CurrentUser;
+import com.softpager.cms.utils.UserHelper;
 import com.softpager.cms.utils.ErrorMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -33,7 +30,7 @@ public class InstructorController {
     private FileUploadService fileUploadService;
 
     @Autowired
-    private CurrentUser currentUser;
+    private UserHelper userHelper;
 
     @Autowired
     private UserService userService;
@@ -86,11 +83,11 @@ public class InstructorController {
 
    //This method deletes  a instructor by the ID
     @GetMapping("/delete")
-    public String delete(@RequestParam("userEmail") String email,
+    public String deleteInstructor(@RequestParam("userEmail") String email,
                          Principal principal, Model model) {
-        if (currentUser.getCurrentUser(principal,email)){
-            instructorService.delete(email);
-            return "redirect:/students";
+        if (userHelper.getCurrentUser(principal, email)) {
+            userHelper.deleteUser(email);
+            return "redirect:/instructors";
         }else {
             model.addAttribute("errorMessage", ErrorMessage.UNAUTHORIZED_OPERATION);
             model.addAttribute("goBack", ErrorMessage.GO_BACK);

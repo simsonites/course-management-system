@@ -27,6 +27,6 @@ public interface CourseService {
     void removeUserFromCourse(Course theCourse, AbstractUser user);
 
 
-    Set<Course> getSelectedCourses(long[] theId);
+    List<Course> getSelectedCourses(long[] theId);
 
 }

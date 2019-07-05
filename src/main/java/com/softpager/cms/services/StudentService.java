@@ -19,4 +19,6 @@ public interface StudentService {
 
     List<Student> getListOfSelectedStudents(boolean containsAll);
 
+
+    List<Student> getAllStudents();
 }

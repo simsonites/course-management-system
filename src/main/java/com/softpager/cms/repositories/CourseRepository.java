@@ -11,5 +11,5 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     List<Course> findByTitleLike(String theTitle);
 
-    Set<Course> getCoursesByIdIn(long[] ids);
+    List<Course> getCoursesByIdIn(long[] ids);
 }

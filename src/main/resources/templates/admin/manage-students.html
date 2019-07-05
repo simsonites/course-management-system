@@ -1,10 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{includes/main_layout}">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>CMS | Manage Students </title>
 </head>
-<body>
+<body class="main-body">
 
+<div layout:fragment="content">
+
+    <div class="container">
+        <!-- Slider Area Start -->
+        <div th:replace="includes/admin-header :: adminHeader"></div>
+        <!-- Slider Area End -->
+
+        <div class="card">
+            <div class="card-body">
+
+                <!-- course section -->
+                <div class="admin-tab-content mb-50">
+                    <section>
+                        <h2>List Of Students</h2>
+                        <div class="col-md-12 mb-30">
+                            <div class="row">
+                                <a th:href="@{/students/new}" class="col-md-2 btn btn-primary">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                    Register New student
+                                </a>
+
+                                <div class="input-group col-md-10">
+                                    <input type="text" class="form-control" placeholder="Enter student name to search"
+                                           aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text btn btn-primary" id="basic-addon2">Search instructor</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <table class="table table-bordered table-striped table-hover">
+                            <thead class="text-center">
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Gender</th>
+                                <th>Contact Email</th>
+                                <th>Title</th>
+                                <th align="center" colspan="4">Action</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr th:each="student : ${students}">
+                                <td th:text="${student.firstName}"/>
+                                <td th:text="${student.lastName}"/>
+                                <td th:text="${student.gender}"/>
+                                <td th:text="${student.email}"/>
+                                <td><a th:href="@{/students/details(userEmail=${student.email})}">
+                                    View details</a></td>
+                                <td>
+                                    <a th:href="@{/students/update(email=${student.email})}">
+                                        Edit
+                                    </a>
+                                </td>
+
+                                <td>
+                                    <a th:href="@{/courses/get-courses(userEmail=${student.email})}">
+                                        assign courses
+                                    </a>
+                                </td>
+                                <td>
+                                    <a th:href="@{/students/delete(email=student.email)}"
+                                       class="btn btn-danger btn-sm">
+                                        Delete
+                                    </a>
+                                </td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
+
+
+
+
+
+
+
+
+

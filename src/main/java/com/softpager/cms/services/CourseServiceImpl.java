@@ -65,7 +65,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Set<Course> getSelectedCourses(long[] theIds) {
+    public List<Course> getSelectedCourses(long[] theIds) {
         return courseRepository.getCoursesByIdIn(theIds);
     }
 }

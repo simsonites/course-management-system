@@ -11,10 +11,7 @@ import javax.persistence.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @Entity
@@ -66,7 +63,7 @@ public abstract class AbstractUser extends AuditModel {
             referencedColumnName = "email")},
             inverseJoinColumns = {@JoinColumn(name = "COURSE_ID",
                     referencedColumnName = "course_id")})
-    private Set<Course> courses = new HashSet<>();
+    private List<Course> courses = new ArrayList<>();
 
 
 
@@ -113,5 +110,4 @@ public abstract class AbstractUser extends AuditModel {
         this.getCourses().remove(theCourse);
         theCourse.getUsers().remove(this);
     }
-
 }
