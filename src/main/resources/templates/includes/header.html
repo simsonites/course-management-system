@@ -36,7 +36,7 @@
 
 
 
-                                    <li sec:authorize="isAuthenticated()">
+                                    <li sec:authorize="hasAnyRole('ROLE_STUDENT, ROLE_INSTRUCTOR')">
                                         <a href="/user/profile" th:href="@{/user/profile}">Profile
 
                                         </a>
@@ -55,9 +55,8 @@
                                             <input type="submit" value="Logout" class="btn btn-dark"/>
                                         </form>
                                     </li>
-
-                                    <li>
-                                        <a href="/admin" th:href="@{/admin}">Admin</a>
+                                    <li sec:authorize="hasRole('ROLE_ADMIN')">
+                                        <a href="/admin" th:href="@{/admin}">Dashboard</a>
                                     </li>
 
                                 </ul>

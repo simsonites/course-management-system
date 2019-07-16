@@ -66,22 +66,6 @@
                             <td colspan="4" th:text="${#dates.format(student.updatedAt ,'dd-MMM-yyyy')}">Last updated
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                <a th:href="@{/photo/form(userEmail=${student.email})}"> Update photo</a>
-                            </td>
-
-                            <td sec:authorize="isAuthenticated()">
-                                <a class="col-md-2" th:href="@{/students/update(userEmail=${student.email})}">
-                                    Edit Information
-                                </a>
-                            </td>
-                            <td sec:authorize="isAuthenticated()">
-                                <a class="col-md-2" th:href="@{/students/delete(userEmail=${student.email})}">
-                                    Cancel Registration
-                                </a>
-                            </td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -95,11 +79,6 @@
              <div class="row">
                  <div class="col-md-10 text-center"> <h4>Registered Courses</h4>
                  </div>
-
-            <div class="col-sm-2" sec:authorize="isAuthenticated()">
-                <a th:href="@{/(userEmail=${student.email})}">
-                    <h6 class="text text-primary">register for courses</h6></a>
-            </div>
              </div>
         </div>
 
@@ -110,7 +89,6 @@
                 <th nowrap> Course Title</th>
                 <th nowrap>Number of Credits</th>
                 <th>Description</th>
-                <th>Action</th>
             </tr>
             </thead>
             <tbody>
@@ -120,11 +98,6 @@
                 <td th:text="${course.title}"/>
                 <td th:text="${course.numberOfCredits}"/>
                 <td wr th:text="${course.description}"/>
-                <td>
-                    <a th:href="@{/courses/remove-user-course(courseId=${course.getId()})}">
-                        remove
-                    </a>
-                </td>
             </tr>
             </tbody>
         </table>

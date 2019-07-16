@@ -66,24 +66,6 @@
                             <td colspan="4" th:text="${#dates.format(instructor.updatedAt ,'dd-MMM-yyyy')}">Last updated
                             </td>
                         </tr>
-                        <tr>
-                            <td sec:authorize="hasRole('ROLE_INSTRUCTOR')">
-                                <a th:href="@{/photo/form(userEmail=${instructor.email})}">
-                                    Update photo
-                                </a>
-                            </td>
-
-                            <td sec:authorize="hasRole('ROLE_ADMIN')">
-                                <a class="col-md-2" th:href="@{/instructors/update(userEmail=${instructor.email})}">
-                                    Edit Information
-                                </a>
-                            </td>
-                            <td sec:authorize="hasRole('ROLE_ADMIN')">
-                                <a class="col-md-2" th:href="@{/instructors/delete(userEmail=${instructor.email})}">
-                                    Cancel Registration
-                                </a>
-                            </td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -91,17 +73,11 @@
         </div>
         <!--End Student information table-->
 
-
         <!--Start registered course table-->
         <div class="container">
              <div class="row">
                  <div class="col-md-10 text-center"> <h4>Assigned Courses</h4>
                  </div>
-
-            <div class="col-sm-2" sec:authorize="hasRole('ROLE_ADMIN')">
-                <a th:href="@{/courses/get-courses(userEmail=${instructor.email})}">
-                    <h6 class="text text-primary">Assign courses</h6></a>
-            </div>
              </div>
         </div>
 
@@ -112,7 +88,6 @@
                 <th nowrap> Course Title</th>
                 <th nowrap>Number of Credits</th>
                 <th>Description</th>
-                <th>Action</th>
             </tr>
             </thead>
             <tbody>
@@ -122,12 +97,6 @@
                 <td th:text="${course.title}"/>
                 <td th:text="${course.numberOfCredits}"/>
                 <td wr th:text="${course.description}"/>
-                <td sec:authorize="hasRole('ROLE_ADMIN')">
-
-                    <a th:href="@{/courses/remove-user-course(courseId=${course.getId()})}">
-                        remove
-                    </a>
-                </td>
             </tr>
             </tbody>
         </table>
