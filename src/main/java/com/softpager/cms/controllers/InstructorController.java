@@ -1,10 +1,10 @@
 package com.softpager.cms.controllers;
 
-import com.softpager.cms.abstracts.AbstractUser;
+import com.softpager.cms.abstracts.CMSUser;
 import com.softpager.cms.entities.Instructor;
 import com.softpager.cms.services.InstructorService;
 import com.softpager.cms.services.FileUploadService;
-import com.softpager.cms.services.UserService;
+import com.softpager.cms.services.CMSUserService;
 import com.softpager.cms.utils.UserHelper;
 import com.softpager.cms.utils.ErrorMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ public class InstructorController {
     private UserHelper userHelper;
 
     @Autowired
-    private UserService userService;
+    private CMSUserService cmsUserService;
 
 
     @GetMapping()
@@ -65,20 +65,20 @@ public class InstructorController {
 
     @GetMapping("/details")
     public String getInstructor(@RequestParam("userEmail") String email, Model model){
-        AbstractUser theUser = userService.getUser(email);
+        CMSUser theUser = cmsUserService.findByEmail(email);
         model.addAttribute("instructor", theUser);
         model.addAttribute("courses", theUser.getCourses());
         return "instructor/instructor-details";
     }
 
-
+/*
     // This method updates an existing instructor
     @GetMapping("/update")
     public String update(@RequestParam("email") String email, Model model) {
         Instructor theInstructor = instructorService.getInstructor(email);
         model.addAttribute("instructor", theInstructor);
         return "instructor/add-instructor";
-    }
+    }*/
 
 
    //This method deletes  a instructor by the ID

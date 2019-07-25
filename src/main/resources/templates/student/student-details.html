@@ -55,6 +55,10 @@
                             <th scope="row">Email Address</th>
                             <td colspan="4" th:text="${student.email}">Student Email Address</td>
                         </tr>
+                        <tr th:each="role:${roles}">
+                            <th scope="row">Assigned Role(s)</th>
+                            <td colspan="4" th:text="${role}"></td>
+                        </tr>
                         <tr>
                             <th scope="row">Registration Date</th>
                             <td colspan="4" th:text="${#dates.format(student.createdAt, 'dd-MMM-yyyy')}">Registration

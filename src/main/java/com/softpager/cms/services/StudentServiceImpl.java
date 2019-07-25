@@ -1,11 +1,10 @@
 package com.softpager.cms.services;
 
-import com.softpager.cms.abstracts.AbstractUser;
-import com.softpager.cms.entities.Course;
+import com.softpager.cms.abstracts.CMSUser;
 import com.softpager.cms.entities.Role;
 import com.softpager.cms.entities.Student;
 import com.softpager.cms.repositories.StudentRepository;
-import com.softpager.cms.repositories.UserRepository;
+import com.softpager.cms.repositories.CMSUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,25 +12,21 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
+@Transactional
 public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private StudentRepository studentRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    private CourseService courseService;
+    private RoleService roleService;
+
 
 
     @Override
@@ -40,15 +35,9 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student getStudent(String email) {
-        Optional<Student> theStudent = studentRepository.findById(email);
-        return theStudent.orElse(null);
-    }
-
-    @Override
     public void saveStudent(Student theStudent) {
         theStudent.setPassword(passwordEncoder.encode(theStudent.getPassword()));
-        Role newRole = new Role("STUDENT");
+        Role newRole = roleService.findByName("STUDENT");
         Set<Role> studentRoles = new HashSet<>();
         studentRoles.add(newRole);
         theStudent.setRoles(studentRoles);
@@ -56,18 +45,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void deleteStudent(String email) {
-     studentRepository.deleteById(email);
-    }
-
-
-    @Override
-    public List<Student> getListOfSelectedStudents(boolean containsAll) {
-        return null;
-    }
-
-    @Override
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
+
+
+
+
 }

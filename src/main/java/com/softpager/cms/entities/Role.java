@@ -1,12 +1,11 @@
 package com.softpager.cms.entities;
 
-import com.softpager.cms.abstracts.AbstractUser;
+import com.softpager.cms.abstracts.CMSUser;
 import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @Entity
@@ -14,17 +13,22 @@ import java.util.Set;
 public class Role {
 
     @Id
+    @GeneratedValue
+    @Column(name = "role_id")
+    private long id;
+
     @Column(unique = true)
     @NotEmpty
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<AbstractUser> users = new HashSet<>();
+    @ManyToMany(mappedBy = "roles", fetch =FetchType.EAGER,
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    private List<CMSUser> users = new ArrayList<>();
 
-    public Role(String name, Set<AbstractUser> users) {
+
+    public Role(String name, List<CMSUser> users) {
         this.name = name;
         this.users = users;
-
     }
 
     public Role(String name) {
@@ -32,5 +36,23 @@ public class Role {
     }
 
     public Role() {
+    }
+
+    public void addRoleToUSer(CMSUser theUser){
+            this.getUsers().add(theUser);
+            theUser.getRoles().add(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Role)) return false;
+        Role role = (Role) o;
+        return getId() == role.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

@@ -2,16 +2,13 @@ package com.softpager.cms.entities;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
-import com.softpager.cms.abstracts.AbstractUser;
+import com.softpager.cms.abstracts.CMSUser;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
-
 
 
 @Data
@@ -47,8 +44,8 @@ public class Course {
     @JoinTable(name = "user_courses", joinColumns = {@JoinColumn(name = "COURSE_ID",
             referencedColumnName = "course_id")},
             inverseJoinColumns = {@JoinColumn(name = "USER_ID",
-                    referencedColumnName = "email")})
-    private List<AbstractUser> users = new ArrayList<>();
+                    referencedColumnName = "user_id")})
+    private List<CMSUser> users = new ArrayList<>();
 
 
    public Course() {
@@ -62,13 +59,13 @@ public class Course {
     }
 
 
-    public void addUserToCourse(AbstractUser theUser){
+    public void addUserToCourse(CMSUser theUser){
         this.getUsers().add(theUser);
         theUser.getCourses().add(this);
     }
 
 
-    public void removeUserFromCourse(AbstractUser theUser){
+    public void removeUserFromCourse(CMSUser theUser){
         this.getUsers().remove(theUser);
         theUser.getCourses().remove(this);
     }

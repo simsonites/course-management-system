@@ -1,6 +1,6 @@
 package com.softpager.cms.entities;
 
-import com.softpager.cms.abstracts.AbstractUser;
+import com.softpager.cms.abstracts.CMSUser;
 import lombok.EqualsAndHashCode;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -9,7 +9,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "admin")
 @EqualsAndHashCode(callSuper = false)
-public class Admin extends AbstractUser {
+public class Admin extends CMSUser {
 
 
     public Admin() {

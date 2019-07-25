@@ -1,5 +1,6 @@
 package com.softpager.cms.configs;
 
+import com.softpager.cms.services.CMSUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,14 +10,23 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-
-import javax.sql.DataSource;
-
 @Configuration
 @EnableWebSecurity
 public class CMSSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
+    @Autowired
+    private CMSUserDetailService cmsUserDetailService;
+
+
+    @Autowired
+      protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(cmsUserDetailService);
+    }
+
+
+
+/*
     @Autowired
     private DataSource myDataSource;
 
@@ -32,12 +42,18 @@ public class CMSSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "roles as roles from user_roles where user_email=? ")
                 .passwordEncoder(passwordEncoder).rolePrefix("ROLE_");
     }
+*/
+
+
+
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers(
                 "/",
                 "/users/**",
+                "/roles/**",
                 "/courses","/courses/course",
                 "/courses/get-courses",
                 "/courses/remove-instructor-course",
@@ -57,11 +73,6 @@ public class CMSSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/")
                 .and()
                 .logout().logoutSuccessUrl("/");
-    }
-
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
 }

@@ -47,8 +47,7 @@
                                 <th>Last Name</th>
                                 <th>Gender</th>
                                 <th>Contact Email</th>
-                                <th>Title</th>
-                                <th align="center" colspan="4">Action</th>
+                                <th align="center" colspan="5">Action</th>
                             </tr>
                             </thead>
 
@@ -61,16 +60,23 @@
                                 <td><a th:href="@{/students/details(userEmail=${student.email})}">
                                     View details</a></td>
                                 <td>
-                                    <a th:href="@{/students/update(email=${student.email})}">
+                                    <a th:href="@{/students/update(userId=${student.id})}">
                                         Edit
                                     </a>
                                 </td>
 
                                 <td>
                                     <a th:href="@{/courses/get-courses(userEmail=${student.email})}">
-                                        assign courses
+                                        Assign courses
                                     </a>
                                 </td>
+
+                                <td>
+                                    <a th:href="@{/roles/get-roles(userEmail=${student.email})}">
+                                        Assign to role
+                                    </a>
+                                </td>
+
                                 <td>
                                     <a th:href="@{/students/delete(email=student.email)}"
                                        class="btn btn-danger btn-sm">

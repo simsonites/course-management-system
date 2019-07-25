@@ -1,6 +1,6 @@
 package com.softpager.cms.entities;
 
-import com.softpager.cms.abstracts.AbstractUser;
+import com.softpager.cms.abstracts.CMSUser;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -26,7 +26,7 @@ public class FileUpload {
     private byte[] image;
 
     @OneToOne(mappedBy = "photo")
-    public AbstractUser user;
+    public CMSUser user;
 
     public FileUpload() {
     }
@@ -39,7 +39,7 @@ public class FileUpload {
 
     }
 
-    public FileUpload(String photoName, String photoType, byte[] image, AbstractUser user) {
+    public FileUpload(String photoName, String photoType, byte[] image, CMSUser user) {
         this.photoName = photoName;
         this.photoType = photoType;
         this.image = image;

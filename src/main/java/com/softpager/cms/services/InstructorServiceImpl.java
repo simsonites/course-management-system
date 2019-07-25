@@ -1,7 +1,9 @@
 package com.softpager.cms.services;
 
+import com.softpager.cms.abstracts.CMSUser;
 import com.softpager.cms.entities.Instructor;
 import com.softpager.cms.entities.Role;
+import com.softpager.cms.repositories.CMSUserRepository;
 import com.softpager.cms.repositories.InstructorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,10 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class InstructorServiceImpl implements InstructorService {
@@ -24,32 +23,25 @@ public class InstructorServiceImpl implements InstructorService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
+    private RoleService roleService;
+
+
     @Override
     public Page<Instructor> getInstructors(PageRequest pages) {
         return instructorRepository.findAll(pages);
     }
 
-    @Override
-    public Instructor getInstructor(String email) {
-        Optional<Instructor> theInstructor = instructorRepository.findById(email);
-        return theInstructor.orElse(null);
-    }
 
     @Override
     public void createInstructor(Instructor theInstructor) {
         theInstructor.setPassword(passwordEncoder.encode(theInstructor.getPassword()));
-        Role newRole = new Role("INSTRUCTOR");
+        Role newRole = roleService.findByName("INSTRUCTOR");
         Set<Role> instructorRoles = new HashSet<>();
         instructorRoles.add(newRole);
         theInstructor.setRoles(instructorRoles);
         instructorRepository.save(theInstructor);
     }
-
-    @Override
-    public void delete(String email) {
-        instructorRepository.deleteById(email);
-    }
-
 
     @Override
     public List<Instructor> getAllCourses() {

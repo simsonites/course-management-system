@@ -9,16 +9,12 @@ import java.util.List;
 
 
 public interface StudentService {
+
     Page<Student> getStudents(PageRequest pageRequest);
 
-    Student getStudent(String email);
 
     void saveStudent(Student theStudent);
 
-    void deleteStudent(String email);
-
-    List<Student> getListOfSelectedStudents(boolean containsAll);
-
-
     List<Student> getAllStudents();
+
 }

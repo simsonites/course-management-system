@@ -18,9 +18,13 @@ import java.util.*;
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "USER_GROUP")
-public abstract class AbstractUser extends AuditModel {
+public abstract class CMSUser extends AuditModel {
 
     @Id
+    @Column(name = "user_id")
+    @GeneratedValue
+    private long id;
+
     @Email
     @NotEmpty
     @Column(unique = true)
@@ -48,27 +52,29 @@ public abstract class AbstractUser extends AuditModel {
     private FileUpload photo;
 
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,
-            CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(name = "user_roles", joinColumns = {@JoinColumn(name = "USER_EMAIL",
-            referencedColumnName = "email")},
-            inverseJoinColumns = {@JoinColumn(name = "ROLES",
-                    referencedColumnName = "name")})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH,
+            CascadeType.DETACH})
+    @JoinTable(name = "user_roles", joinColumns = {@JoinColumn(name = "USER_ID",
+            referencedColumnName = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "ROLES_ID",
+                    referencedColumnName = "role_id")})
     private Set<Role> roles = new HashSet<>();
 
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,
             CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(name = "user_courses", joinColumns = {@JoinColumn(name = "USER_ID",
-            referencedColumnName = "email")},
+            referencedColumnName = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "COURSE_ID",
                     referencedColumnName = "course_id")})
-    private List<Course> courses = new ArrayList<>();
+    private Set<Course> courses = new HashSet<>();
 
 
+    public CMSUser() {
+    }
 
-    public AbstractUser(String email, String password, String firstName, String lastName,
-                        String gender, FileUpload photo, Set<Role> roles) {
+    public CMSUser(String email, String password, String firstName, String lastName,
+                   String gender, FileUpload photo, Set<Role> roles) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -78,8 +84,8 @@ public abstract class AbstractUser extends AuditModel {
         this.roles = roles;
     }
 
-    public AbstractUser(String email, String password, String firstName, String lastName,
-                        String gender, Set<Role> roles) {
+    public CMSUser(String email, String password, String firstName, String lastName,
+                   String gender, Set<Role> roles) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -89,8 +95,8 @@ public abstract class AbstractUser extends AuditModel {
     }
 
 
-    public AbstractUser(String email, String password, String firstName,
-                        String lastName, String gender) {
+    public CMSUser(String email, String password, String firstName,
+                   String lastName, String gender) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -98,16 +104,17 @@ public abstract class AbstractUser extends AuditModel {
         this.gender = gender;
     }
 
-    public AbstractUser() {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CMSUser)) return false;
+        if (!super.equals(o)) return false;
+        CMSUser cmsUser = (CMSUser) o;
+        return getId() == cmsUser.getId();
     }
 
-    public void addCourseForUser(Course theCourse){
-        this.getCourses().add(theCourse);
-        theCourse.getUsers().add(this);
-    }
-
-    public void removeCourseFromUser(Course theCourse){
-        this.getCourses().remove(theCourse);
-        theCourse.getUsers().remove(this);
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getId());
     }
 }

@@ -1,11 +1,14 @@
 package com.softpager.cms.controllers;
 
-import com.softpager.cms.abstracts.AbstractUser;
+
+import com.softpager.cms.abstracts.CMSUser;
 import com.softpager.cms.entities.Course;
+import com.softpager.cms.entities.Role;
 import com.softpager.cms.entities.Student;
+import com.softpager.cms.services.CMSUserService;
 import com.softpager.cms.services.CourseService;
 import com.softpager.cms.services.StudentService;
-import com.softpager.cms.services.UserService;
+
 import com.softpager.cms.utils.UserHelper;
 import com.softpager.cms.utils.ErrorMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
+import java.util.*;
 
 
 @Slf4j
@@ -29,7 +32,7 @@ public class StudentController {
     private StudentService studentService;
 
     @Autowired
-    private UserService userService;
+    private CMSUserService userService;
 
     @Autowired
     private CourseService courseService;
@@ -65,17 +68,22 @@ public class StudentController {
 
     @GetMapping("/details")
     public String getStudent(@RequestParam("userEmail") String email, Model model){
-        AbstractUser theUser = userService.getUser(email);
+        Set<String> addRoles = new HashSet<>();
+        CMSUser theUser = userService.findByEmail(email);
         model.addAttribute("student", theUser);
         model.addAttribute("courses", theUser.getCourses());
+        for (Role value : theUser.getRoles()) {
+            String role = value.getName();
+            addRoles.add(role);
+        }
+        model.addAttribute("roles",addRoles);
         return "student/student-details";
     }
 
-
     // This method updates an existing student
     @GetMapping("/update")
-    public String update(@RequestParam("userEmail") String email, Model model) {
-        Student theStudent = studentService.getStudent(email);
+    public String update(@RequestParam("userId") long theId, Model model) {
+        Optional<CMSUser> theStudent = userService.getUser(theId);
         model.addAttribute("student", theStudent);
         return "/student/add-student";
     }
@@ -94,5 +102,4 @@ public class StudentController {
     }
         return "error-page";
     }
-
 }

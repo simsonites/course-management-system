@@ -1,17 +1,15 @@
 package com.softpager.cms.entities;
 
-import com.softpager.cms.abstracts.AbstractUser;
+import com.softpager.cms.abstracts.CMSUser;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 @Entity
 @EqualsAndHashCode(callSuper = false)
-public class Instructor extends AbstractUser {
+public class Instructor extends CMSUser {
 
     @Column(name = "Qualification")
     private String title;

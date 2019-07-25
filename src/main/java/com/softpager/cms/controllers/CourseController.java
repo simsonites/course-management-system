@@ -1,12 +1,10 @@
 package com.softpager.cms.controllers;
 
-import com.softpager.cms.abstracts.AbstractUser;
+import com.softpager.cms.abstracts.CMSUser;
 import com.softpager.cms.entities.Course;
 import com.softpager.cms.entities.Student;
 import com.softpager.cms.services.CourseService;
-import com.softpager.cms.services.StudentService;
-import com.softpager.cms.services.UserService;
-import com.softpager.cms.utils.UserHelper;
+import com.softpager.cms.services.CMSUserService;
 import com.softpager.cms.utils.ErrorMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +27,7 @@ public class CourseController {
     private CourseService courseService;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
-    private StudentService studentService;
-
-    @Autowired
-    private UserHelper userHelper;
+    private CMSUserService cmsUserService;
 
 
     @GetMapping
@@ -60,7 +52,7 @@ public class CourseController {
                                         Principal principal, Model model,
                                     HttpSession httpSession) {
         String email = principal.getName();
-        AbstractUser theUser = userService.getUser(email);
+        CMSUser theUser = cmsUserService.findByEmail(email);
         Course theCourse = courseService.getCourse(theId);
 
         if ((theUser != null) && theUser.getCourses().size() == 3) {
@@ -68,8 +60,8 @@ public class CourseController {
             model.addAttribute("goBackToProfile", ErrorMessage.GO_BACK_TO_PROFILE);
             return "error-page";
         }
-        List<AbstractUser> users = theCourse.getUsers();
-        for (AbstractUser usersInCourse : users) {
+        List<CMSUser> users = theCourse.getUsers();
+        for (CMSUser usersInCourse : users) {
             if (theUser != null && usersInCourse.getEmail().equals(theUser.getEmail())) {
                 model.addAttribute("errorMessage", " Sorry , " + email + "  "
                         + ErrorMessage.ALREADY_REGISTERED);
@@ -80,7 +72,7 @@ public class CourseController {
 
         httpSession.setAttribute("email", email);
         if (theUser != null) {
-            courseService.addUserToCourse(theCourse, userService.getUser(theUser.getEmail()));
+            courseService.addUserToCourse(theCourse, cmsUserService.findByEmail(theUser.getEmail()));
         }
         model.addAttribute("userEmail", email);
         return "redirect:/students/details";
@@ -96,18 +88,17 @@ public class CourseController {
         return "redirect:/courses";
     }
 
+
     /*Here, we are using this method to assign multiple courses to a
        user  using the email*/
     @RequestMapping("/assign-multiple-courses")
     public String assignCourse(@RequestParam("courseId") long[] theId,
                                RedirectAttributes rd, HttpSession httpSession) {
         String theEmail = (String) httpSession.getAttribute("email");
-        AbstractUser theUser = userService.getUser(theEmail);
+        CMSUser theUser = cmsUserService.findByEmail(theEmail);
         List<Course> theCourses = courseService.getSelectedCourses(theId);
-
         if ((theCourses != null)){
             for (Course course : theCourses){
-                log.info("CCO {} : ", theCourses);
                     courseService.addUserToCourse(course,theUser);
             }
             rd.addFlashAttribute("message", "courses were successfully added to  "
@@ -132,11 +123,11 @@ public class CourseController {
 
         String email = principal.getName();
         Course theCourse = courseService.getCourse(theId);
-        List<AbstractUser> users = theCourse.getUsers();
-        for (AbstractUser usersInCourse : users) {
+        List<CMSUser> users = theCourse.getUsers();
+        for (CMSUser usersInCourse : users) {
             if (usersInCourse.getEmail().equals(email)){
                 httpSession.setAttribute("email", email);
-                courseService.removeUserFromCourse(theCourse, userService.getUser(email));
+                courseService.removeUserFromCourse(theCourse, cmsUserService.findByEmail(email));
                 model.addAttribute("userEmail", email);
                 return "redirect:/students/details";
             }

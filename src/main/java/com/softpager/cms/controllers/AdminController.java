@@ -1,6 +1,6 @@
 package com.softpager.cms.controllers;
 
-import com.softpager.cms.abstracts.AbstractUser;
+import com.softpager.cms.abstracts.CMSUser;
 import com.softpager.cms.entities.Admin;
 import com.softpager.cms.entities.Course;
 import com.softpager.cms.entities.Student;
@@ -114,9 +114,9 @@ public class AdminController {
     //This method deletes a course from the database by the ID
     @GetMapping("/delete-course")
     public String deleteCourse(@RequestParam("courseId") long theId) {
-        List<AbstractUser> coursesUsers = courseService.getCourse(theId).getUsers();
+        List<CMSUser> coursesUsers = courseService.getCourse(theId).getUsers();
         if (coursesUsers != null){
-            for (AbstractUser user : coursesUsers){
+            for (CMSUser user : coursesUsers){
                 courseService.removeUserFromCourse(courseService.getCourse(theId),user);
             }
         }
