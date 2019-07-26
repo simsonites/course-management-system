@@ -68,15 +68,9 @@ public class StudentController {
 
     @GetMapping("/details")
     public String getStudent(@RequestParam("userEmail") String email, Model model){
-        Set<String> addRoles = new HashSet<>();
         CMSUser theUser = userService.findByEmail(email);
         model.addAttribute("student", theUser);
         model.addAttribute("courses", theUser.getCourses());
-        for (Role value : theUser.getRoles()) {
-            String role = value.getName();
-            addRoles.add(role);
-        }
-        model.addAttribute("roles",addRoles);
         return "student/student-details";
     }
 

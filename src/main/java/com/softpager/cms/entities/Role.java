@@ -2,6 +2,7 @@ package com.softpager.cms.entities;
 
 import com.softpager.cms.abstracts.CMSUser;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -21,15 +22,10 @@ public class Role {
     @NotEmpty
     private String name;
 
-    @ManyToMany(mappedBy = "roles", fetch =FetchType.EAGER,
-            cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    private List<CMSUser> users = new ArrayList<>();
 
-
-    public Role(String name, List<CMSUser> users) {
-        this.name = name;
-        this.users = users;
-    }
+    @OneToMany(mappedBy = "roles", cascade = {CascadeType.MERGE,CascadeType.PERSIST})
+    @ToString.Exclude
+    private Set<CMSUser> users;
 
     public Role(String name) {
         this.name = name;
@@ -38,21 +34,5 @@ public class Role {
     public Role() {
     }
 
-    public void addRoleToUSer(CMSUser theUser){
-            this.getUsers().add(theUser);
-            theUser.getRoles().add(this);
-    }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Role)) return false;
-        Role role = (Role) o;
-        return getId() == role.getId();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId());
-    }
 }

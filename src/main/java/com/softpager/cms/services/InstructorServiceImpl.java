@@ -37,9 +37,7 @@ public class InstructorServiceImpl implements InstructorService {
     public void createInstructor(Instructor theInstructor) {
         theInstructor.setPassword(passwordEncoder.encode(theInstructor.getPassword()));
         Role newRole = roleService.findByName("INSTRUCTOR");
-        Set<Role> instructorRoles = new HashSet<>();
-        instructorRoles.add(newRole);
-        theInstructor.setRoles(instructorRoles);
+        theInstructor.setRoles(newRole);
         instructorRepository.save(theInstructor);
     }
 

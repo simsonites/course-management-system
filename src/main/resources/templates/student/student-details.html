@@ -55,9 +55,9 @@
                             <th scope="row">Email Address</th>
                             <td colspan="4" th:text="${student.email}">Student Email Address</td>
                         </tr>
-                        <tr th:each="role:${roles}">
-                            <th scope="row">Assigned Role(s)</th>
-                            <td colspan="4" th:text="${role}"></td>
+                        <tr>
+                            <th scope="row">Role </th>
+                            <td colspan="4" th:text="${student.getRoles().getName()}"></td>
                         </tr>
                         <tr>
                             <th scope="row">Registration Date</th>

@@ -1,13 +1,15 @@
 package com.softpager.cms.services;
 
-import com.softpager.cms.abstracts.CMSUser;
+
 import com.softpager.cms.entities.Role;
 import com.softpager.cms.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -22,14 +24,14 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void addRole(Role theRole) {
+    public void save(Role theRole) {
         roleRepository.save(theRole);
 
     }
 
     @Override
-    public Role getRole(long theId) {
-        return roleRepository.getOne(theId);
+    public Optional<Role> getRole(long theId) {
+        return roleRepository.findById(theId);
     }
 
     @Override
@@ -40,16 +42,5 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void deleteRole(long theId) {
         roleRepository.deleteById(theId);
-    }
-
-    @Override
-    public void addUserToRole(Role role, CMSUser theUser) {
-        role.addRoleToUSer(theUser);
-        roleRepository.save(role);
-    }
-
-    @Override
-    public List<Role> getSelectedRoles(long[] theId) {
-        return roleRepository.getRolesByIdIn(theId);
     }
 }

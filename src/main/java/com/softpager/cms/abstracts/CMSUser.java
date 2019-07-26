@@ -51,14 +51,10 @@ public abstract class CMSUser extends AuditModel {
     @ToString.Exclude
     private FileUpload photo;
 
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH,
-            CascadeType.DETACH})
-    @JoinTable(name = "user_roles", joinColumns = {@JoinColumn(name = "USER_ID",
-            referencedColumnName = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "ROLES_ID",
-                    referencedColumnName = "role_id")})
-    private Set<Role> roles = new HashSet<>();
+    @ManyToOne(fetch =FetchType.EAGER,cascade ={CascadeType.MERGE,CascadeType.PERSIST})
+    @JoinColumn(name = "role_id")
+    @ToString.Exclude
+    private Role roles;
 
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,
@@ -72,28 +68,6 @@ public abstract class CMSUser extends AuditModel {
 
     public CMSUser() {
     }
-
-    public CMSUser(String email, String password, String firstName, String lastName,
-                   String gender, FileUpload photo, Set<Role> roles) {
-        this.email = email;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.gender = gender;
-        this.photo = photo;
-        this.roles = roles;
-    }
-
-    public CMSUser(String email, String password, String firstName, String lastName,
-                   String gender, Set<Role> roles) {
-        this.email = email;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.gender = gender;
-        this.roles = roles;
-    }
-
 
     public CMSUser(String email, String password, String firstName,
                    String lastName, String gender) {
@@ -117,4 +91,5 @@ public abstract class CMSUser extends AuditModel {
     public int hashCode() {
         return Objects.hash(super.hashCode(), getId());
     }
+
 }

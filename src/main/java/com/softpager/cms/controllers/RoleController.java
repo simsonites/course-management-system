@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
@@ -34,9 +35,6 @@ public class RoleController {
     @GetMapping()
     public String getRoles(Model model) {
         List<Role> allRoles = roleService.getRoles();
-        for (Role r : allRoles) {
-            log.info("RRR  {} : ", r.toString());
-        }
         model.addAttribute("role", new Role());
         model.addAttribute("roles", allRoles);
         return "admin/user-role";
@@ -44,7 +42,7 @@ public class RoleController {
 
     @PostMapping("/add-role")
     public String addRole(@ModelAttribute("role") Role theRole) {
-        roleService.addRole(theRole);
+        roleService.save(theRole);
         return "redirect:/roles";
     }
 
@@ -63,27 +61,22 @@ public class RoleController {
         return "redirect:/roles";
     }
 
-
     /*Here, we are using this method to assign roles to a
        user  using the id*/
-    @RequestMapping("/assign-user-to-roles")
-    public String assignCourse(@RequestParam("roleId") long[] theId,
+    @RequestMapping("/assign-user-to-role")
+    public String assignCourse(@RequestParam("roleId") long theId,
                                RedirectAttributes rd, HttpSession httpSession) {
         String theEmail = (String) httpSession.getAttribute("email");
+        Optional<Role> selectedRole = roleService.getRole(theId);
         CMSUser theUser = cmsUserService.findByEmail(theEmail);
-        List<Role> selectedRoles = roleService.getSelectedRoles(theId);
-        if (selectedRoles != null){
-            for (Role role : selectedRoles){
-                roleService.addUserToRole(role,theUser);
-            }
+        if ((theUser != null) && (selectedRole.isPresent())){
+           theUser.setRoles(selectedRole.get());
+            cmsUserService.save(theUser);
             rd.addFlashAttribute("message", theUser.getFirstName()+
-                    "has been assigned to "+ theUser.getRoles());
-            return "redirect:/roles";
-        }
+                    "has been assigned to "+ theUser.getRoles().getName()+ "  Role");
 
-        rd.addFlashAttribute("roleAlreadyExist"," Operation failed, Duplicate Role assignment for "
-                +theUser.getFirstName());
-        return "admin/user-role";
+        }
+        return "redirect:/roles";
     }
 
 }
