@@ -46,9 +46,10 @@
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Gender</th>
-                                    <th>Contact Email</th>
+                                    <th>Role</th>
+                                    <th>Email</th>
                                     <th>Title</th>
-                                    <th align="center" colspan="4">Action</th>
+                                    <th align="center" colspan="5">Action</th>
                                 </tr>
                                 </thead>
 
@@ -57,6 +58,8 @@
                                     <td th:text="${tempInstructor.firstName}"/>
                                     <td th:text="${tempInstructor.lastName}"/>
                                     <td th:text="${tempInstructor.gender}"/>
+                                    <td th:with="role=${tempInstructor.getRole()}">
+                                        <div th:if="${role}" th:text="${role.getName()}" ></div></td>
                                     <td th:text="${tempInstructor.email}"/>
                                     <td th:text="${tempInstructor.title}"/>
                                     <td><a th:href="@{/instructors/details(userEmail=${tempInstructor.email})}">
@@ -72,12 +75,21 @@
                                             assign courses
                                         </a>
                                     </td>
+
+                                    <td>
+                                        <a th:href="@{/roles/get-roles(userEmail=tempInstructor.email)}">
+                                            update role
+                                        </a>
+                                    </td>
+
+
                                     <td>
                                         <a th:href="@{/instructors/delete(email=tempInstructor.email)}"
                                            class="btn btn-danger btn-sm">
                                             Delete
                                         </a>
                                     </td>
+
 
                                 </tr>
                                 </tbody>

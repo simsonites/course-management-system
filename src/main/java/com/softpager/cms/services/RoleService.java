@@ -1,5 +1,6 @@
 package com.softpager.cms.services;
 
+import com.softpager.cms.abstracts.CMSUser;
 import com.softpager.cms.entities.Role;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface RoleService {
     Role findByName(String student);
 
     void deleteRole(long theId);
+
+    void deleteByName(String name);
 }

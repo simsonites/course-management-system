@@ -11,37 +11,32 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.Collections;
 
 @Slf4j
-@Component
+@Service
 public class CMSUserDetailService implements UserDetailsService {
 
     @Autowired
     private CMSUserService cmsUserService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder passwordEncoder;
 
 
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
         final CMSUser theUser = cmsUserService.findByEmail(email);
         log.info("RRR {} : ", theUser.getEmail());
-        log.info("RRR {} : ", theUser.getRoles());
-        return  new User(theUser.getEmail(),passwordEncoder.encode(theUser.getPassword()),
-                true, true, true, true, getAuthorities(String.valueOf(theUser.getRoles())));
-    }
-
-    private Collection<? extends GrantedAuthority> getAuthorities(String role) {
-        return Arrays.asList(new SimpleGrantedAuthority(role));
+        log.info("RRR {} : ", theUser.getRole().getName());
+        GrantedAuthority authority = new SimpleGrantedAuthority(theUser.getRole().getName());
+        return  new User(theUser.getEmail(),passwordEncoder.encode(theUser.getPassword()), Collections.singleton(authority));
     }
 
 

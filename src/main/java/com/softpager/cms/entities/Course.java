@@ -38,7 +38,6 @@ public class Course {
     private int numberOfCredits;
 
 
-
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,
             CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(name = "user_courses", joinColumns = {@JoinColumn(name = "COURSE_ID",

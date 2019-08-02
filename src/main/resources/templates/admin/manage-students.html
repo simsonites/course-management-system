@@ -46,7 +46,8 @@
                                 <th>First Name</th>
                                 <th>Last Name</th>
                                 <th>Gender</th>
-                                <th>Contact Email</th>
+                                <th>Role</th>
+                                <th>Email</th>
                                 <th align="center" colspan="5">Action</th>
                             </tr>
                             </thead>
@@ -56,6 +57,8 @@
                                 <td th:text="${student.firstName}"/>
                                 <td th:text="${student.lastName}"/>
                                 <td th:text="${student.gender}"/>
+                                <td th:with="role=${student.getRole()}">
+                                    <div th:if="${role}" th:text="${role.getName()}" ></div></td>
                                 <td th:text="${student.email}"/>
                                 <td><a th:href="@{/students/details(userEmail=${student.email})}">
                                     View details</a></td>
@@ -67,20 +70,20 @@
 
                                 <td>
                                     <a th:href="@{/courses/get-courses(userEmail=${student.email})}">
-                                        Assign courses
+                                        assign courses
                                     </a>
                                 </td>
 
                                 <td>
                                     <a th:href="@{/roles/get-roles(userEmail=${student.email})}">
-                                        Assign to role
+                                       update role
                                     </a>
                                 </td>
 
                                 <td>
-                                    <a th:href="@{/students/delete(email=student.email)}"
+                                    <a th:href="@{/students/delete(userEmail=student.email)}"
                                        class="btn btn-danger btn-sm">
-                                        Delete
+                                        delete
                                     </a>
                                 </td>
 

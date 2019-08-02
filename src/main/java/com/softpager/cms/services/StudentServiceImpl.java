@@ -38,7 +38,7 @@ public class StudentServiceImpl implements StudentService {
     public void saveStudent(Student theStudent) {
         theStudent.setPassword(passwordEncoder.encode(theStudent.getPassword()));
         Role newRole = roleService.findByName("STUDENT");
-        theStudent.setRoles(newRole);
+        theStudent.setRole(newRole);
         studentRepository.save(theStudent);
     }
 

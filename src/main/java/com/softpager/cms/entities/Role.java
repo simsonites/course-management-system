@@ -1,12 +1,12 @@
 package com.softpager.cms.entities;
 
-import com.softpager.cms.abstracts.CMSUser;
-import lombok.Data;
-import lombok.ToString;
+        import com.softpager.cms.abstracts.CMSUser;
+        import lombok.Data;
+        import lombok.ToString;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import java.util.*;
+        import javax.persistence.*;
+        import javax.validation.constraints.NotEmpty;
+        import java.util.*;
 
 @Data
 @Entity
@@ -14,18 +14,16 @@ import java.util.*;
 public class Role {
 
     @Id
-    @GeneratedValue
-    @Column(name = "role_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(unique = true)
-    @NotEmpty
+    @NotEmpty(message = "please, enter a new role to be created")
     private String name;
 
 
-    @OneToMany(mappedBy = "roles", cascade = {CascadeType.MERGE,CascadeType.PERSIST})
-    @ToString.Exclude
-    private Set<CMSUser> users;
+    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER,cascade ={CascadeType.MERGE})
+    private List<CMSUser> users;
 
     public Role(String name) {
         this.name = name;
@@ -34,5 +32,16 @@ public class Role {
     public Role() {
     }
 
+    public void addUser(CMSUser theUser) {
+        if (users == null) {
+            users = new ArrayList<>();
+        }
+        users.add(theUser);
+        theUser.setRole(this);
+    }
 
+    public void removeUser(CMSUser theUsers){
+        users.remove(theUsers);
+        theUsers.setRole(null);
+    }
 }

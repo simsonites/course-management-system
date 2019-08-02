@@ -2,7 +2,7 @@ package com.softpager.cms.services;
 
 import com.softpager.cms.entities.FileUpload;
 import com.softpager.cms.exceptions.FileStorageException;
-import com.softpager.cms.exceptions.MyFileNotFoundException;
+import com.softpager.cms.exceptions.ResourceNotFoundException;
 import com.softpager.cms.repositories.FileUploadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,7 +40,7 @@ public class FileUploadServiceImpl implements FileUploadService {
     @Override
     public FileUpload getUserPhoto(long fileId) {
         return fileUploadRepository.findById(fileId)
-                .orElseThrow(() -> new MyFileNotFoundException("File not found with id " + fileId));
+                .orElseThrow(() -> new ResourceNotFoundException("File not found with id " + fileId));
     }
 
 }

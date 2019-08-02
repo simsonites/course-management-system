@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import javax.sql.DataSource;
+
 @Configuration
 @EnableWebSecurity
 public class CMSSecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -19,15 +21,15 @@ public class CMSSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private CMSUserDetailService cmsUserDetailService;
 
 
-    @Autowired
+   @Autowired
       protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(cmsUserDetailService);
     }
 
 
 
-/*
-    @Autowired
+
+  /*  @Autowired
     private DataSource myDataSource;
 
     @Autowired
@@ -38,8 +40,8 @@ public class CMSSecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication().dataSource(myDataSource)
                 .usersByUsernameQuery("select email as principal," +
                         " password as credentials, true from users where email=?")
-                .authoritiesByUsernameQuery("select user_email as principal, " +
-                        "roles as roles from user_roles where user_email=? ")
+                .authoritiesByUsernameQuery("select user_id as principal, " +
+                        "roles as role from roles where user_id=? ")
                 .passwordEncoder(passwordEncoder).rolePrefix("ROLE_");
     }
 */
@@ -74,5 +76,11 @@ public class CMSSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().logoutSuccessUrl("/");
     }
+
+/*
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }*/
 
 }

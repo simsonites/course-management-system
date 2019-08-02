@@ -2,8 +2,10 @@ package com.softpager.cms.utils;
 
 import com.softpager.cms.abstracts.CMSUser;
 import com.softpager.cms.entities.Course;
+import com.softpager.cms.entities.Role;
 import com.softpager.cms.services.CourseService;
 import com.softpager.cms.services.CMSUserService;
+import com.softpager.cms.services.RoleService;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,8 @@ public class UserHelper {
 
   @Autowired
     CourseService courseService;
+  @Autowired
+  private RoleService roleService;
 
     public boolean getCurrentUser(Principal principal, String theEmail){
         String currentUserEmail = principal.getName();
@@ -47,6 +51,7 @@ public class UserHelper {
     /*This method deletes a user from the database by the Id (email)*/
     public void deleteUser(String email){
         Set<Course> userCourses = cmsUserService.findByEmail(email).getCourses();
+        Role userRole = cmsUserService.findByEmail(email).getRole();
         if (userCourses != null){
             for (Course course : userCourses){
                 courseService.removeUserFromCourse(course, cmsUserService.findByEmail(email));
@@ -54,7 +59,6 @@ public class UserHelper {
         }
         cmsUserService.deleteByEmail(email);
     }
-
 
     /* Let's user this method to get any available user for the session*/
     public CMSUser getUser(HttpSession session)throws UsernameNotFoundException {

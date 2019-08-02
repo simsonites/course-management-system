@@ -38,10 +38,11 @@
                                 <input type="submit" value="Add role" class="btn btn-primary btn-sm">
                             </div>
                         </div>
-
                     </th>
                 </tr>
                 </thead>
+                <div class="text-danger" th:if="${#fields.hasErrors('name')}"
+                     th:errors="*{name}">Name Error</div>
             </table>
         </form>
 
@@ -64,7 +65,7 @@
                         </td>
                         <td th:text="${role.name}" colspan="1"></td>
                         <td>
-                            <a th:href="@{/roles/delete(roleId=${role.id})}">
+                            <a th:href="@{/roles/delete(name=${role.name})}">
                                 delete
                             </a>
                         </td>

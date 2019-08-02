@@ -2,11 +2,13 @@ package com.softpager.cms.services;
 
 import com.softpager.cms.abstracts.CMSUser;
 import com.softpager.cms.entities.Course;
+import com.softpager.cms.entities.Role;
 import com.softpager.cms.repositories.CMSUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -29,7 +31,6 @@ public class CMSUserServiceImpl implements CMSUserService {
     @Override
     public void save(CMSUser theUser) {
         cmsUserRepository.save(theUser);
-
     }
 
     @Override
@@ -43,5 +44,9 @@ public class CMSUserServiceImpl implements CMSUserService {
         return  cmsUserRepository.findByEmail(email);
     }
 
+    @Override
+    public List findByRole(Role theRole) {
+        return cmsUserRepository.findByRole(theRole);
+    }
 
 }

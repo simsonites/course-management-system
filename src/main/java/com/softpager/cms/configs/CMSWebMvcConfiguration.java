@@ -8,6 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 
 @Configuration
+@EnableTransactionManagement
 public class CMSWebMvcConfiguration extends WebMvcConfigurationSupport {
 
     @Override

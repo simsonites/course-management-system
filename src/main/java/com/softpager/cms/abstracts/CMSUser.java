@@ -22,26 +22,26 @@ public abstract class CMSUser extends AuditModel {
 
     @Id
     @Column(name = "user_id")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Email
-    @NotEmpty
+    @Email(message = "please enter a valid email address")
+    @NotEmpty(message = "email is needed")
     @Column(unique = true)
     private String email;
 
-    @NotEmpty
+    @NotEmpty(message = "please set a password")
     private String password;
 
-    @NotEmpty
+    @NotEmpty(message = "first name is required")
     @Column(name = "first_name")
     private String firstName;
 
-    @NotEmpty
+    @NotEmpty(message = "last name is required")
     @Column(name = "last_name")
     private String lastName;
 
-    @NotEmpty
+    @NotEmpty(message = "please specify gender")
     @Column(name = "gender")
     private String gender;
 
@@ -51,10 +51,9 @@ public abstract class CMSUser extends AuditModel {
     @ToString.Exclude
     private FileUpload photo;
 
-    @ManyToOne(fetch =FetchType.EAGER,cascade ={CascadeType.MERGE,CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.EAGER, cascade ={CascadeType.MERGE})
     @JoinColumn(name = "role_id")
-    @ToString.Exclude
-    private Role roles;
+    private Role role;
 
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,
@@ -76,20 +75,6 @@ public abstract class CMSUser extends AuditModel {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof CMSUser)) return false;
-        if (!super.equals(o)) return false;
-        CMSUser cmsUser = (CMSUser) o;
-        return getId() == cmsUser.getId();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), getId());
     }
 
 }
