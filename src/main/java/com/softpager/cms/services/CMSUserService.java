@@ -11,9 +11,7 @@ public interface CMSUserService {
 
     Optional<CMSUser> getUser(long theId);
 
-    void save(CMSUser theUser);
-
-    void deleteByEmail(String email);
+    CMSUser save(CMSUser theUser);
 
     CMSUser findByEmail(String email);
 

@@ -33,10 +33,11 @@ public class CMSUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
         final CMSUser theUser = cmsUserService.findByEmail(email);
-        log.info("RRR {} : ", theUser.getEmail());
+      //  log.info("RRR {} : ", theUser.getEmail());
         log.info("RRR {} : ", theUser.getRole().getName());
         GrantedAuthority authority = new SimpleGrantedAuthority(theUser.getRole().getName());
-        return  new User(theUser.getEmail(),passwordEncoder.encode(theUser.getPassword()), Collections.singleton(authority));
+       // return  new User(theUser.getEmail(),passwordEncoder.encode(theUser.getPassword()), Collections.singleton(authority));
+        return null;
     }
 
 

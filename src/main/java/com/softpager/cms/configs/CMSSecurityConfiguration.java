@@ -54,6 +54,7 @@ public class CMSSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers(
                 "/",
+                "/account/**",
                 "/users/**",
                 "/roles/**",
                 "/courses","/courses/course",

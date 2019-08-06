@@ -21,11 +21,6 @@
                                     <li class="menu-item-has-children">
                                         <a href="/students" th:href="@{/students}">Students</a>
                                     </li>
-
-                                    <li class="menu-item-has-children">
-                                        <a href="/instructors" th:href="@{/instructors}">Instructors</a>
-                                    </li>
-
                                 </ul>
                             </nav>
                         </div>
@@ -43,7 +38,7 @@
                                     </li>
 
                                     <li sec:authorize="!isAuthenticated()">
-                                        <a href="/students/new" th:href="@{/students/new}">Register</a>
+                                        <a href="/account" th:href="@{/account}">Register</a>
                                     </li>
 
                                     <li sec:authorize="!isAuthenticated()">

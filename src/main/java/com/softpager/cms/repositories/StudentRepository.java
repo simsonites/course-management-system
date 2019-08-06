@@ -10,5 +10,10 @@ import java.util.List;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
+    Student findByAccount_Email(String email);
 
+
+   // Student findByEmail(String email);
+
+    //void deleteByEmail(String email);
 }

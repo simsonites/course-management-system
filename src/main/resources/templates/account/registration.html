@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>CMS | ceate-account</title>
+    <div th:replace="includes/css-links :: cssFragment"></div>
+</head>
+<body>
+
+    <div class="container">
+        <div class="col-md-6 offset-md-3 mt-100">
+
+            <form th:action="@{/account/create-account}" th:object="${student}" method="POST">
+                <h4>Please provide a valid email and password to continue registration</h4>
+
+                <input type="text" id="email" name="email" class="form-control"/>
+                <div class="text-danger"  th:if="${#fields.hasErrors('email')}"
+                     th:errors="*{email}">Name Error</div>
+                <br/>
+
+                <input type="password" id="password" name="password" class="form-control"/>
+                <div class="text-danger"  th:if="${#fields.hasErrors('password')}"
+                     th:errors="*{password}">Name Error</div>
+                <br/>
+
+                <input type="Submit" class="btn btn-sm btn-primary" value="continue"/>
+                <a href="/" th:href="@{/}">go back to home page</a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

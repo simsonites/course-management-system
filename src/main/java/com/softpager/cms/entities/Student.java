@@ -1,11 +1,14 @@
 package com.softpager.cms.entities;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 
 import com.softpager.cms.abstracts.CMSUser;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -14,9 +17,9 @@ import lombok.EqualsAndHashCode;
 public class Student extends CMSUser {
 
 
-    public Student(String email, String password, String firstName, String lastName,
-                   String gender) {
-        super(email, password, firstName, lastName, gender);
+
+    public Student(String firstName, String lastName, String gender) {
+        super(firstName, lastName, gender);
     }
 
     public Student() {

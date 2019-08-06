@@ -57,31 +57,34 @@
                                 <td th:text="${student.firstName}"/>
                                 <td th:text="${student.lastName}"/>
                                 <td th:text="${student.gender}"/>
+
                                 <td th:with="role=${student.getRole()}">
                                     <div th:if="${role}" th:text="${role.getName()}" ></div></td>
-                                <td th:text="${student.email}"/>
-                                <td><a th:href="@{/students/details(userEmail=${student.email})}">
+
+                                <td th:text="${student.getAccount().email}"/>
+
+                                <td><a th:href="@{/students/details(studentId=${student.id})}">
                                     View details</a></td>
                                 <td>
-                                    <a th:href="@{/students/update(userId=${student.id})}">
+                                    <a th:href="@{/students/update(studentId=${student.id})}">
                                         Edit
                                     </a>
                                 </td>
 
                                 <td>
-                                    <a th:href="@{/courses/get-courses(userEmail=${student.email})}">
+                                    <a th:href="@{/courses/get-courses(studentId=${student.id})}">
                                         assign courses
                                     </a>
                                 </td>
 
                                 <td>
-                                    <a th:href="@{/roles/get-roles(userEmail=${student.email})}">
+                                    <a th:href="@{/roles/get-roles(studentId=${student.id})}">
                                        update role
                                     </a>
                                 </td>
 
                                 <td>
-                                    <a th:href="@{/students/delete(userEmail=student.email)}"
+                                    <a th:href="@{/students/delete(studentEmail=student.getAccount().getEmail())}"
                                        class="btn btn-danger btn-sm">
                                         delete
                                     </a>

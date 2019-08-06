@@ -35,14 +35,14 @@
                  th:each="student : ${students}">
                 <div class="team-item">
                     <div class="team-img">
-                        <a href="#" th:href="@{/students/details(userEmail=${student.email})}">
+                        <a href="#" th:href="@{/students/details(studentId=${student.id})}">
                             <img src="/images/placeholder.jpg" alt=""
-                                 th:src="@{/photo/user/photo(userEmail=${student.email})}"
+                                 th:src="@{/photo/user/photo(studentId=${student.id})}"
                             /></a>
                     </div>
 
                     <div class="team-body">
-                        <a href="#" th:href="@{/students/details(userEmail=${student.email})}">
+                        <a href="#" th:href="@{/students/details(studentId=${student.id})}">
                             <h3 class="name" th:text="${student.firstName}+ ' ' +${student.lastName} "></h3></a>
                         <span class="designation">Student</span>
                     </div>

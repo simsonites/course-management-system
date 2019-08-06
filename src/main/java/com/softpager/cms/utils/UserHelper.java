@@ -3,9 +3,9 @@ package com.softpager.cms.utils;
 import com.softpager.cms.abstracts.CMSUser;
 import com.softpager.cms.entities.Course;
 import com.softpager.cms.entities.Role;
-import com.softpager.cms.services.CourseService;
-import com.softpager.cms.services.CMSUserService;
-import com.softpager.cms.services.RoleService;
+import com.softpager.cms.entities.Student;
+import com.softpager.cms.entities.UserAccount;
+import com.softpager.cms.services.*;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +34,15 @@ public class UserHelper {
   @Autowired
   private RoleService roleService;
 
+  @Autowired
+  private StudentService studentService;
+
+  @Autowired
+  private UserAccountService accountService;
+
     public boolean getCurrentUser(Principal principal, String theEmail){
         String currentUserEmail = principal.getName();
-        CMSUser theUser = cmsUserService.findByEmail(currentUserEmail);
+        UserAccount account = getUser(currentUserEmail);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         boolean hasAdminRole = false;
         for (GrantedAuthority role : authentication.getAuthorities()) {
@@ -45,28 +51,24 @@ public class UserHelper {
                 break;
             }
         }
-        return (hasAdminRole) || (theUser.getEmail().equals(theEmail));
+        return (hasAdminRole) || (account.getEmail().equals(theEmail));
     }
 
-    /*This method deletes a user from the database by the Id (email)*/
+      //This method deletes a user from the database by the Id (email)
     public void deleteUser(String email){
-        Set<Course> userCourses = cmsUserService.findByEmail(email).getCourses();
+        Set<Course> userCourses = studentService.findByEmail(email).getCourses();
         Role userRole = cmsUserService.findByEmail(email).getRole();
         if (userCourses != null){
             for (Course course : userCourses){
-                courseService.removeUserFromCourse(course, cmsUserService.findByEmail(email));
+                courseService.removeUserFromCourse(course, studentService.findByEmail(email));
             }
         }
-        cmsUserService.deleteByEmail(email);
+        studentService.deleteByEmail(email);
     }
 
     /* Let's user this method to get any available user for the session*/
-    public CMSUser getUser(HttpSession session)throws UsernameNotFoundException {
-         String email = (String) session.getAttribute("email");
-        if (email != null){
-            return cmsUserService.findByEmail(email);
-        }
-       throw new UsernameNotFoundException(email + " is not associated with any user!");
-    }
+   private UserAccount getUser(String email){
+       return accountService.findByEmail(email);
+   }
 
 }

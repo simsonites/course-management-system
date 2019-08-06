@@ -19,6 +19,8 @@
                 <div class="col-sm-8">
                     <input type="text" th:field="*{title}" class="form-control"
                            id="title">
+                    <div class="text-danger"  th:if="${#fields.hasErrors('title')}"
+                         th:errors="*{title}">Name Error</div>
                 </div>
             </div>
 
@@ -27,6 +29,8 @@
                 <div class="col-sm-8">
                     <input type="number" th:field="*{numberOfCredits}" class="form-control"
                            id="credit">
+                    <div class="text-danger"  th:if="${#fields.hasErrors('numberOfCredits')}"
+                         th:errors="*{numberOfCredits}">Name Error</div>
                 </div>
             </div>
 

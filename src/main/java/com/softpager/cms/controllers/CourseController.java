@@ -5,6 +5,7 @@ import com.softpager.cms.entities.Course;
 import com.softpager.cms.entities.Student;
 import com.softpager.cms.services.CourseService;
 import com.softpager.cms.services.CMSUserService;
+import com.softpager.cms.services.StudentService;
 import com.softpager.cms.utils.ErrorMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +30,15 @@ public class CourseController {
     @Autowired
     private CMSUserService cmsUserService;
 
+    @Autowired
+    private StudentService studentService;
+
 
     @GetMapping
     public String manageCourses(Model model) {
         model.addAttribute("courses", this.getAllCourses());
         return "admin/manage-courses";
     }
-
 
     @GetMapping("/course")
     public String getCourse(@RequestParam("courseId") long theId, Model model) {
@@ -47,22 +50,22 @@ public class CourseController {
     }
 
 
-    @RequestMapping("/add-course-to-user")
+    @RequestMapping("/register-for-course")
     public String registerForCourse(@RequestParam("courseId") long theId,
                                         Principal principal, Model model,
                                     HttpSession httpSession) {
         String email = principal.getName();
-        CMSUser theUser = cmsUserService.findByEmail(email);
+        Student theStudent = studentService.findByEmail(email);
         Course theCourse = courseService.getCourse(theId);
-
-        if ((theUser != null) && theUser.getCourses().size() == 3) {
+        if ((theStudent != null) && theStudent.getCourses().size() == 3) {
             model.addAttribute("errorMessage", ErrorMessage.MAXIMUM_REGISTERED);
             model.addAttribute("goBackToProfile", ErrorMessage.GO_BACK_TO_PROFILE);
             return "error-page";
         }
-        List<CMSUser> users = theCourse.getUsers();
-        for (CMSUser usersInCourse : users) {
-            if (theUser != null && usersInCourse.getEmail().equals(theUser.getEmail())) {
+        List<Student> students = theCourse.getStudents();
+        for (Student studentsInCourse : students) {
+            if (theStudent != null &&
+                    studentsInCourse.getAccount().getEmail().equals(theStudent.getAccount().getEmail())) {
                 model.addAttribute("errorMessage", " Sorry , " + email + "  "
                         + ErrorMessage.ALREADY_REGISTERED);
                 model.addAttribute("goBack", ErrorMessage.GO_BACK_TO_COURSE);
@@ -71,8 +74,9 @@ public class CourseController {
         }
 
         httpSession.setAttribute("email", email);
-        if (theUser != null) {
-            courseService.addUserToCourse(theCourse, cmsUserService.findByEmail(theUser.getEmail()));
+        if (theStudent != null) {
+            courseService.addUserToCourse(theCourse,
+                    studentService.findByEmail(email));
         }
         model.addAttribute("userEmail", email);
         return "redirect:/students/details";
@@ -95,19 +99,19 @@ public class CourseController {
     public String assignCourse(@RequestParam("courseId") long[] theId,
                                RedirectAttributes rd, HttpSession httpSession) {
         String theEmail = (String) httpSession.getAttribute("email");
-        CMSUser theUser = cmsUserService.findByEmail(theEmail);
+        Student theStudent = studentService.findByEmail(theEmail);
         List<Course> theCourses = courseService.getSelectedCourses(theId);
         if ((theCourses != null)){
             for (Course course : theCourses){
-                    courseService.addUserToCourse(course,theUser);
+                    courseService.addUserToCourse(course,theStudent);
             }
             rd.addFlashAttribute("message", "courses were successfully added to  "
-                    + (theUser != null ? theUser.getFirstName() : null));
+                    + (theStudent != null ? theStudent.getFirstName() : null));
             return "redirect:/admin";
         }
         
         rd.addFlashAttribute("courseAlreadyAdded","Duplicate courses found detected for  "
-                +theUser.getFirstName());
+                +theStudent.getFirstName());
         return "admin/manage-courses";
     }
 
@@ -123,11 +127,11 @@ public class CourseController {
 
         String email = principal.getName();
         Course theCourse = courseService.getCourse(theId);
-        List<CMSUser> users = theCourse.getUsers();
-        for (CMSUser usersInCourse : users) {
-            if (usersInCourse.getEmail().equals(email)){
+        List<Student> students = theCourse.getStudents();
+        for (Student studentsInCourse : students) {
+            if (studentsInCourse.getAccount().getEmail().equals(email)){
                 httpSession.setAttribute("email", email);
-                courseService.removeUserFromCourse(theCourse, cmsUserService.findByEmail(email));
+                courseService.removeUserFromCourse(theCourse, studentService.findByEmail(email));
                 model.addAttribute("userEmail", email);
                 return "redirect:/students/details";
             }

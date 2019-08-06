@@ -4,7 +4,7 @@ package com.softpager.cms.entities;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.*;
 
 import com.softpager.cms.abstracts.CMSUser;
 import lombok.Data;
@@ -23,7 +23,7 @@ public class Course {
     @Column(name = "course_id")
     private long id;
 
-    @NotEmpty
+    @NotEmpty(message = "course title required")
     @Column(name = "title", unique = true)
     private String title;
 
@@ -33,18 +33,20 @@ public class Course {
             " printing and typesetting industry.Lorem Ipsum has been " +
             "the like Aldus PageMaker including versions of Lorem Ipsum.";
 
-   // @NotEmpty
+
+    @Min(value = 15, message = "number of credits must not below 15")
+    @Max(value = 30, message = "number of credits must not above 30")
     @Column(name = "credits")
     private int numberOfCredits;
 
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,
             CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(name = "user_courses", joinColumns = {@JoinColumn(name = "COURSE_ID",
+    @JoinTable(name = "student_courses", joinColumns = {@JoinColumn(name = "COURSE_ID",
             referencedColumnName = "course_id")},
-            inverseJoinColumns = {@JoinColumn(name = "USER_ID",
+            inverseJoinColumns = {@JoinColumn(name = "STUDENT_ID",
                     referencedColumnName = "user_id")})
-    private List<CMSUser> users = new ArrayList<>();
+    private List<Student> students = new ArrayList<>();
 
 
    public Course() {
@@ -58,15 +60,15 @@ public class Course {
     }
 
 
-    public void addUserToCourse(CMSUser theUser){
-        this.getUsers().add(theUser);
-        theUser.getCourses().add(this);
+    public void addStudentToCourse(Student theStudent){
+        this.getStudents().add(theStudent);
+        theStudent.getCourses().add(this);
     }
 
 
-    public void removeUserFromCourse(CMSUser theUser){
-        this.getUsers().remove(theUser);
-        theUser.getCourses().remove(this);
+    public void removeStudentFromCourse(Student theStudent){
+        this.getStudents().remove(theStudent);
+        theStudent.getCourses().remove(this);
     }
 
 

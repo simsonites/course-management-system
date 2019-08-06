@@ -70,12 +70,13 @@ public class RoleController {
       if (usersInRole != null){
           log.info("UUS {} :",usersInRole.size());
           for (CMSUser user : usersInRole){
+              user.removeUserRole(theRole);
+              cmsUserService.save(user);
           }
        List<CMSUser> usersInRole2 = cmsUserService.findByRole(theRole);
           log.info("UUS2 {} :",usersInRole2.size());
       }
-      roleService.deleteByName(theRole.getName());
-
+      roleService.deleteById(theRole.getId());
         return "redirect:/roles";
     }
 

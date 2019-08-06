@@ -1,7 +1,6 @@
 package com.softpager.cms.controllers;
 
 import com.softpager.cms.entities.Course;
-import com.softpager.cms.entities.Instructor;
 import com.softpager.cms.entities.Student;
 import com.softpager.cms.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,6 @@ public class HomeController {
         model.addAttribute("courses", allCourses);
         model.addAttribute("currentPage", page);
         model.addAttribute("student", new Student());
-        model.addAttribute("instructor", new Instructor());
         return "course/courses";
     }
 
@@ -40,14 +38,6 @@ public class HomeController {
         List<Course> foundCourses = courseService.findByTitle(theTitle);
         model.addAttribute("course", foundCourses);
         return "redirect: /";
-    }
-
-
-
-
-    @GetMapping("/login")
-    public String loginForm() {
-        return "login";
     }
 
 

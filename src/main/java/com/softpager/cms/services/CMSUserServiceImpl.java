@@ -29,19 +29,14 @@ public class CMSUserServiceImpl implements CMSUserService {
     }
 
     @Override
-    public void save(CMSUser theUser) {
+    public CMSUser save(CMSUser theUser) {
         cmsUserRepository.save(theUser);
-    }
-
-    @Override
-    public void deleteByEmail(String email) {
-        course.removeUserFromCourse(cmsUserRepository.findByEmail(email));
-        cmsUserRepository.deleteByEmail(email);
+        return theUser;
     }
 
     @Override
     public CMSUser findByEmail(String email) {
-        return  cmsUserRepository.findByEmail(email);
+        return null;
     }
 
     @Override

@@ -10,8 +10,11 @@ import com.softpager.cms.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import java.util.Optional;
@@ -106,7 +109,11 @@ public class AdminController {
 
     //This method actually saves the course to the database
     @PostMapping("/create-course")
-    public String saveCourse(@ModelAttribute Course theCourse) {
+    public String saveCourse(@Valid @ModelAttribute Course theCourse,
+                             BindingResult br, RedirectAttributes rd) {
+        if (br.hasErrors()){
+            return "course/add-course";
+        }
         courseService.saveCourse(theCourse);
         return "redirect:/courses";
     }
@@ -114,15 +121,16 @@ public class AdminController {
     //This method deletes a course from the database by the ID
     @GetMapping("/delete-course")
     public String deleteCourse(@RequestParam("courseId") long theId) {
-        List<CMSUser> coursesUsers = courseService.getCourse(theId).getUsers();
+        List<Student> coursesUsers = courseService.getCourse(theId).getStudents();
         if (coursesUsers != null){
-            for (CMSUser user : coursesUsers){
-                courseService.removeUserFromCourse(courseService.getCourse(theId),user);
+            for (Student student : coursesUsers){
+                courseService.removeUserFromCourse(courseService.getCourse(theId),student);
             }
         }
         courseService.deleteCourse(theId);
         return "redirect:/courses";
     }
+
 
     //This method updates a course in the database by the ID
     @GetMapping("/update-course")

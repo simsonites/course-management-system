@@ -2,8 +2,10 @@ package com.softpager.cms.controllers;
 
 import com.softpager.cms.abstracts.CMSUser;
 import com.softpager.cms.entities.FileUpload;
+import com.softpager.cms.entities.UserAccount;
 import com.softpager.cms.services.FileUploadService;
 import com.softpager.cms.services.CMSUserService;
+import com.softpager.cms.services.UserAccountService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -25,6 +27,9 @@ public class FileUploadController {
     @Autowired
     private FileUploadService fileUploadService;
 
+    @Autowired
+    private UserAccountService accountService;
+
 
     //This method gets the form for the image upload
     @GetMapping("/form")
@@ -38,22 +43,22 @@ public class FileUploadController {
     @PostMapping("/upload")
     public String updateUserPhoto(@RequestParam("userEmail") String userEmail,
                                   MultipartFile file, Model model) {
-        CMSUser theUser = cmsUserService.findByEmail(userEmail);
-        if (theUser != null) {
-            theUser.setPhoto(this.uploadFile(theUser, file));
+        UserAccount account = accountService.findByEmail(userEmail);
+        if (account != null) {
+            account.getUser().setPhoto(this.uploadFile(account.getEmail(), file));
         }
-        model.addAttribute("userEmail",theUser.getEmail());
+        model.addAttribute("userEmail",account.getEmail());
         return "redirect:/user/profile";
     }
 
     // this is the helper method for the image upload
-    private FileUpload uploadFile(@RequestParam("userEmail") CMSUser user,
+    private FileUpload uploadFile(@RequestParam("userEmail") String userEmail,
                                   @RequestParam("file") MultipartFile photo) {
-        CMSUser theUser = cmsUserService.findByEmail(user.getEmail());
-        if (theUser != null) {
+        UserAccount account = accountService.findByEmail(userEmail);
+        if (account != null) {
             FileUpload fileUpload = fileUploadService.saveUserPhoto(photo);
-            theUser.setPhoto(fileUpload);
-            cmsUserService.save(theUser);
+             account.getUser().setPhoto(fileUpload);
+            cmsUserService.save(account.getUser());
             return fileUpload;
         }
         return null;

@@ -35,7 +35,7 @@
                                 <a class="pull-left" href="#">
                                     <img class="media-object update-card-MDimentions"
                                          style="width:250px;height:250px;" src="/static/images/placeholder.jpeg"
-                                         th:src="@{/photo/user/photo(userEmail=${student.email})}"/>
+                                         th:src="@{/photo/user/photo(userEmail=${student.getAccount().email})}"/>
                                 </a>
                             </th>
                         </tr>
@@ -53,11 +53,12 @@
                         </tr>
                         <tr>
                             <th scope="row">Email Address</th>
-                            <td colspan="4" th:text="${student.email}">Student Email Address</td>
+                            <td colspan="4" th:text="${student.getAccount().email}">Student Email Address</td>
                         </tr>
                         <tr>
                             <th scope="row">Role </th>
-                            <td colspan="4" th:text="${student.getRole().getName()}"></td>
+                            <td colspan="4" th:with="role=${student.getRole()}">
+                                <div th:if="${role}" th:text="${role.getName()}" ></div></td>
                         </tr>
                         <tr>
                             <th scope="row">Registration Date</th>
