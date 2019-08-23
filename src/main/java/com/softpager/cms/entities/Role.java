@@ -1,12 +1,12 @@
 package com.softpager.cms.entities;
 
-        import com.softpager.cms.abstracts.CMSUser;
-        import lombok.Data;
-        import lombok.ToString;
+import com.softpager.cms.abstracts.CMSUser;
+import lombok.Data;
+import lombok.ToString;
 
-        import javax.persistence.*;
-        import javax.validation.constraints.NotEmpty;
-        import java.util.*;
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import java.util.*;
 
 @Data
 @Entity
@@ -14,16 +14,24 @@ package com.softpager.cms.entities;
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
+    @Column(name = "role_id")
     private long id;
 
     @Column(unique = true)
-    @NotEmpty(message = "please, enter a new role to be created")
+    @NotEmpty
     private String name;
 
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER,
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST,
+                    CascadeType.REFRESH, CascadeType.DETACH})
+    private List<CMSUser> users = new ArrayList<>();
 
-    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER,cascade ={CascadeType.MERGE})
-    private List<CMSUser> users;
+
+    public Role(String name, List<CMSUser> users) {
+        this.name = name;
+        this.users = users;
+    }
 
     public Role(String name) {
         this.name = name;
@@ -32,16 +40,12 @@ public class Role {
     public Role() {
     }
 
-    public void addUser(CMSUser theUser) {
-        if (users == null) {
-            users = new ArrayList<>();
-        }
-        users.add(theUser);
-        theUser.setRole(this);
+
+    public void addRoleToUSer(CMSUser theUser){
+        this.getUsers().add(theUser);
+        theUser.getRoles().add(this);
     }
 
-    public void removeUser(CMSUser theUsers){
-        users.remove(theUsers);
-        theUsers.setRole(null);
-    }
+
+
 }

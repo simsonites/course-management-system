@@ -7,14 +7,16 @@ import java.util.List;
 import java.util.Optional;
 
 
-public interface CMSUserService {
+public interface UserService {
 
     Optional<CMSUser> getUser(long theId);
 
-    CMSUser save(CMSUser theUser);
+    void save(CMSUser theUser);
+
+    void deleteByEmail(String email);
 
     CMSUser findByEmail(String email);
 
-    List findByRole(Role theRole);
+    List findByRoles(Role theRole);
 
 }

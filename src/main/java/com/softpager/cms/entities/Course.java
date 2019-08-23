@@ -19,11 +19,11 @@ import lombok.EqualsAndHashCode;
 public class Course {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name = "course_id")
     private long id;
 
-    @NotEmpty(message = "course title required")
+    @NotEmpty(message = "Please set  title for this course")
     @Column(name = "title", unique = true)
     private String title;
 
@@ -34,22 +34,23 @@ public class Course {
             "the like Aldus PageMaker including versions of Lorem Ipsum.";
 
 
-    @Min(value = 15, message = "number of credits must not below 15")
-    @Max(value = 30, message = "number of credits must not above 30")
+    @NotNull(message = "Please specify number of credits for this course")
+    @Max(value = 30,message = "All courses have maximum of 30 credits")
+    @Min(value = 15, message = "All courses have minimum of 15 credits")
     @Column(name = "credits")
     private int numberOfCredits;
 
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,
             CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(name = "student_courses", joinColumns = {@JoinColumn(name = "COURSE_ID",
+    @JoinTable(name = "user_courses", joinColumns = {@JoinColumn(name = "COURSE_ID",
             referencedColumnName = "course_id")},
-            inverseJoinColumns = {@JoinColumn(name = "STUDENT_ID",
+            inverseJoinColumns = {@JoinColumn(name = "USER_ID",
                     referencedColumnName = "user_id")})
-    private List<Student> students = new ArrayList<>();
+    private List<CMSUser> users = new ArrayList<>();
 
 
-   public Course() {
+    public Course() {
     }
 
 
@@ -60,16 +61,19 @@ public class Course {
     }
 
 
-    public void addStudentToCourse(Student theStudent){
-        this.getStudents().add(theStudent);
-        theStudent.getCourses().add(this);
+    public void addUserToCourse(CMSUser theUser){
+        this.getUsers().add(theUser);
+        theUser.getCourses().add(this);
     }
 
 
-    public void removeStudentFromCourse(Student theStudent){
-        this.getStudents().remove(theStudent);
-        theStudent.getCourses().remove(this);
+    public void removeUserFromCourse(CMSUser theUser){
+        this.getUsers().remove(theUser);
+        theUser.getCourses().remove(this);
     }
 
+
+    /*,
+            CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH */
 
 }

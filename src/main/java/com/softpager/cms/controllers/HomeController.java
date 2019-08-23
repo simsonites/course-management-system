@@ -41,6 +41,14 @@ public class HomeController {
     }
 
 
+
+
+    @GetMapping("/login")
+    public String loginForm() {
+        return "login";
+    }
+
+
     @GetMapping("/about")
     public String about(Model model) {
         return "about";

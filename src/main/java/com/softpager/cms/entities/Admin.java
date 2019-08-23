@@ -15,7 +15,8 @@ public class Admin extends CMSUser {
     public Admin() {
     }
 
-    public Admin(String firstName, String lastName, String gender) {
-        super(firstName, lastName, gender);
+    public Admin(String email, String password, String firstName, String lastName,
+                 String gender) {
+        super(email, password, firstName, lastName, gender);
     }
 }

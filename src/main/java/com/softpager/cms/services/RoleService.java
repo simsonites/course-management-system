@@ -20,5 +20,9 @@ public interface RoleService {
 
     void deleteByName(String name);
 
-    void deleteById(long id);
+   // void addUserToRole(Role role, CMSUser theUser);
+
+    List<Role> getSelectedRoles(long[] theId);
+
+    void addUserToRole(Role role, CMSUser theUser);
 }

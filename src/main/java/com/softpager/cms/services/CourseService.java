@@ -2,7 +2,6 @@ package com.softpager.cms.services;
 
 import com.softpager.cms.abstracts.CMSUser;
 import com.softpager.cms.entities.Course;
-import com.softpager.cms.entities.Student;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -22,9 +21,9 @@ public interface CourseService {
 
     List<Course> findByTitle(String theTitle);
 
-    void addUserToCourse(Course theCourse, Student theStudent);
+    void addUserToCourse(Course theCourse, CMSUser theStudent);
 
-    void removeUserFromCourse(Course theCourse, Student theStudent);
+    void removeUserFromCourse(Course theCourse, CMSUser user);
 
 
     List<Course> getSelectedCourses(long[] theId);

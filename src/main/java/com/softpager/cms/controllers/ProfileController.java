@@ -1,11 +1,8 @@
 package com.softpager.cms.controllers;
 
+import com.softpager.cms.abstracts.CMSUser;
 import com.softpager.cms.entities.Course;
-import com.softpager.cms.entities.Student;
-import com.softpager.cms.entities.UserAccount;
-import com.softpager.cms.services.StudentService;
-import com.softpager.cms.services.CMSUserService;
-import com.softpager.cms.services.UserAccountService;
+import com.softpager.cms.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,23 +18,17 @@ public class ProfileController {
 
 
     @Autowired
-    private CMSUserService cmsUserService;
-
-    @Autowired
-    private StudentService studentService;
-
-    @Autowired
-    public UserAccountService accountService;
+    private UserService userService;
 
 
 
     @GetMapping("/profile")
     public String getStudentProfile(Model model, Principal principal) {
         String email = principal.getName();
-        UserAccount account = accountService.findByEmail(email);
-        if (account !=null){
-            Set<Course> userCourses = account.getUser().getCourses();
-            model.addAttribute("user",account.getUser());
+        CMSUser theUser = userService.findByEmail(email);
+        if (theUser !=null){
+            Set<Course> userCourses = theUser.getCourses();
+            model.addAttribute("user",theUser);
             model.addAttribute("courses", userCourses);
         }
         return "user-profile";

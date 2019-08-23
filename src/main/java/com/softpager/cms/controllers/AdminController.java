@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -83,9 +82,8 @@ public class AdminController {
   /*THIS METHOD RETURNS ALL STUDENTS TO ADMIN MANAGE STUDENT PAGE*/
 
     @GetMapping("/manage-students")
-    public String getAllStudents(Model model){
-        List<Student> allStudents = studentService.getAllStudents();
-        model.addAttribute("students",allStudents);
+    public String getAllStudents(Model model, @RequestParam(defaultValue="") String email){
+        model.addAttribute("students",studentService.findByEmail(email));
         return "admin/manage-students";
     }
 
@@ -109,8 +107,7 @@ public class AdminController {
 
     //This method actually saves the course to the database
     @PostMapping("/create-course")
-    public String saveCourse(@Valid @ModelAttribute Course theCourse,
-                             BindingResult br, RedirectAttributes rd) {
+    public String saveCourse(@Valid @ModelAttribute Course theCourse, BindingResult br) {
         if (br.hasErrors()){
             return "course/add-course";
         }
@@ -121,16 +118,15 @@ public class AdminController {
     //This method deletes a course from the database by the ID
     @GetMapping("/delete-course")
     public String deleteCourse(@RequestParam("courseId") long theId) {
-        List<Student> coursesUsers = courseService.getCourse(theId).getStudents();
+        List<CMSUser> coursesUsers = courseService.getCourse(theId).getUsers();
         if (coursesUsers != null){
-            for (Student student : coursesUsers){
-                courseService.removeUserFromCourse(courseService.getCourse(theId),student);
+            for (CMSUser user : coursesUsers){
+                courseService.removeUserFromCourse(courseService.getCourse(theId),user);
             }
         }
         courseService.deleteCourse(theId);
         return "redirect:/courses";
     }
-
 
     //This method updates a course in the database by the ID
     @GetMapping("/update-course")

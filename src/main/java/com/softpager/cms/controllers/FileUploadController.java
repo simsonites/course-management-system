@@ -2,10 +2,8 @@ package com.softpager.cms.controllers;
 
 import com.softpager.cms.abstracts.CMSUser;
 import com.softpager.cms.entities.FileUpload;
-import com.softpager.cms.entities.UserAccount;
 import com.softpager.cms.services.FileUploadService;
-import com.softpager.cms.services.CMSUserService;
-import com.softpager.cms.services.UserAccountService;
+import com.softpager.cms.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -22,19 +20,16 @@ import java.io.IOException;
 public class FileUploadController {
 
     @Autowired
-    private CMSUserService cmsUserService;
+    private UserService userService;
 
     @Autowired
     private FileUploadService fileUploadService;
-
-    @Autowired
-    private UserAccountService accountService;
 
 
     //This method gets the form for the image upload
     @GetMapping("/form")
     public String getUploadForm(@RequestParam("userEmail") String userEmail, Model model) {
-        CMSUser theUser = cmsUserService.findByEmail(userEmail);
+        CMSUser theUser = userService.findByEmail(userEmail);
         model.addAttribute("user", theUser);
         return "upload/upload-photo";
     }
@@ -43,22 +38,22 @@ public class FileUploadController {
     @PostMapping("/upload")
     public String updateUserPhoto(@RequestParam("userEmail") String userEmail,
                                   MultipartFile file, Model model) {
-        UserAccount account = accountService.findByEmail(userEmail);
-        if (account != null) {
-            account.getUser().setPhoto(this.uploadFile(account.getEmail(), file));
+        CMSUser theUser = userService.findByEmail(userEmail);
+        if (theUser != null) {
+            theUser.setPhoto(this.uploadFile(theUser, file));
         }
-        model.addAttribute("userEmail",account.getEmail());
+        model.addAttribute("userEmail",theUser.getEmail());
         return "redirect:/user/profile";
     }
 
     // this is the helper method for the image upload
-    private FileUpload uploadFile(@RequestParam("userEmail") String userEmail,
+    private FileUpload uploadFile(@RequestParam("userEmail") CMSUser user,
                                   @RequestParam("file") MultipartFile photo) {
-        UserAccount account = accountService.findByEmail(userEmail);
-        if (account != null) {
+        CMSUser theUser = userService.findByEmail(user.getEmail());
+        if (theUser != null) {
             FileUpload fileUpload = fileUploadService.saveUserPhoto(photo);
-             account.getUser().setPhoto(fileUpload);
-            cmsUserService.save(account.getUser());
+            theUser.setPhoto(fileUpload);
+            userService.save(theUser);
             return fileUpload;
         }
         return null;
@@ -70,7 +65,7 @@ public class FileUploadController {
     public @ResponseBody
     byte[] getImageWithMediaType(@RequestParam("userEmail") String email)
             throws IOException {
-        CMSUser theUser = cmsUserService.findByEmail(email);
+        CMSUser theUser = userService.findByEmail(email);
         FileUpload theFileUpload = fileUploadService.getUserPhoto(theUser.getPhoto().getId());
         return theFileUpload.getImage();
     }

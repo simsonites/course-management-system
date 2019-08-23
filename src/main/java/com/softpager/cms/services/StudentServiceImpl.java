@@ -1,12 +1,12 @@
 package com.softpager.cms.services;
 
-import com.softpager.cms.entities.Course;
 import com.softpager.cms.entities.Role;
 import com.softpager.cms.entities.Student;
 import com.softpager.cms.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,13 +19,14 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private StudentRepository studentRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     private RoleService roleService;
 
-    private Course course = new Course();
-
-
+    @Autowired
+    private UserService userService;
 
     @Override
     public Page<Student> getStudents(PageRequest pages) {
@@ -33,11 +34,21 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public Optional<Student> getStudent(long theId) {
+
+        return studentRepository.findById(theId);
+    }
+
+    @Override
     public void saveStudent(Student theStudent) {
-        Role newRole = roleService.findByName("USER");
-        theStudent.setRole(newRole);
+        theStudent.setPassword(passwordEncoder.encode(theStudent.getPassword()));
+        Role newRole = roleService.findByName("STUDENT");
+        Set<Role> studentRoles = new HashSet<>();
+        studentRoles.add(newRole);
+        theStudent.setRoles(studentRoles);
         studentRepository.save(theStudent);
     }
+
 
     @Override
     public List<Student> getAllStudents() {
@@ -45,23 +56,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student findByEmail(String email) {
-        return studentRepository.findByAccount_Email(email);
-    }
-
-    @Override
-    public void deleteByEmail(String email) {
-        course.removeStudentFromCourse(studentRepository.findByAccount_Email(email));
-        studentRepository.deleteById(studentRepository.findByAccount_Email(email).getId());
-    }
-
-    @Override
-    public Student findByAccount_Email(String email) {
-        return null;
-    }
-
-    @Override
-    public Optional<Student> findById(long theId) {
-        return studentRepository.findById(theId);
+    public List<Student> findByEmail(String email) {
+        return studentRepository.findByEmailLike("%" +email+ "%");
     }
 }

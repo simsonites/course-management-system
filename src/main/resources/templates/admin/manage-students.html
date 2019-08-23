@@ -21,24 +21,24 @@
                 <div class="admin-tab-content mb-50">
                     <section>
                         <h2>List Of Students</h2>
-                        <div class="col-md-12 mb-30">
-                            <div class="row">
+                            <div class="row mb-30">
+
                                 <a th:href="@{/students/new}" class="col-md-2 btn btn-primary">
                                     <span class="glyphicon glyphicon-plus"></span>
                                     Register New student
                                 </a>
 
-                                <div class="input-group col-md-10">
-                                    <input type="text" class="form-control" placeholder="Enter student name to search"
-                                           aria-label="Recipient's username" aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text btn btn-primary" id="basic-addon2">Search instructor</span>
+                                <form th:action="@{/admin/manage-students}" class="form-inline col-md-10">
+                                    <div class="input-group col-md-12">
+                                        <input type="text" name="email" class="form-control"
+                                               placeholder="Search student by email">
+                                        <div class="input-group-append">
+                                            <input type="submit" class="input-group-text btn btn-primary"
+                                                   id="basic-addon2" value="Search Student"/>
+                                        </div>
                                     </div>
-                                </div>
-
-                            </div>
-                        </div>
-
+                                </form>
+                           </div>
 
                         <table class="table table-bordered table-striped table-hover">
                             <thead class="text-center">
@@ -58,33 +58,36 @@
                                 <td th:text="${student.lastName}"/>
                                 <td th:text="${student.gender}"/>
 
-                                <td th:with="role=${student.getRole()}">
-                                    <div th:if="${role}" th:text="${role.getName()}" ></div></td>
+                                <td th:with="role=${student.getRoles()}">
+                                    <div th:if="${role}"
+                                         th:each="r:${role}"
+                                         th:text="${r.getName()}" >
+                                    </div>
+                                </td>
 
-                                <td th:text="${student.getAccount().email}"/>
-
-                                <td><a th:href="@{/students/details(studentId=${student.id})}">
-                                    View details</a></td>
+                                <td th:text="${student.email}"/>
+                                <td><a th:href="@{/students/details(userEmail=${student.email})}">
+                                    view details</a></td>
                                 <td>
                                     <a th:href="@{/students/update(studentId=${student.id})}">
-                                        Edit
+                                        edit
                                     </a>
                                 </td>
 
                                 <td>
-                                    <a th:href="@{/courses/get-courses(studentId=${student.id})}">
+                                    <a th:href="@{/courses/get-courses(userEmail=${student.email})}">
                                         assign courses
                                     </a>
                                 </td>
 
                                 <td>
-                                    <a th:href="@{/roles/get-roles(studentId=${student.id})}">
+                                    <a th:href="@{/roles/get-roles(userEmail=${student.email})}">
                                        update role
                                     </a>
                                 </td>
 
                                 <td>
-                                    <a th:href="@{/students/delete(studentEmail=student.getAccount().getEmail())}"
+                                    <a th:href="@{/students/delete(userEmail=student.email)}"
                                        class="btn btn-danger btn-sm">
                                         delete
                                     </a>

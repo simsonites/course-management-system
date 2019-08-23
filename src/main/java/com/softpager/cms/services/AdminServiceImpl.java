@@ -28,9 +28,11 @@ public class AdminServiceImpl  implements AdminService{
 
     @Override
     public void saveAdmin(Admin theAdmin) {
-      //  theAdmin.setPassword(passwordEncoder.encode(theAdmin.getPassword()));
+        theAdmin.setPassword(passwordEncoder.encode(theAdmin.getPassword()));
         Role newRole = new Role("ADMIN");
-        theAdmin.setRole(newRole);
+        Set<Role> studentRoles = new HashSet<>();
+        studentRoles.add(newRole);
+        theAdmin.setRoles(studentRoles);
         adminRepository.save(theAdmin);
     }
 

@@ -49,7 +49,7 @@
 
         <section>
             <h3>Currently existing roles</h3>
-            <form  th:action="@{/roles/assign-user-to-role}" th:object="${roleId}" method="post">
+            <form  th:action="@{/roles/assign-user-to-roles}" th:object="${roleId}" method="post">
                 <table  class="table  table-striped table-bordered table-hover">
                     <thead class="text-center">
                        <tr>
@@ -61,14 +61,17 @@
                     <tbody class="text-center">
                     <tr th:each="role:${roles}">
                         <td>
-                            <input type="radio" name="roleId" th:value="${role.id}"/>
+                            <input type="checkbox" name="roleId" th:value="${role.id}"/>
                         </td>
+
                         <td th:text="${role.name}" colspan="1"></td>
+
                         <td>
                             <a th:href="@{/roles/delete(name=${role.name})}">
                                 delete
                             </a>
                         </td>
+
                     </tr>
                </tbody>
                 </table>

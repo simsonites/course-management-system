@@ -1,6 +1,5 @@
-package com.softpager.cms.configs;
+package com.softpager.cms.security;
 
-import com.softpager.cms.services.CMSUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,64 +7,38 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import javax.sql.DataSource;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
 public class CMSSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-
     @Autowired
-    private CMSUserDetailService cmsUserDetailService;
+    private PasswordEncoder passwordEncoder;
 
+    private UserDetailsService userDetailsService;
 
-   @Autowired
-      protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(cmsUserDetailService);
-    }
-
-
-
-
-  /*  @Autowired
-    private DataSource myDataSource;
-
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(myDataSource)
-                .usersByUsernameQuery("select email as principal," +
-                        " password as credentials, true from users where email=?")
-                .authoritiesByUsernameQuery("select user_id as principal, " +
-                        "roles as role from roles where user_id=? ")
-                .passwordEncoder(passwordEncoder).rolePrefix("ROLE_");
+        auth.userDetailsService(userDetailsService).passwordEncoder(encodePassword());
     }
-*/
-
-
-
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers(
                 "/",
-                "/account/**",
                 "/users/**",
                 "/roles/**",
                 "/courses","/courses/course",
                 "/courses/get-courses",
-                "/courses/remove-instructor-course",
                 "/courses/assign-multiple-courses",
                 "/students/**",
                 "/photo/**",
                 "/about",
                 "/admin/**",
-                "/instructors/**",
                 "/login",
                 "/static/**", "/css/**", "/js/**", "/images/**",
                 "/fonts/**", "/webjars/**")
@@ -78,10 +51,10 @@ public class CMSSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logout().logoutSuccessUrl("/");
     }
 
-/*
+
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
+    public PasswordEncoder encodePassword() {
         return new BCryptPasswordEncoder();
-    }*/
+    }
 
 }
