@@ -1,0 +1,43 @@
+package com.softpager.cms.configs;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+
+
+@Configuration
+public class CMSWebMvcConfiguration extends WebMvcConfigurationSupport {
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/css/**")
+                .addResourceLocations("classpath:/static/bootstrap/css/");
+
+        registry.addResourceHandler("/js/**")
+                .addResourceLocations("classpath:/static/bootstrap/js/");
+
+        registry.addResourceHandler("/fonts/**")
+                .addResourceLocations("classpath:/static/fonts/");
+
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("classpath:/static/images/");
+
+        registry.addResourceHandler("/bg/**")
+                .addResourceLocations("classpath:/static/images/bg/");
+
+        registry.addResourceHandler("/courses/**")
+                .addResourceLocations("classpath:/static/images/courses/");
+    }
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/").setViewName("home");
+    }
+
+}

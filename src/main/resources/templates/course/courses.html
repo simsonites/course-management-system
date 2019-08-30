@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{includes/main_layout}">
+<head>
+    <title>CMS | Courses </title>
+</head>
+<body class="main-body">
+<div layout:fragment="content">
+    <!-- Slider Area Start -->
+    <div th:replace="includes/slider :: imageSlider"></div>
+    <!-- Slider Area End -->
+
+    <!-- Search Courses Start -->
+    <div class="rs-search-courses">
+        <div class="container">
+
+            <form class="row search-form" th:action="@{/courses/searchCourse}">
+                <div class="col-md-8">
+                    <div class="keyword">
+                        <input type="text" name="title" placeholder="Enter course keyword to search...">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="search-btn">
+                        <button type="submit">Search Courses</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    <!-- Search Courses End -->
+
+    <!-- Courses Start -->
+    <div id="rs-courses-2" class="rs-courses-2 sec-spacer">
+        <div class="container">
+
+            <div class="sec-title">
+                <h2>ALL AVAILABLE COURSES</h2>
+                <p>Fusce sem dolor, interdum in efficitur at, faucibus nec lorem.</p>
+                <div class="view-more">
+                    <a href="/courses" th:href="@{/}">View All Courses <i class="fa fa-angle-double-right">
+                    </i></a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 col-md-6" th:each="course: ${courses}">
+                    <div class="cource-item">
+                        <div class="cource-img">
+                            <a href="#">
+                                <img src="/images/courses/4.jpg" th:src="@{/images/courses/4.jpg}" alt="image"/></a>
+                            <a class="image-link" href="/courses/course" title="View course details"
+                               th:href="@{/courses/course(courseId=${course.id})}">
+                                <i class="fa fa-link"></i>
+                            </a>
+                        </div>
+                        <div class="course-body">
+                            <a href="#" class="course-category">Programming</a>
+                            <h4 class="course-title">
+                                <a href="/courses/course" th:text="${course.title}"
+                                   th:href="@{/courses/course(courseId=${course.id})}">
+
+                                </a></h4>
+                            <div class="course-desc">
+                                <p th:text="${course.description}">
+
+                                </p>
+                            </div>
+                            <form action="@{/courses/enrol-for-course}" method="post">
+                                <a th:href="@{/courses/register-for-course(courseId=${course.id})}"
+                                   class="cource-btn">
+                                    Enroll this course
+                                </a>
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <nav class="pagination">
+                <ul class="nav nav-pills">
+                    <li class="nav-item"
+                        th:each="i: ${#numbers.sequence(0, courses.totalPages -1)}">
+                        <a th:href="@{/(page=${i})}" th:text="${i}"
+                           class="nav-link" th:classappend="${currentPage}==${i}? 'active':''"/>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- Courses End -->
+</div>
+</body>
+</html>

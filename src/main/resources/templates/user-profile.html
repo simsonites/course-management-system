@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{includes/main_layout}">
+<head>
+
+    <title>CMS | User profile </title>
+</head>
+<body class="main-body">
+<div layout:fragment="content">
+
+    <div class="rs-breadcrumbs bg8 breadcrumbs-overlay">
+        <div class="breadcrumbs-inner">
+            <div class="container offset-4">
+                <div class="row">
+                    <div class="text-center">
+                        <h1 class="page-title" th:text="${user.firstName}+ '  ' + ${user.lastName}"></h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <!-- Start Student information table-->
+        <div class="media block-update-card mt-50">
+            <div class="row">
+                <div class="media-body update-card-body">
+
+                    <table class="table table-borderless">
+                        <tbody>
+                        <tr>
+                            <th rowspan="7">
+                                <a class="pull-left" href="#">
+                                    <img class="media-object update-card-MDimentions"
+                                         style="width:250px;height:250px;" src="/static/images/placeholder.jpeg"
+                                         th:src="@{/photo/user/photo(userEmail=${user.email})}"/>
+                                </a>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th scope="row">First Name</th>
+                            <td colspan="4" th:text="${user.firstName}">The First Name</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Last Name</th>
+                            <td colspan="4" th:text="${user.lastName}">The Last Name</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Gender</th>
+                            <td colspan="4" th:text="${user.gender}">The Student Gender</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Email Address</th>
+                            <td colspan="4" th:text="${user.email}">Student Email Address</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Registration Date</th>
+                            <td colspan="4" th:text="${#dates.format(user.createdAt, 'dd-MMM-yyyy')}">Registration
+                                Date
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Last Updated</th>
+                            <td colspan="4" th:text="${#dates.format(user.updatedAt ,'dd-MMM-yyyy')}">Last updated
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a th:href="@{/photo/form(userEmail=${user.email})}"> Update photo</a>
+                            </td>
+                            <td>
+                                <a class="col-md-2" th:href="@{/students/update(studentId=${user.id})}">
+                                    Edit Information
+                                </a>
+                            </td>
+                            <td>
+                                <a class="col-md-2" th:href="@{/students/delete(studentId=${user.id})}">
+                                    Cancel Registration
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--End Student information table-->
+
+
+        <!--Start registered course table-->
+        <div class="container">
+             <div class="row">
+                 <div class="col-md-10 text-center"> <h4>Registered Courses</h4>
+                 </div>
+
+            <div class="col-sm-2">
+                <a th:href="@{/(userEmail=${user.email})}">
+                    <h6 class="text text-primary">Register for courses</h6></a>
+            </div>
+             </div>
+        </div>
+
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="text-center">
+            <tr>
+                <th nowrap>Course ID</th>
+                <th nowrap> Course Title</th>
+                <th nowrap>Number of Credits</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr align="center" th:each="course : ${courses}">
+                <td th:text="${course.id}"/>
+                <td th:text="${course.title}"/>
+                <td th:text="${course.numberOfCredits}"/>
+                <td wr th:text="${course.description}"/>
+                <td>
+                    <a th:href="@{/courses/remove-user-course(courseId=${course.getId()})}">
+                        remove
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <!--End registered course table-->
+    </div>
+</div>
+</body>
+</html>

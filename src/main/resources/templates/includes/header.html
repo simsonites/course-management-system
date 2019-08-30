@@ -1,0 +1,67 @@
+<!--Header Start-->
+<div class="full-width-header" th:fragment="header">
+        <!-- Toolbar End -->
+    <header id="rs-header" class="rs-header">
+        <div class="menu-area menu-sticky mt-50">
+            <div class="container">
+                <div class="main-menu">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <a class="rs-menu-toggle"><i class="fa fa-bars"></i>Menu</a>
+                            <nav class="rs-menu">
+                                <ul class="nav-menu">
+
+                                    <li class="menu-item-has-children">
+                                        <a href="/about" th:href="@{/about}">CRM Overview</a></li>
+
+                                    <li class="current-menu-item current_page_item">
+                                        <a href="/" th:href="@{/}" class="home">Courses</a></li>
+
+                                    <li class="menu-item-has-children">
+                                        <a href="/students" th:href="@{/students}">Students</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+
+                        <div class="col-sm-4 pull-right">
+                            <nav class="rs-menu">
+                                <ul class="nav-menu">
+
+                                    <li sec:authorize="isAuthenticated()">
+                                        <a href="/user/profile" th:href="@{/user/profile}">Profile</a>
+                                    </li>
+
+                                    <li sec:authorize="!isAuthenticated()">
+                                        <a href="/students/new" th:href="@{/students/new}">Register</a>
+                                    </li>
+
+                                    <li sec:authorize="!isAuthenticated()">
+                                        <a href="/login" th:href="@{/login}">Login</a>
+                                    </li>
+
+                                    <li sec:authorize="hasAnyRole('ROLE_ADMIN')">
+                                        <a href="/admin" th:href="@{/admin}">Dashboard</a>
+                                    </li>
+
+                                 <li sec:authorize="isAuthenticated()">
+                                     <a>
+                                         <form th:action="@{/logout}" method="post" class="form-inline">
+                                            <input type="submit" value="Logout" class="btn btn-dark"/>
+                                        </form>
+                                     </a>
+                                    </li>
+
+                                </ul>
+
+                            </nav>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Menu End -->
+    </header>
+    <!--Header End-->
+</div>

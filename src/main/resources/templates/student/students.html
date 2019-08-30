@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{includes/main_layout}">
+<head>
+    <title>CMS | students </title>
+
+    <link rel="stylesheet" href="/static/bootstrap/css/admin.css"
+          th:href="@{/css/admin.css}"/>
+
+    <script src="/js/admin.js"
+            th:src="@{/js/admin.js}"></script>
+</head>
+<body class="main-body">
+
+<div layout:fragment="content">
+
+    <div class="container">
+
+
+        <div class="card">
+            <div class="card-body">
+
+        <div class="sec-title mb-50 mt-50">
+            <h2>CURRENT REGISTERED STUDENTS</h2>
+            <p>Fusce sem dolor, interdum in efficitur at, faucibus nec lorem.</p>
+            <div class="view-more">
+                <a href="/students" th:href="@{/students}">See all students
+                    <i class="fa fa-angle-double-right">
+                    </i></a>
+            </div>
+        </div>
+        <div class="row grid">
+            <div class="col-lg-3 col-md-6 col-xs-6 grid-item filter1"
+                 th:each="student : ${students}">
+
+                <div class="team-item" th:with="userPhoto=@{/photo/user/photo(userEmail=${student.email})}">
+                    <div class="team-img">
+                        <a href="#" th:href="@{/students/details(userEmail=${student.email})}">
+                            <img th:src="@{${(userPhoto != null && !#strings.isEmpty(userPhoto)) ? userPhoto: '/images/default.jpg'}}"
+                                  alt="/images/default.jpg"  src="/images/default.jpg"/></a></div>
+
+                    <div class="team-body">
+                        <a href="#" th:href="@{/students/details(userEmail=${student.email})}">
+                            <h3 class="name" th:text="${student.firstName}+ ' ' +${student.lastName} "></h3></a>
+                        <span class="designation">Student</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <nav class="border-info">
+            <ul class="nav nav-pills pagination">
+                <li class="nav-item"
+                    th:each="i: ${#numbers.sequence(0, students.totalPages-1)}">
+                    <a th:href="@{/students/(page=${i})}" th:text="${i}"
+                       class="nav-link" th:classappend="${currentPage}==${i}? 'active':''"/>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+    </div>
+</div>
+</body>
+</html>

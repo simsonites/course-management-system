@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <div th:replace="includes/css-links :: cssFragment"></div>
+</head>
+<body>
+<div th:replace="includes/header :: header"></div>
+
+<div layout:fragment="content"></div>
+
+<br>
+
+<div th:replace="includes/footer :: footer"></div>
+
+<div th:replace="includes/js :: jsFragment"></div>
+</body>
+</html>

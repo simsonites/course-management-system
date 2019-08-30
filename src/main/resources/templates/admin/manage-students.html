@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{includes/main_layout}">
+<head>
+    <title>CMS | Manage Students </title>
+</head>
+<body class="main-body">
+
+<div layout:fragment="content" class="container">
+
+        <!-- Slider Area Start -->
+        <div th:replace="includes/admin-header :: adminHeader"></div>
+        <!-- Slider Area End -->
+
+        <div class="card">
+            <div class="card-body">
+
+                <!-- course section -->
+                <div class="admin-tab-content mb-50">
+                    <section>
+                        <h2>List Of Students</h2>
+                            <div class="row mb-30">
+
+                                <a th:href="@{/students/new}" class="col-md-2 btn btn-primary">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                    Register New student
+                                </a>
+
+                                <form th:action="@{/admin/manage-students}" class="form-inline col-md-10">
+                                    <div class="input-group col-md-12">
+                                        <input type="text" name="email" class="form-control"
+                                               placeholder="Search student by email">
+                                        <div class="input-group-append">
+                                            <input type="submit" class="input-group-text btn btn-primary"
+                                                   id="basic-addon2" value="Search Student"/>
+                                        </div>
+                                    </div>
+                                </form>
+                           </div>
+
+                        <table class="table table-bordered table-striped table-hover">
+                            <thead class="text-center">
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Gender</th>
+                                <th>Role</th>
+                                <th>Email</th>
+                                <th align="center" colspan="5">Action</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr th:each="student : ${students}">
+                                <td th:text="${student.firstName}"/>
+                                <td th:text="${student.lastName}"/>
+                                <td th:text="${student.gender}"/>
+
+                                <td th:with="role=${student.getRoles()}">
+                                    <div th:if="${role}"
+                                         th:each="r:${role}"
+                                         th:text="${r.getName()}" >
+                                    </div>
+                                </td>
+
+                                <td th:text="${student.email}"/>
+                                <td><a th:href="@{/students/details(userEmail=${student.email})}">
+                                    view details</a></td>
+                                <td>
+                                    <a th:href="@{/students/update(studentId=${student.id})}">
+                                        edit
+                                    </a>
+                                </td>
+
+                                <td>
+                                    <a th:href="@{/courses/get-courses(userEmail=${student.email})}">
+                                        assign courses
+                                    </a>
+                                </td>
+
+                                <td>
+                                    <a th:href="@{/roles/get-roles(userEmail=${student.email})}">
+                                       assign role
+                                    </a>
+                                </td>
+
+                                <td>
+                                    <a th:href="@{/students/delete(userEmail=student.email)}"
+                                       class="btn btn-danger btn-sm">
+                                        delete
+                                    </a>
+                                </td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

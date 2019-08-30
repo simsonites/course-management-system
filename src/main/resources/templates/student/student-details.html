@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{includes/main_layout}">
+<head>
+
+    <title>CMS | student details </title>
+</head>
+<body class="main-body">
+<div layout:fragment="content">
+
+    <div class="rs-breadcrumbs bg8 breadcrumbs-overlay">
+        <div class="breadcrumbs-inner">
+            <div class="container offset-4">
+                <div class="row">
+                    <div class="text-center">
+                        <h1 class="page-title" th:text="${student.firstName}+ '  ' + ${student.lastName}"></h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Start Student information table-->
+        <div class="media block-update-card mt-50">
+            <div class="row">
+                <div class="media-body update-card-body">
+                    <h2>Student Registration Details</h2>
+
+                    <table class="table table-borderless">
+                        <tbody>
+                        <tr>
+                            <th rowspan="7">
+                                <a class="pull-left" href="#">
+                                    <img class="media-object update-card-MDimentions"
+                                         style="width:250px;height:250px;" src="/static/images/placeholder.jpeg"
+                                         th:src="@{/photo/user/photo(userEmail=${student.email})}"/>
+                                </a>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th scope="row">Full Name</th>
+                            <th scope="row" th:text="${student.firstName}+ '  '+${student.lastName}">Full Name</th>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Email Address</th>
+                            <td colspan="4" th:text="${student.email}">Student Email Address</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Assigned Roles </th>
+                            <td th:text="${role}"></td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">Registration Date</th>
+                            <td colspan="4" th:text="${#dates.format(student.createdAt, 'dd-MMM-yyyy')}">Registration
+                                Date
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Last Updated</th>
+                            <td colspan="4" th:text="${#dates.format(student.updatedAt ,'dd-MMM-yyyy')}">Last updated
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--End Student information table-->
+
+
+        <!--Start registered course table-->
+        <div class="container">
+             <div class="row">
+                 <div class="col-md-10 text-center"> <h4>Registered Courses</h4>
+                 </div>
+             </div>
+        </div>
+
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="text-center">
+            <tr>
+                <th nowrap>Course ID</th>
+                <th nowrap> Course Title</th>
+                <th nowrap>Number of Credits</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr align="center" th:each="course : ${courses}">
+                <td th:text="${course.id}"/>
+                <td th:text="${course.title}"/>
+                <td th:text="${course.numberOfCredits}"/>
+                <td wr th:text="${course.description}"/>
+            </tr>
+            </tbody>
+        </table>
+        <!--End registered course table-->
+    </div>
+</div>
+</body>
+</html>

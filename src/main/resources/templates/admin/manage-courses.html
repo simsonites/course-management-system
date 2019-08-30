@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{includes/main_layout}">
+<head>
+    <title>CMS | Manage Courses </title>
+</head>
+<body class="main-body">
+
+<div layout:fragment="content">
+
+    <div class="container">
+        <!-- Slider Area Start -->
+        <div th:replace="includes/admin-header :: adminHeader"></div>
+        <!-- Slider Area End -->
+
+        <div class="card">
+            <div class="card-body">
+
+                <!-- course section -->
+                <div class="admin-tab-content mb-50">
+                    <div th:if="${courseAlreadyAdded}">
+                        <h4 class="alert alert-info" th:text="${courseAlreadyAdded}"></h4>
+                    </div>
+                    <section>
+                        <h2>Available Courses</h2>
+
+                        <div class="col-md-12 mb-30">
+                            <div class="row">
+                                <a th:href="@{/admin/course-form}" class="col-md-2 btn btn-primary">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                    Add New Course
+                                </a>
+
+                                <div class="input-group col-md-10">
+                                    <input type="text" class="form-control" placeholder="Enter student name to search"
+                                           aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text btn btn-primary"
+                                              id="basic-addon2">Search course</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <form  th:action="@{/courses/register-multiple-courses}"
+                               th:object="${courseId}" method="post">
+
+                            <input type="submit" value="assign courses" class="mb-20">
+
+                        <table class="table table-bordered table-striped table-hover">
+                            <thead class="text-center">
+                            <tr>
+                                <th>Course title</th>
+                                <th>Number of credits</th>
+                                <th align="center" colspan="4">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="course : ${courses}">
+                                <td><input type="checkbox" name="courseId" th:value="${course.id}"></td>
+                                <td nowrap="4" th:text="${course.title}"/>
+
+                                <td th:text="${course.numberOfCredits}"/>
+                                <td>
+                                    <a th:href="@{/courses/course(courseId=${course.id})}">
+                                        view course details
+                                    </a>
+                                </td>
+                                <td>
+                                    <a th:href="@{/admin/update-course(courseId=${course.id})}">
+                                        Edit
+                                    </a>
+                                </td>
+                                <td>
+                                    <a th:href="@{/admin/delete-course(courseId=${course.id})}"
+                                       class="btn btn-danger btn-sm">
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </form>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
