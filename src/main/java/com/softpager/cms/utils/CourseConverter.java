@@ -1,3 +1,4 @@
+/*
 package com.softpager.cms.utils;
 
 import com.softpager.cms.entities.Course;
@@ -23,3 +24,4 @@ public class CourseConverter  implements Converter<String, Course> {
         return selectedCourses.get(index);
     }
 }
+*/

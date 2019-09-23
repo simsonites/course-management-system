@@ -20,7 +20,7 @@ import java.util.*;
 
 @Slf4j
 @Controller
-@RequestMapping("/roles")
+@RequestMapping("/admin/roles")
 public class RoleController {
 
     @Autowired
@@ -95,23 +95,19 @@ public class RoleController {
     /*Here, we are using this method to assign roles to a
    user  using the id*/
     @RequestMapping("/assign-user-to-roles")
-    public String assignCourse(@RequestParam("roleId") long[] theId,
+    public String assignCourse(@RequestParam("roleId") long theId,
                                RedirectAttributes rd, HttpSession httpSession) {
         String theEmail = (String) httpSession.getAttribute("email");
         AbstractUser theUser = userService.findByEmail(theEmail);
-        List<Role> selectedRoles = roleService.getSelectedRoles(theId);
-        if (selectedRoles != null){
-            for (Role role : selectedRoles){
-                roleService.addUserToRole(role,theUser);
-            }
-            rd.addFlashAttribute("message", theUser.getFirstName()+
+        Optional<Role> selectedRole = roleService.getRole(theId);
+        if (selectedRole.isPresent()){
+                roleService.addUserToRole(selectedRole.get(),theUser);
+                       rd.addFlashAttribute("message", theUser.getFirstName()+
                     "has been assigned to "+ theUser.getRoles());
             return "redirect:/roles";
         }
-
         rd.addFlashAttribute("roleAlreadyExist"," Operation failed, Duplicate Role assignment for "
                 +theUser.getFirstName());
         return "admin/user-role";
     }
-
 }

@@ -1,8 +1,7 @@
 package com.softpager.cms.entities;
 
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -35,13 +34,13 @@ public class Course {
 
 
     @NotNull(message = "Please specify number of credits for this course")
-    @Max(value = 30,message = "All courses have maximum of 30 credits")
+    @Max(value = 30, message = "All courses have maximum of 30 credits")
     @Min(value = 15, message = "All courses have minimum of 15 credits")
     @Column(name = "credits")
     private int numberOfCredits;
 
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.MERGE,
             CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(name = "user_courses", joinColumns = {@JoinColumn(name = "COURSE_ID",
             referencedColumnName = "course_id")},
@@ -53,27 +52,24 @@ public class Course {
     public Course() {
     }
 
-
     public Course(String title, String description, int numberOfCredits) {
         this.title = title;
         this.description = description;
         this.numberOfCredits = numberOfCredits;
     }
 
-
-    public void addUserToCourse(AbstractUser theUser){
+    public void addUserToCourse(AbstractUser theUser) {
         this.getUsers().add(theUser);
         theUser.getCourses().add(this);
     }
 
-
-    public void removeUserFromCourse(AbstractUser theUser){
+    public void removeUserFromCourse(AbstractUser theUser) {
         this.getUsers().remove(theUser);
         theUser.getCourses().remove(this);
     }
 
-
-    /*,
-            CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH */
-
+    public void breakUserRelationship(AbstractUser theUser) {
+        Set<Course> userCourses = theUser.getCourses();
+        userCourses.removeIf(Objects::nonNull);
+    }
 }

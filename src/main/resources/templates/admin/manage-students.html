@@ -27,7 +27,7 @@
                                     Register New student
                                 </a>
 
-                                <form th:action="@{/admin/manage-students}" class="form-inline col-md-10">
+                                <form th:action="@{/students/admin/manage-students}" class="form-inline col-md-10">
                                     <div class="input-group col-md-12">
                                         <input type="text" name="email" class="form-control"
                                                placeholder="Search student by email">
@@ -74,7 +74,7 @@
                                 </td>
 
                                 <td>
-                                    <a th:href="@{/courses/get-courses(userEmail=${student.email})}">
+                                    <a th:href="@{/courses/admin/get-courses(userEmail=${student.email})}">
                                         assign courses
                                     </a>
                                 </td>
@@ -86,12 +86,11 @@
                                 </td>
 
                                 <td>
-                                    <a th:href="@{/students/delete(userEmail=student.email)}"
+                                    <a th:href="@{/students/delete(userEmail=${student.email})}"
                                        class="btn btn-danger btn-sm">
                                         delete
                                     </a>
                                 </td>
-
                             </tr>
                             </tbody>
                         </table>

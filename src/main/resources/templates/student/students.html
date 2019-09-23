@@ -34,11 +34,15 @@
             <div class="col-lg-3 col-md-6 col-xs-6 grid-item filter1"
                  th:each="student : ${students}">
 
-                <div class="team-item" th:with="userPhoto=@{/photo/user/photo(userEmail=${student.email})}">
+                <div class="team-item">
                     <div class="team-img">
                         <a href="#" th:href="@{/students/details(userEmail=${student.email})}">
-                            <img th:src="@{${(userPhoto != null && !#strings.isEmpty(userPhoto)) ? userPhoto: '/images/default.jpg'}}"
-                                  alt="/images/default.jpg"  src="/images/default.jpg"/></a></div>
+                            <img th:src="@{/photo/user/photo(userEmail=${student.email})}" style="width:200px;height:200px;"
+                                 alt="photo"/>
+                           </a>
+                    </div>
+                    <!--<img th:src="${(userPhoto != null && !#strings.isEmpty(userPhoto)) ? userPhoto: '/images/default.jpg'}"
+                         style="width:200px;height:200px;"/>-->
 
                     <div class="team-body">
                         <a href="#" th:href="@{/students/details(userEmail=${student.email})}">
@@ -48,8 +52,6 @@
                 </div>
             </div>
         </div>
-
-
 
         <nav class="border-info">
             <ul class="nav nav-pills pagination">

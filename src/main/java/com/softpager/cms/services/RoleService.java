@@ -25,4 +25,6 @@ public interface RoleService {
     List<Role> getSelectedRoles(long[] theId);
 
     void addUserToRole(Role role, AbstractUser theUser);
+
+    void removeUserFromRole(Role role, AbstractUser byId);
 }

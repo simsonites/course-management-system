@@ -56,7 +56,7 @@ public class AdminController {
     }
 
 
-    // This method create a new student
+    // This method create a new admin
     @PostMapping("/create")
     public String createAdmin(@ModelAttribute("admin") Admin theAdmin) {
         adminService.saveAdmin(theAdmin);
@@ -76,80 +76,5 @@ public class AdminController {
         adminService.delete(email);
         return "redirect:/admin";
     }
-
-
-  /*THIS METHOD RETURNS ALL STUDENTS TO ADMIN MANAGE STUDENT PAGE*/
-
-    @GetMapping("/manage-students")
-    public String getAllStudents(Model model, @RequestParam(defaultValue="") String email){
-        model.addAttribute("students",studentService.findByEmail(email));
-        return "admin/manage-students";
-    }
-
-
-
-    /*
-    ******************************************************************
-     * ******************************************************************
-     * ********************************************************************
-     */
-
-    /*START ADMIN COURSE MANAGEMENT*/
-
-    @GetMapping("/manage-courses")
-    public String manageCourses(Model model) {
-        model.addAttribute("courses", courseService.getAllCourses());
-        return "admin/manage-courses";
-    }
-
-    //This method show the form to create new courses
-    @GetMapping("/course-form")
-    public String showForm(Model model) {
-        Course course = new Course();
-        model.addAttribute("course", course);
-        return "course/add-course";
-    }
-
-    //This method actually saves the course to the database
-    @PostMapping("/create-course")
-    public String saveCourse(@Valid @ModelAttribute Course theCourse, BindingResult br) {
-        if (br.hasErrors()){
-            return "course/add-course";
-        }
-        courseService.saveCourse(theCourse);
-        return "redirect:/courses";
-    }
-
-    //This method deletes a course from the database by the ID
-    @GetMapping("/delete-course")
-    public String deleteCourse(@RequestParam("courseId") long theId) {
-        List<AbstractUser> coursesUsers = courseService.getCourse(theId).getUsers();
-        if (coursesUsers != null){
-            for (AbstractUser user : coursesUsers){
-                courseService.removeUserFromCourse(courseService.getCourse(theId),user);
-            }
-        }
-        courseService.deleteCourse(theId);
-        return "redirect:/courses";
-    }
-
-    //This method updates a course in the database by the ID
-    @GetMapping("/update-course")
-    public String updateCourse(@RequestParam("courseId") long theId, Model model) {
-        Course theCourse = courseService.getCourse(theId);
-        model.addAttribute("course", theCourse);
-        return "course/add-course";
-    }
-
-
-    /*
-    ******************************************************************
-     * ******************************************************************
-     * ********************************************************************
-     * /
-
-    /*END ADMIN COURSE MANAGEMENT*/
-
-
 
 }

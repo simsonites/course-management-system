@@ -7,16 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 @Service
+@Transactional
 public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private CourseRepository courseRepository;
+
+    private Course course;
 
 
     @Override
@@ -46,6 +51,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional
     public void addUserToCourse(Course theCourse, AbstractUser theUser) {
        theCourse.addUserToCourse(theUser);
         courseRepository.save(theCourse);
@@ -57,6 +63,11 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.delete(theCourse);
     }
 
+    @Override
+    public void breakUserRelationship(Course theCourse, AbstractUser theUser) {
+         theCourse.breakUserRelationship(theUser);
+         courseRepository.delete(theCourse);
+    }
 
     @Override
     public List<Course> findByTitle(String theTitle) {
@@ -67,4 +78,5 @@ public class CourseServiceImpl implements CourseService {
     public List<Course> getSelectedCourses(long[] theIds) {
         return courseRepository.getCoursesByIdIn(theIds);
     }
+
 }

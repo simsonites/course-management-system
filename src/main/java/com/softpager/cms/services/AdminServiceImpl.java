@@ -32,7 +32,7 @@ public class AdminServiceImpl  implements AdminService{
     @Override
     public void saveAdmin(Admin theAdmin) {
         theAdmin.setPassword(passwordEncoder.encode(theAdmin.getPassword()));
-        Role newRole = new Role("ROLE_ADMIN");
+        Role newRole =  roleService.findByName("ROLE_ADMIN");
         Set<Role> studentRoles = new HashSet<>();
         studentRoles.add(newRole);
         theAdmin.setRoles(studentRoles);

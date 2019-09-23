@@ -1,15 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{includes/main_layout}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>CMS | Photo Upload</title>
+    <div th:replace="includes/css-links :: cssFragment"></div>
 </head>
-<body class="main-body">
-<div layout:fragment="content">
-
+<body>
     <div class="container pt-50">
-
         <div class="upload-header col-6 mt-10">
             <p>
             <h5>Upload a profile photo that you would like to display with your account</h5>
@@ -25,8 +21,8 @@
                     <button type="submit" class="btn btn-primary submit-btn">upload</button>
                 </div>
             </div>
+            <a th:href="@{/user/profile}">back to my profile</a>
         </form>
     </div>
-</div>
 </body>
 </html>

@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
+import java.util.Set;
 
 public interface CourseService {
     Page<Course> getCourses(PageRequest pageRequest);
@@ -18,6 +19,8 @@ public interface CourseService {
     void deleteCourse(long theId);
 
     List<Course> getAllCourses();
+
+    void breakUserRelationship(Course theCourse, AbstractUser theUser);
 
     List<Course> findByTitle(String theTitle);
 

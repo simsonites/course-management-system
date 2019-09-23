@@ -53,14 +53,15 @@ public abstract class AbstractUser extends AuditModel {
 
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
-    @JoinTable(name = "user_roles", joinColumns ={@JoinColumn(name = "USER_ID",
+    @JoinTable(name = "user_roles", joinColumns = {@JoinColumn(name = "USER_ID",
             referencedColumnName = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "ROLES_ID",
                     referencedColumnName = "role_id")})
+    @ToString.Exclude
     private Set<Role> roles = new HashSet<>();
 
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.MERGE,
             CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(name = "user_courses", joinColumns = {@JoinColumn(name = "USER_ID",
             referencedColumnName = "user_id")},
@@ -69,7 +70,8 @@ public abstract class AbstractUser extends AuditModel {
     private Set<Course> courses = new HashSet<>();
 
 
-    public AbstractUser() {}
+    public AbstractUser() {
+    }
 
     public AbstractUser(String email, String password, String firstName,
                         String lastName, String gender) {
@@ -79,6 +81,5 @@ public abstract class AbstractUser extends AuditModel {
         this.lastName = lastName;
         this.gender = gender;
     }
-
 
 }

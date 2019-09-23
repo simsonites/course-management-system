@@ -63,5 +63,9 @@ public class RoleServiceImpl implements RoleService {
         roleRepository.save(role);
     }
 
-
+    @Override
+    public void removeUserFromRole(Role role, AbstractUser theUser) {
+        role.removeUserFromRoles(theUser);
+        roleRepository.save(role);
+    }
 }

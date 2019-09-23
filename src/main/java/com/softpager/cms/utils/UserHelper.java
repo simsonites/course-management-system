@@ -14,27 +14,30 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 @Data
 @Component
 public class UserHelper {
 
-  @Autowired
-  private UserService userService;
+    @Autowired
+    private UserService userService;
 
-  @Autowired
+    @Autowired
     CourseService courseService;
-  @Autowired
-  private RoleService roleService;
+    @Autowired
+    private RoleService roleService;
 
-    public boolean getCurrentUser(Principal principal, String theEmail){
+    private Course course = new Course();
+    private Role role = new Role();
+
+    public boolean getCurrentUser(Principal principal, String theEmail) {
         String currentUserEmail = principal.getName();
         AbstractUser theUser = userService.findByEmail(currentUserEmail);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -48,19 +51,4 @@ public class UserHelper {
         return (hasAdminRole) || (theUser.getEmail().equals(theEmail));
     }
 
-
-
-    /*This method deletes a user from the
-     database by the Id (email)*/
-    public void deleteUser(String email){
-        Set<Course> userCourses = userService.findByEmail(email).getCourses();
-        Set<Role> userRole = userService.findByEmail(email).getRoles();
-        if (userCourses != null){
-            for (Course course : userCourses){
-                courseService.removeUserFromCourse(course, userService.findByEmail(email));
-            }
-        }
-        userService.deleteByEmail(email);
-    }
-
-}
+ }

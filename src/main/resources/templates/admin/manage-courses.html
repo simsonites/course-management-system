@@ -9,7 +9,7 @@
 
 <div layout:fragment="content">
 
-    <div class="container">
+    <div class="container"><br>
         <!-- Slider Area Start -->
         <div th:replace="includes/admin-header :: adminHeader"></div>
         <!-- Slider Area End -->
@@ -27,7 +27,7 @@
 
                         <div class="col-md-12 mb-30">
                             <div class="row">
-                                <a th:href="@{/admin/course-form}" class="col-md-2 btn btn-primary">
+                                <a th:href="@{/courses/admin/course-form}" class="col-md-2 btn btn-primary">
                                     <span class="glyphicon glyphicon-plus"></span>
                                     Add New Course
                                 </a>
@@ -68,12 +68,12 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a th:href="@{/admin/update-course(courseId=${course.id})}">
+                                    <a th:href="@{/courses/admin/update-course(courseId=${course.id})}">
                                         Edit
                                     </a>
                                 </td>
                                 <td>
-                                    <a th:href="@{/admin/delete-course(courseId=${course.id})}"
+                                    <a th:href="@{/courses/admin/delete-course(courseId=${course.id})}"
                                        class="btn btn-danger btn-sm">
                                         Delete
                                     </a>
