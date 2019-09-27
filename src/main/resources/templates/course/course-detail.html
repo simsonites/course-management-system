@@ -49,21 +49,22 @@
                         </div>
 
 
-                        <div class="col-md-1">
+                        <div class="col-md-1" sec:authorize="hasRole('ROLE_ADMIN')">
                             <div class="btn-area">
                                 <a href="#"
-                                   th:href="@{/admin/delete-course(courseId=${course.id})}">
+                                   th:href="@{/courses/admin/delete-course(courseId=${course.id})}">
                                     Delete</a>
                             </div>
                         </div>
 
-                        <div class="col-md-1">
+                        <div class="col-md-1" sec:authorize="hasRole('ROLE_ADMIN')">
                             <div class="btn-info">
                                 <a href="#"
-                                   th:href="@{/admin/update-course(courseId=${course.id})}">
+                                   th:href="@{/courses/admin/update-course(courseId=${course.id})}">
                                     Edit</a>
                             </div>
                          </div>
+
 
                         <div class="col-md-4">
                             <div class="btn-area">

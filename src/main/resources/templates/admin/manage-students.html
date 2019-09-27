@@ -7,7 +7,7 @@
 </head>
 <body class="main-body">
 
-<div layout:fragment="content" class="container">
+<div layout:fragment="content" class="container"><br>
 
         <!-- Slider Area Start -->
         <div th:replace="includes/admin-header :: adminHeader"></div>
@@ -80,7 +80,7 @@
                                 </td>
 
                                 <td>
-                                    <a th:href="@{/roles/get-roles(userEmail=${student.email})}">
+                                    <a th:href="@{/admin/roles/get-roles(userEmail=${student.email})}">
                                        assign role
                                     </a>
                                 </td>

@@ -6,7 +6,7 @@
 
 </head>
 <body class="main-body">
-<div layout:fragment="content" class="container">
+<div layout:fragment="content" class="container"><br>
 
     <!------ Include the above in your HEAD tag ---------->
     <div th:replace="includes/admin-header :: adminHeader"></div>
@@ -14,7 +14,6 @@
 
             <div class="col-lg-12 admin-tab-container mt-50">
                 <div th:if="${message}">
-
                 <h4 class="alert alert-info" th:text="${message}"></h4>
                 </div>
                         <section>

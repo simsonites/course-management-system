@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
-import java.util.Set;
 
 public interface CourseService {
     Page<Course> getCourses(PageRequest pageRequest);
@@ -20,9 +19,9 @@ public interface CourseService {
 
     List<Course> getAllCourses();
 
-    void breakUserRelationship(Course theCourse, AbstractUser theUser);
+    //void breakUserRelationship(Course theCourse, AbstractUser theUser);
 
-    List<Course> findByTitle(String theTitle);
+    Page<Course> findByTitle(String theTitle, PageRequest page);
 
     void addUserToCourse(Course theCourse, AbstractUser theStudent);
 
@@ -31,4 +30,5 @@ public interface CourseService {
 
     List<Course> getSelectedCourses(long[] theId);
 
+    Object manageCourse(String title);
 }

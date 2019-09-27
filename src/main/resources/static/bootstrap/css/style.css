@@ -533,43 +533,9 @@ ul {
 /********************************/
 /*       Slides backgrounds     */
 /********************************/
-.bg1 {
-    background-image: url(/images/bg/bg1.jpg);
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center top;
-}
-
-.bg2 {
-    background-image: url(/images/bg/bg2.jpg);
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center top;
-}
-
-.bg3 {
-    background-image: url(/images/bg/counter-bg.jpg);
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center top;
-}
-
-.bg4 {
-    background-image: url(/images/bg/cta-bg.jpg);
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center top;
-}
-
-.bg5 {
-    background-image: url(/images/bg/testimonial-bg.jpg);
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center top;
-}
 
 .bg6 {
-    background-image: url(/images/slide21.jpg);
+    background-image: url(/images/slide1.jpg);
     background-size: cover;
     background-attachment: fixed;
     background-position: center top;

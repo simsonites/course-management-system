@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -24,24 +25,14 @@ public class HomeController {
     private CourseService courseService;
 
     @GetMapping()
-    public String homePage(Model model, @RequestParam(defaultValue = "0") int page) {
-        Page<Course> allCourses = courseService.getCourses(PageRequest.of(page, 6));
+    public String homePage(Model model, @RequestParam(defaultValue = "0") int page,
+                           @RequestParam Optional<String> title) {
+        Page<Course> allCourses =  courseService.findByTitle(title.orElse("_"),PageRequest.of(page, 6));
         model.addAttribute("courses", allCourses);
         model.addAttribute("currentPage", page);
         model.addAttribute("student", new Student());
         return "course/courses";
     }
-
-
-    @GetMapping("/search-course")
-    public String searchCourse(@RequestParam(defaultValue = "") String theTitle, Model model){
-        List<Course> foundCourses = courseService.findByTitle(theTitle);
-        model.addAttribute("course", foundCourses);
-        return "redirect: /";
-    }
-
-
-
 
     @GetMapping("/login")
     public String loginForm() {

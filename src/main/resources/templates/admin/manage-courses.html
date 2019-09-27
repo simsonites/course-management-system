@@ -7,9 +7,8 @@
 </head>
 <body class="main-body">
 
-<div layout:fragment="content">
+<div layout:fragment="content" class="container"><br>
 
-    <div class="container"><br>
         <!-- Slider Area Start -->
         <div th:replace="includes/admin-header :: adminHeader"></div>
         <!-- Slider Area End -->
@@ -33,20 +32,24 @@
                                 </a>
 
                                 <div class="input-group col-md-10">
-                                    <input type="text" class="form-control" placeholder="Enter student name to search"
-                                           aria-label="Recipient's username" aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text btn btn-primary"
-                                              id="basic-addon2">Search course</span>
-                                    </div>
+                                    <form th:action="@{/courses/admin/manage-courses}" class="form-inline col-md-10">
+                                        <div class="input-group col-md-12">
+                                            <input type="text" name="title" class="form-control"
+                                                   placeholder="enter keyword to search for course">
+                                            <div class="input-group-append">
+                                                <input type="submit" class="input-group-text btn btn-primary"
+                                                       id="basic-addon2" value="Search Course"/>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
 
                             </div>
                         </div>
-                        <form  th:action="@{/courses/register-multiple-courses}"
+                        <form  th:action="@{/courses/admin/assign-multiple-courses}"
                                th:object="${courseId}" method="post">
 
-                            <input type="submit" value="assign courses" class="mb-20">
+                            <input type="submit" value="assign courses" class="mb-20 btn btn-info btn-sm">
 
                         <table class="table table-bordered table-striped table-hover">
                             <thead class="text-center">
@@ -87,6 +90,5 @@
             </div>
         </div>
     </div>
-</div>
 </body>
 </html>

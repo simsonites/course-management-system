@@ -11,11 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 
 @Service
-@Transactional
 public class CourseServiceImpl implements CourseService {
 
     @Autowired
@@ -51,7 +49,6 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    @Transactional
     public void addUserToCourse(Course theCourse, AbstractUser theUser) {
        theCourse.addUserToCourse(theUser);
         courseRepository.save(theCourse);
@@ -63,15 +60,10 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.delete(theCourse);
     }
 
-    @Override
-    public void breakUserRelationship(Course theCourse, AbstractUser theUser) {
-         theCourse.breakUserRelationship(theUser);
-         courseRepository.delete(theCourse);
-    }
 
     @Override
-    public List<Course> findByTitle(String theTitle) {
-        return courseRepository.findByTitleLike("%" +theTitle+ "%");
+    public Page<Course> findByTitle(String theTitle, PageRequest page) {
+        return courseRepository.findByTitleLike("%"+theTitle+"%", page);
     }
 
     @Override
@@ -79,4 +71,9 @@ public class CourseServiceImpl implements CourseService {
         return courseRepository.getCoursesByIdIn(theIds);
     }
 
+
+    @Override
+    public Object manageCourse(String title) {
+        return courseRepository.findByTitleLike("%"+title+"%");
+    }
 }

@@ -6,11 +6,11 @@
     <title>CMS | add-course</title>
 </head>
 <body class="main-body">
-<div layout:fragment="content" class="container">
+<div layout:fragment="content" class="container"><br><br>
     <div class="col-md-10 offset-sm-2 mt-50">
         <h2>Add New Course </h2>
         <hr>
-        <form action="#" th:action="@{/admin/create-course}" th:object="${course}"
+        <form action="#" th:action="@{/courses/admin/create-course}" th:object="${course}"
               enctype="multipart/form-data" method="POST">
 
             <input type="hidden" th:field="*{id}" id="id">

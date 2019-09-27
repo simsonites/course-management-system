@@ -2,12 +2,13 @@ package com.softpager.cms.controllers;
 
 import com.softpager.cms.abstracts.AbstractUser;
 import com.softpager.cms.entities.Course;
-import com.softpager.cms.entities.Student;
+import com.softpager.cms.repositories.CourseRepository;
 import com.softpager.cms.services.CourseService;
 import com.softpager.cms.services.UserService;
 import com.softpager.cms.utils.ErrorMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,13 +32,8 @@ public class CourseController {
     @Autowired
     private UserService userService;
 
+    private CourseRepository courseRepo;
 
-
-    @GetMapping
-    public String getCourses(Model model) {
-        model.addAttribute("courses", this.getAllCourses());
-        return "admin/manage-courses";
-    }
 
     @GetMapping("/course")
     public String getCourse(@RequestParam("courseId") long theId, Model model) {
@@ -46,7 +42,6 @@ public class CourseController {
         model.addAttribute("courses", this.getAllCourses());
         return "course/course-detail";
     }
-
 
     @RequestMapping("/register-for-course")
     public String registerForCourse(@RequestParam("courseId") long theId, Principal principal, Model model,
@@ -72,26 +67,38 @@ public class CourseController {
 
         httpSession.setAttribute("email", email);
         if (theUser != null) {
-            courseService.addUserToCourse(theCourse, userService.findByEmail(theUser.getEmail()));
+            courseService.addUserToCourse(theCourse,theUser);
         }
         model.addAttribute("userEmail", email);
         return "redirect:/user/profile";
     }
 
 
-    /*Here, we are using this method to get list of courses to  assign for a user
-    (instructors or students*/
-    @GetMapping("/admin/get-courses")
-    public String assignCourseToUserForm(@RequestParam("userEmail")String email, HttpSession httpSession){
-        if (email == null){
-            return "redirect:/login";
+    @RequestMapping("/remove-user-course")
+    public String removeUserFromCourse(@RequestParam("courseId") long theId , Model model,
+                                       Principal principal) {
+        String email = principal.getName();
+        Course theCourse = courseService.getCourse(theId);
+        if (email != null){
+            courseService.removeUserFromCourse(theCourse, userService.findByEmail(email));
+            model.addAttribute("userEmail", email);
+            return "redirect:/user/profile";
         }
-        httpSession.setAttribute("email",email);
-        return "redirect:/courses";
+        model.addAttribute("errorMessage", null +"  "+ ErrorMessage.EMAIL_NOT_FOUND);
+        model.addAttribute("goBackToProfile", ErrorMessage.GO_BACK_TO_PROFILE);
+        return "error-page";
     }
 
+    private List<Course> getAllCourses() {
+        return courseService.getAllCourses();
+    }
+
+
+    /*
+     *THIS PART IS ONLY AVAILABLE TO ADMIN USERS****** */
+
     /*Here, we are using this method to assign multiple courses to a  user  using the email*/
-    @RequestMapping("/register-multiple-courses")
+    @RequestMapping("/admin/assign-multiple-courses")
     public String assignCourse(@RequestParam("courseId") long[] theId, RedirectAttributes rd, HttpSession httpSession) {
         String theEmail = (String) httpSession.getAttribute("email");
         AbstractUser theUser = userService.findByEmail(theEmail);
@@ -102,47 +109,12 @@ public class CourseController {
             }
             rd.addFlashAttribute("message", "courses were successfully added to  "
                     + (theUser != null ? theUser.getFirstName() : null));
+            assert theUser != null;
+            rd.addFlashAttribute("email", theUser.getEmail());
             return "redirect:/admin";
         }
         rd.addFlashAttribute("courseAlreadyAdded","Duplicate courses found detected for  "
                 +theUser.getFirstName());
-        return "admin/manage-courses";
-    }
-
-
-    @RequestMapping("/remove-user-course")
-    public String removeUserFromCourse(@RequestParam("courseId") long theId , Model model,
-                                                               Principal principal) {
-        String email = principal.getName();
-        Course theCourse = courseService.getCourse(theId);
-            if (email != null){
-                courseService.removeUserFromCourse(theCourse, userService.findByEmail(email));
-                model.addAttribute("userEmail", email);
-                return "redirect:/user/profile";
-            }
-        model.addAttribute("errorMessage", null +"  "+ ErrorMessage.EMAIL_NOT_FOUND);
-        model.addAttribute("goBackToProfile", ErrorMessage.GO_BACK_TO_PROFILE);
-        return "error-page";
-    }
-
-
-    @GetMapping("/search-course")
-    public String searchCourse(Model model, @RequestParam(defaultValue="") String title){
-        model.addAttribute("course",courseService.findByTitle(title));
-        return "course/courses";
-    }
-
-    private List<Course> getAllCourses() {
-        return courseService.getAllCourses();
-    }
-
-    /*
-    ***********This part is only available to users with admin role**************
-    * */
-
-    @GetMapping("/admin/manage-courses")
-    public String manageCourses(Model model) {
-        model.addAttribute("courses", courseService.getAllCourses());
         return "admin/manage-courses";
     }
 
@@ -163,7 +135,7 @@ public class CourseController {
             return "course/add-course";
         }
         courseService.saveCourse(theCourse);
-        return "redirect:/admin/manage-courses";
+        return "redirect:/courses/admin/manage-courses";
     }
 
 
@@ -188,6 +160,24 @@ public class CourseController {
         model.addAttribute("course", theCourse);
         return "course/add-course";
     }
+
+    /*Here, we are using this method to get list of courses to  assign for a user */
+    @GetMapping("/admin/get-courses")
+    public String assignCourseToUserForm(@RequestParam("userEmail")String email, HttpSession httpSession){
+        if (email == null){
+            return "redirect:/login";
+        }
+        httpSession.setAttribute("email",email);
+        return "redirect:/courses/admin/manage-courses";
+    }
+
+    /* This method is used to perform search operation on courses in the admin panel*/
+    @GetMapping("/admin/manage-courses")
+    public String manageCourses(Model model, @RequestParam(defaultValue="") String title) {
+        model.addAttribute("courses", courseService.manageCourse(title));
+        return "admin/manage-courses";
+    }
+
 
 }
 

@@ -40,12 +40,8 @@ public class Course {
     private int numberOfCredits;
 
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.MERGE,
-            CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(name = "user_courses", joinColumns = {@JoinColumn(name = "COURSE_ID",
-            referencedColumnName = "course_id")},
-            inverseJoinColumns = {@JoinColumn(name = "USER_ID",
-                    referencedColumnName = "user_id")})
+    @ManyToMany(mappedBy = "courses",  cascade = {CascadeType.PERSIST,CascadeType.MERGE,
+            CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
     private List<AbstractUser> users = new ArrayList<>();
 
 
@@ -72,4 +68,15 @@ public class Course {
         Set<Course> userCourses = theUser.getCourses();
         userCourses.removeIf(Objects::nonNull);
     }
+
+
+    /*     fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.MERGE,
+            CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinTable(name = "user_courses", joinColumns = {@JoinColumn(name = "COURSE_ID",
+            referencedColumnName = "course_id")},
+            inverseJoinColumns = {@JoinColumn(name = "USER_ID",
+                    referencedColumnName = "user_id")}
+                    */
+
+
 }

@@ -56,15 +56,20 @@
                               <p>CRM is a simple course registration management system where
                                 students can go and register for maximum of three (3) to offer for a semester.
                             </p>
+                            <h4>Here is the database structure for the application</h4>
+                            <img src="images/appdb.PNG" th:src="@{/images/appdb.PNG}">
                         </section>
                 </div>
                 <!-- course section -->
                 <div class="admin-tab-content mb-50">
                     <section>
                         <h3 class="text text-primary">How it works</h3>
-                        <p>CRM consist of two roles, The STUDENT ROLE and THE ADMIN ROLE.
-                            The Admin panel is restricted to only users that login with ADMIN ROLE
-                        </p>
+                        <p>CRM consist of two sets of users, these are users with student role and users
+                            with admin role.<br>
+                            There is an admin panel that is only visible to the admin users from
+                        which they can carry out admin tasks. This panel is only visible when the login user is an admin.</p>
+
+
                         <h3 class="text text-primary">What can a student do ? </h3>
                         <h4>A student can: </h4>
                         <ul>
@@ -82,6 +87,7 @@
                             <li>Manage courses: (Perform full CRUD operation)
                             <li>Manage students (users) (Perform full CRUD operation)</li>
                             <li>Add and remove Admins.</li>
+                            <li>Add and remove users from role.</li>
                         </ul>
                     </section>
                 </div>
@@ -111,7 +117,7 @@
                         <p>This app does not contain all fuctionalities  that a standard CRM should have.
                             But it has all basic CRUD AND SECURITY  functionalities as a building block for the addition
                             of more advanced functionalites as per requirement.
-                            So this is a demonstration of fully fledged working application built from scratch by the aforementioned
+                            Which means this is just a demonstration of a fully fledged working application built from scratch by the aforementioned
                             set of technologies.
                         </p>
                     </section>

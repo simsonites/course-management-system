@@ -8,32 +8,10 @@
 <body class="main-body">
 <div layout:fragment="content">
     <!-- Slider Area Start -->
-    <div th:replace="includes/slider :: imageSlider"></div>
+    <div th:replace="includes/slider :: imageSlider"></div><br>
     <!-- Slider Area End -->
-
-    <!-- Search Courses Start -->
-    <div class="rs-search-courses">
-        <div class="container">
-
-            <form class="row search-form" th:action="@{/courses/searchCourse}">
-                <div class="col-md-8">
-                    <div class="keyword">
-                        <input type="text" name="title" placeholder="Enter course keyword to search...">
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="search-btn">
-                        <button type="submit">Search Courses</button>
-                    </div>
-                </div>
-            </form>
-
-        </div>
-    </div>
-    <!-- Search Courses End -->
-
     <!-- Courses Start -->
-    <div id="rs-courses-2" class="rs-courses-2 sec-spacer">
+    <div id="rs-courses-2" class="rs-courses-2">
         <div class="container">
 
             <div class="sec-title">
@@ -44,6 +22,19 @@
                     </i></a>
                 </div>
             </div>
+
+            <div class="row mb-20 mt-50">
+                <form th:action="@{/}" class="form-inline col-md-10">
+                    <div class="input-group col-md-12">
+                        <input type="text" name="title" class="form-control"
+                               placeholder="enter keyword to search for course">
+                        <div class="input-group-append">
+                            <input type="submit" class="input-group-text btn btn-primary"
+                                   id="basic-addon2" value="Search Course"/>
+                        </div>
+                    </div>
+                </form>
+            </div><br>
 
             <div class="row">
                 <div class="col-lg-4 col-md-6" th:each="course: ${courses}">

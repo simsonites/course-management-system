@@ -60,7 +60,7 @@ public class RoleController {
         roleService.save(theRole);
         rd.addFlashAttribute("message","Role : " +theRole.getName()+ "" +
                 " "+ErrorMessage.ROLE_CREATED);
-        return "redirect:/roles";
+        return "redirect:/admin/roles";
     }
 
 
@@ -69,15 +69,12 @@ public class RoleController {
       Role theRole = roleService.findByName(name);
       List<AbstractUser> usersInRole = userService.findByRole(theRole);
       if (usersInRole != null){
-          log.info("UUS {} :",usersInRole.size());
           for (AbstractUser user : usersInRole){
           }
        List<AbstractUser> usersInRole2 = userService.findByRole(theRole);
-          log.info("UUS2 {} :",usersInRole2.size());
       }
       roleService.deleteByName(theRole.getName());
-
-        return "redirect:/roles";
+        return "redirect:/admin/roles";
     }
 
 
@@ -88,7 +85,7 @@ public class RoleController {
     public String assignCourseToUserForm(@RequestParam("userEmail")String email,
                                          HttpSession httpSession){
         httpSession.setAttribute("email",email);
-        return "redirect:/roles";
+        return "redirect:/admin/roles";
     }
 
 
@@ -104,7 +101,7 @@ public class RoleController {
                 roleService.addUserToRole(selectedRole.get(),theUser);
                        rd.addFlashAttribute("message", theUser.getFirstName()+
                     "has been assigned to "+ theUser.getRoles());
-            return "redirect:/roles";
+            return "redirect:/admin/roles";
         }
         rd.addFlashAttribute("roleAlreadyExist"," Operation failed, Duplicate Role assignment for "
                 +theUser.getFirstName());
