@@ -10,8 +10,8 @@
         <div class="col-md-10 offset-sm-1 mt-50">
             <h3>Student Registration Form </h3>
             <hr>
-            <div class="alert alert-danger" th:if="${userExist}">
-                <h4 th:text="${userExist}"></h4>
+            <div th:if="${exists}">
+                <h4 th:text="${exists}" class="text-danger"></h4>
             </div>
 
             <div class="alert alert-info" th:if="${success}">

@@ -19,8 +19,6 @@ public interface CourseService {
 
     List<Course> getAllCourses();
 
-    //void breakUserRelationship(Course theCourse, AbstractUser theUser);
-
     Page<Course> findByTitle(String theTitle, PageRequest page);
 
     void addUserToCourse(Course theCourse, AbstractUser theStudent);
@@ -31,4 +29,8 @@ public interface CourseService {
     List<Course> getSelectedCourses(long[] theId);
 
     Object manageCourse(String title);
+
+    Course findCourseByTitle(String cTitle);
+
+    void saveAll(List<Course> coursesToAdd, AbstractUser theUser);
 }

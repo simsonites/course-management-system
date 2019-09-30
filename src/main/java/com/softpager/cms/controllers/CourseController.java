@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -93,26 +94,25 @@ public class CourseController {
         return courseService.getAllCourses();
     }
 
-
     /*
      *THIS PART IS ONLY AVAILABLE TO ADMIN USERS****** */
-
     /*Here, we are using this method to assign multiple courses to a  user  using the email*/
     @RequestMapping("/admin/assign-multiple-courses")
     public String assignCourse(@RequestParam("courseId") long[] theId, RedirectAttributes rd, HttpSession httpSession) {
         String theEmail = (String) httpSession.getAttribute("email");
         AbstractUser theUser = userService.findByEmail(theEmail);
         List<Course> theCourses = courseService.getSelectedCourses(theId);
+        List<Course> coursesToAdd = new ArrayList<>();
         if ((theCourses != null)){
-            for (Course course : theCourses){
-                    courseService.addUserToCourse(course,theUser);
-            }
+            coursesToAdd.addAll(theCourses);
+            courseService.saveAll(coursesToAdd,theUser);
             rd.addFlashAttribute("message", "courses were successfully added to  "
                     + (theUser != null ? theUser.getFirstName() : null));
             assert theUser != null;
             rd.addFlashAttribute("email", theUser.getEmail());
             return "redirect:/admin";
         }
+
         rd.addFlashAttribute("courseAlreadyAdded","Duplicate courses found detected for  "
                 +theUser.getFirstName());
         return "admin/manage-courses";
@@ -127,15 +127,26 @@ public class CourseController {
         return "course/add-course";
     }
 
-
     //This method actually saves the course to the database
     @PostMapping("/admin/create-course")
-    public String saveCourse(@Valid @ModelAttribute Course theCourse, BindingResult br) {
+    public String saveCourse(@Valid @ModelAttribute Course theCourse,
+                             BindingResult br, Model model) {
         if (br.hasErrors()){
+            return "course/add-course";
+        }
+        if (courseExists(theCourse.getTitle())){
+            model.addAttribute("courseExists",  theCourse.getTitle()+ "  already exist");
             return "course/add-course";
         }
         courseService.saveCourse(theCourse);
         return "redirect:/courses/admin/manage-courses";
+    }
+    private boolean courseExists(String cTitle){
+        Course theCourse = courseService.findCourseByTitle(cTitle);
+        if (theCourse != null){
+            return true;
+        }
+        return false;
     }
 
 
@@ -151,7 +162,6 @@ public class CourseController {
         courseService.deleteCourse(theId);
         return "redirect:/admin/manage-courses";
     }
-
 
     //This method updates a course in the database by the ID
     @GetMapping("/admin/update-course")

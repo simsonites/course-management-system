@@ -71,19 +71,21 @@ public class StudentController {
     // This method create a new student
     @PostMapping("/create")
     public String createStudent(@Valid @ModelAttribute("student") Student theStudent,
-                                BindingResult br, RedirectAttributes rd) {
+                                BindingResult br, RedirectAttributes rd, Model model) {
         if (br.hasErrors()){
             return ViewNames.ADD_STUDENT;
         }
         AbstractUser student = userService.findByEmail(theStudent.getEmail());
         if (student != null){
-           throw new UserAlreadyExistException(theStudent.getEmail() +
-                   ErrorMessage.USER_ALREADY_EXIST);
+            model.addAttribute("exists",theStudent.getEmail() + "  already exist");
+            return ViewNames.ADD_STUDENT;
         }
         studentService.saveStudent(theStudent);
         rd.addFlashAttribute("success", UserFeedbackMessage.SUCCESS);
         return "redirect:/students";
     }
+
+
 
     /*This method helps us to view a student details base on the email*/
     @GetMapping("/details")

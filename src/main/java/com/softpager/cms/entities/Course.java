@@ -40,8 +40,8 @@ public class Course {
     private int numberOfCredits;
 
 
-    @ManyToMany(mappedBy = "courses",  cascade = {CascadeType.PERSIST,CascadeType.MERGE,
-            CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "courses", cascade = {CascadeType.PERSIST,CascadeType.MERGE},
+            fetch = FetchType.EAGER)
     private List<AbstractUser> users = new ArrayList<>();
 
 
@@ -59,6 +59,15 @@ public class Course {
         theUser.getCourses().add(this);
     }
 
+    public void addMultipleCoursesForUser(List<Course> theCourses,AbstractUser theUser) {
+       for (Course c : theCourses){
+           c.addUserToCourse(theUser);
+       }
+    }
+
+
+
+
     public void removeUserFromCourse(AbstractUser theUser) {
         this.getUsers().remove(theUser);
         theUser.getCourses().remove(this);
@@ -68,15 +77,6 @@ public class Course {
         Set<Course> userCourses = theUser.getCourses();
         userCourses.removeIf(Objects::nonNull);
     }
-
-
-    /*     fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.MERGE,
-            CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(name = "user_courses", joinColumns = {@JoinColumn(name = "COURSE_ID",
-            referencedColumnName = "course_id")},
-            inverseJoinColumns = {@JoinColumn(name = "USER_ID",
-                    referencedColumnName = "user_id")}
-                    */
 
 
 }

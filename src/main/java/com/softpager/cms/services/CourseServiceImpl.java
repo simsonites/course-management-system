@@ -14,12 +14,14 @@ import java.util.Optional;
 
 
 @Service
+@Transactional
 public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private CourseRepository courseRepository;
 
     private Course course;
+    private  AbstractUser user;
 
 
     @Override
@@ -30,6 +32,14 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void saveCourse(Course theCourse) {
         courseRepository.save(theCourse);
+    }
+
+    @Override
+    public void saveAll(List<Course> coursesToAdd, AbstractUser theUser) {
+        for (Course course : coursesToAdd){
+            course.addUserToCourse(theUser);
+            courseRepository.save(course);
+        }
     }
 
     @Override
@@ -51,7 +61,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void addUserToCourse(Course theCourse, AbstractUser theUser) {
        theCourse.addUserToCourse(theUser);
-        courseRepository.save(theCourse);
+       courseRepository.save(theCourse);
     }
 
     @Override
@@ -59,7 +69,6 @@ public class CourseServiceImpl implements CourseService {
        theCourse.removeUserFromCourse(theUser);
         courseRepository.delete(theCourse);
     }
-
 
     @Override
     public Page<Course> findByTitle(String theTitle, PageRequest page) {
@@ -71,9 +80,13 @@ public class CourseServiceImpl implements CourseService {
         return courseRepository.getCoursesByIdIn(theIds);
     }
 
-
     @Override
     public Object manageCourse(String title) {
         return courseRepository.findByTitleLike("%"+title+"%");
+    }
+
+    @Override
+    public Course findCourseByTitle(String cTitle) {
+        return  courseRepository.findByTitle(cTitle);
     }
 }

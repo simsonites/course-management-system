@@ -19,6 +19,7 @@ import java.util.Set;
 
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService, UserDetailsService {
 
 

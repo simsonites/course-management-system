@@ -9,6 +9,11 @@
 <div layout:fragment="content" class="container"><br><br>
     <div class="col-md-10 offset-sm-2 mt-50">
         <h2>Add New Course </h2>
+
+        <div class="alert alert-danger" th:if="${courseExists}">
+            <h5  th:text="${courseExists}" class="text-danger"></h5>
+
+        </div>
         <hr>
         <form action="#" th:action="@{/courses/admin/create-course}" th:object="${course}"
               enctype="multipart/form-data" method="POST">
