@@ -54,7 +54,7 @@ public class RoleController {
             if (roles.getName().equals(theRole.getName())){
                 rd.addFlashAttribute("message","Role : " +theRole.getName()+ " " +
                             ""+ErrorMessage.ROLE_ALREADY_EXIST);
-                return "redirect:/roles";
+                return "redirect:/admin/roles";
             }
         }
         roleService.save(theRole);
@@ -99,12 +99,9 @@ public class RoleController {
         Optional<Role> selectedRole = roleService.getRole(theId);
         if (selectedRole.isPresent()){
                 roleService.addUserToRole(selectedRole.get(),theUser);
-                       rd.addFlashAttribute("message", theUser.getFirstName()+
-                    "has been assigned to "+ theUser.getRoles());
-            return "redirect:/admin/roles";
+                       rd.addFlashAttribute("message", theUser.getFirstName()+ "  " +
+                    "has been assigned to "+ selectedRole.get().getName());
         }
-        rd.addFlashAttribute("roleAlreadyExist"," Operation failed, Duplicate Role assignment for "
-                +theUser.getFirstName());
-        return "admin/user-role";
+        return "redirect:/admin/roles";
     }
 }

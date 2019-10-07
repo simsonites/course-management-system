@@ -62,7 +62,7 @@ public abstract class AbstractUser extends AuditModel {
 
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.MERGE,
-            CascadeType.REFRESH, CascadeType.DETACH})
+          CascadeType.DETACH,  CascadeType.REFRESH})
     @JoinTable(name = "user_courses", joinColumns = {@JoinColumn(name = "USER_ID",
             referencedColumnName = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "COURSE_ID",
@@ -80,6 +80,11 @@ public abstract class AbstractUser extends AuditModel {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
+    }
+
+    public void removeUserFromCourse(Course theCourse) {
+        theCourse.getUsers().remove(this);
+        this.getCourses().remove(theCourse);
     }
 
 }

@@ -19,7 +19,7 @@ public interface CourseService {
 
     List<Course> getAllCourses();
 
-    Page<Course> findByTitle(String theTitle, PageRequest page);
+    Page<Course> searchCourseByTitle(String theTitle, PageRequest page);
 
     void addUserToCourse(Course theCourse, AbstractUser theStudent);
 
@@ -33,4 +33,6 @@ public interface CourseService {
     Course findCourseByTitle(String cTitle);
 
     void saveAll(List<Course> coursesToAdd, AbstractUser theUser);
+
+    void delete(Course theCourse);
 }

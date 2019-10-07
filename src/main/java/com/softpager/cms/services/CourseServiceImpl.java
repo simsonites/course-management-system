@@ -14,7 +14,6 @@ import java.util.Optional;
 
 
 @Service
-@Transactional
 public class CourseServiceImpl implements CourseService {
 
     @Autowired
@@ -67,11 +66,16 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void removeUserFromCourse(Course theCourse, AbstractUser theUser) {
        theCourse.removeUserFromCourse(theUser);
+       courseRepository.delete(theCourse);
+    }
+
+    @Override
+    public void delete(Course theCourse) {
         courseRepository.delete(theCourse);
     }
 
     @Override
-    public Page<Course> findByTitle(String theTitle, PageRequest page) {
+    public Page<Course> searchCourseByTitle(String theTitle, PageRequest page) {
         return courseRepository.findByTitleLike("%"+theTitle+"%", page);
     }
 

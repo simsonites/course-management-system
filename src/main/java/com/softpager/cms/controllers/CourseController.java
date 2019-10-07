@@ -75,28 +75,28 @@ public class CourseController {
     }
 
 
-    @RequestMapping("/remove-user-course")
+   @RequestMapping("/remove-user-course")
     public String removeUserFromCourse(@RequestParam("courseId") long theId , Model model,
                                        Principal principal) {
         String email = principal.getName();
-        Course theCourse = courseService.getCourse(theId);
-        if (email != null){
-            courseService.removeUserFromCourse(theCourse, userService.findByEmail(email));
-            model.addAttribute("userEmail", email);
-            return "redirect:/user/profile";
-        }
-        model.addAttribute("errorMessage", null +"  "+ ErrorMessage.EMAIL_NOT_FOUND);
-        model.addAttribute("goBackToProfile", ErrorMessage.GO_BACK_TO_PROFILE);
-        return "error-page";
+         model.addAttribute("userEmail", email);
+         Course theCourse = courseService.getCourse(theId);
+       courseService.removeUserFromCourse(theCourse, userService.findByEmail(email));
+        for (AbstractUser user : theCourse.getUsers()) {
+                if (user.getEmail().equals(email))
+                courseService.removeUserFromCourse(theCourse,user);
+            }
+         return "redirect:/user/profile";
     }
+
 
     private List<Course> getAllCourses() {
         return courseService.getAllCourses();
     }
 
-    /*
-     *THIS PART IS ONLY AVAILABLE TO ADMIN USERS****** */
-    /*Here, we are using this method to assign multiple courses to a  user  using the email*/
+    /*********THIS PART IS ONLY AVAILABLE TO ADMIN USERS*********/
+    /**Here, we are using this method to assign multiple courses to a  user  using the email**/
+
     @RequestMapping("/admin/assign-multiple-courses")
     public String assignCourse(@RequestParam("courseId") long[] theId, RedirectAttributes rd, HttpSession httpSession) {
         String theEmail = (String) httpSession.getAttribute("email");
@@ -112,7 +112,6 @@ public class CourseController {
             rd.addFlashAttribute("email", theUser.getEmail());
             return "redirect:/admin";
         }
-
         rd.addFlashAttribute("courseAlreadyAdded","Duplicate courses found detected for  "
                 +theUser.getFirstName());
         return "admin/manage-courses";
@@ -127,7 +126,8 @@ public class CourseController {
         return "course/add-course";
     }
 
-    //This method actually saves the course to the database
+    /****This method actually saves the course to the database****/
+
     @PostMapping("/admin/create-course")
     public String saveCourse(@Valid @ModelAttribute Course theCourse,
                              BindingResult br, Model model) {
@@ -141,6 +141,7 @@ public class CourseController {
         courseService.saveCourse(theCourse);
         return "redirect:/courses/admin/manage-courses";
     }
+
     private boolean courseExists(String cTitle){
         Course theCourse = courseService.findCourseByTitle(cTitle);
         if (theCourse != null){

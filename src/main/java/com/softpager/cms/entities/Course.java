@@ -40,13 +40,12 @@ public class Course {
     private int numberOfCredits;
 
 
-    @ManyToMany(mappedBy = "courses", cascade = {CascadeType.PERSIST,CascadeType.MERGE},
-            fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "courses", cascade = {CascadeType.PERSIST,CascadeType.MERGE,
+            CascadeType.DETACH,CascadeType.REFRESH}, fetch = FetchType.EAGER)
     private List<AbstractUser> users = new ArrayList<>();
 
 
-    public Course() {
-    }
+    public Course() {}
 
     public Course(String title, String description, int numberOfCredits) {
         this.title = title;
@@ -58,15 +57,6 @@ public class Course {
         this.getUsers().add(theUser);
         theUser.getCourses().add(this);
     }
-
-    public void addMultipleCoursesForUser(List<Course> theCourses,AbstractUser theUser) {
-       for (Course c : theCourses){
-           c.addUserToCourse(theUser);
-       }
-    }
-
-
-
 
     public void removeUserFromCourse(AbstractUser theUser) {
         this.getUsers().remove(theUser);
