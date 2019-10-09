@@ -9,8 +9,8 @@ import java.util.List;
 
 
 public interface RoleRepository extends JpaRepository<Role, Long> {
-    Role findByName(String student);
+    Role findByName(String name);
     void deleteByName(String name);
 
-    List<Role> getRolesByIdIn(long[] theId);
+
 }

@@ -27,14 +27,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private Role role = new Role();
 
 
-
     @Autowired
     private UserRepository userRepository;
-
-
-    public Optional<AbstractUser> getUser(long theId) {
-        return userRepository.findById(theId);
-    }
 
     @Override
     public void save(AbstractUser theUser) {
@@ -56,16 +50,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
    @Override
     public AbstractUser findByEmail(String email) {
         return userRepository.findByEmail(email);
-    }
-
-    @Override
-    public Optional<AbstractUser> findById(long userId) {
-        return userRepository.findById(userId);
-    }
-
-    @Override
-    public List findByRole(Role theRole) {
-        return userRepository.findByRoles(theRole);
     }
 
     @Override

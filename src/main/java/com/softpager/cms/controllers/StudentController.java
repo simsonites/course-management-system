@@ -85,8 +85,6 @@ public class StudentController {
         return "redirect:/students";
     }
 
-
-
     /*This method helps us to view a student details base on the email*/
     @GetMapping("/details")
     public String getStudent(@RequestParam("userEmail") String email, Model model){
@@ -134,7 +132,6 @@ public class StudentController {
         }
         throw new UsernameNotFoundException("Student not found !");
     }
-
 
     //This method deletes  a student by the email
     @GetMapping("/delete")

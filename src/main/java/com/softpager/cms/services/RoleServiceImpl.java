@@ -20,6 +20,9 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private RoleRepository roleRepository;
 
+    private Role role = new Role();
+
+
     @Override
     public List<Role> getRoles() {
         return roleRepository.findAll();
@@ -28,7 +31,6 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void save(Role theRole) {
         roleRepository.save(theRole);
-
     }
 
     @Override
@@ -42,19 +44,9 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void deleteRole(long theId) {
-        roleRepository.deleteById(theId);
-    }
-
-    @Override
-
     public void deleteByName(String name) {
+        role.breakRelationshipToDeleteRole();
         roleRepository.deleteByName(name);
-    }
-
-    @Override
-    public List<Role> getSelectedRoles(long[] theId) {
-        return roleRepository.getRolesByIdIn(theId);
     }
 
     @Override
@@ -63,9 +55,4 @@ public class RoleServiceImpl implements RoleService {
         roleRepository.save(role);
     }
 
-    @Override
-    public void removeUserFromRole(Role role, AbstractUser theUser) {
-        role.removeUserFromRoles(theUser);
-        roleRepository.save(role);
-    }
 }

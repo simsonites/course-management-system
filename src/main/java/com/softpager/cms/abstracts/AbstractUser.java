@@ -52,7 +52,7 @@ public abstract class AbstractUser extends AuditModel {
     private FileUpload photo;
 
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @JoinTable(name = "user_roles", joinColumns = {@JoinColumn(name = "USER_ID",
             referencedColumnName = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "ROLES_ID",
@@ -61,8 +61,8 @@ public abstract class AbstractUser extends AuditModel {
     private Set<Role> roles = new HashSet<>();
 
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.MERGE,
-          CascadeType.DETACH,  CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.MERGE,
+            CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(name = "user_courses", joinColumns = {@JoinColumn(name = "USER_ID",
             referencedColumnName = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "COURSE_ID",
@@ -81,10 +81,9 @@ public abstract class AbstractUser extends AuditModel {
         this.lastName = lastName;
         this.gender = gender;
     }
-
-    public void removeUserFromCourse(Course theCourse) {
-        theCourse.getUsers().remove(this);
+    public void removeCourse(Course theCourse){
         this.getCourses().remove(theCourse);
+        theCourse.getUsers().removeIf(Objects::nonNull);
     }
 
 }

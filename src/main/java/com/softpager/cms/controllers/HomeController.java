@@ -27,7 +27,7 @@ public class HomeController {
     @GetMapping()
     public String homePage(Model model, @RequestParam(defaultValue = "0") int page,
                            @RequestParam Optional<String> title) {
-        Page<Course> allCourses =  courseService.searchCourseByTitle(title.orElse("_"),PageRequest.of(page, 6));
+        Page<Course> allCourses =  courseService.findByTitle(title.orElse("_"),PageRequest.of(page, 6));
         model.addAttribute("courses", allCourses);
         model.addAttribute("currentPage", page);
         model.addAttribute("student", new Student());

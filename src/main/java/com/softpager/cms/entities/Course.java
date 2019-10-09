@@ -40,12 +40,14 @@ public class Course {
     private int numberOfCredits;
 
 
-    @ManyToMany(mappedBy = "courses", cascade = {CascadeType.PERSIST,CascadeType.MERGE,
-            CascadeType.DETACH,CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "courses", cascade = {CascadeType.PERSIST,
+            CascadeType.MERGE, CascadeType.DETACH},
+            fetch = FetchType.LAZY)
     private List<AbstractUser> users = new ArrayList<>();
 
 
-    public Course() {}
+    public Course() {
+    }
 
     public Course(String title, String description, int numberOfCredits) {
         this.title = title;
@@ -53,19 +55,31 @@ public class Course {
         this.numberOfCredits = numberOfCredits;
     }
 
+    /****THIS METHOD IS CALL WHEN A COURSE COURSES ARE TO BE ADDED FOR A USER****/
     public void addUserToCourse(AbstractUser theUser) {
         this.getUsers().add(theUser);
         theUser.getCourses().add(this);
     }
+
+    /****THIS METHOD IS CALL WHEN A COURSE IS TO BE REMOVED FROM A USER****/
 
     public void removeUserFromCourse(AbstractUser theUser) {
         this.getUsers().remove(theUser);
         theUser.getCourses().remove(this);
     }
 
+    /***THE METHOD IS CALL WHEN ALL COURSES ARE TO REMOVED FROM A USER***/
     public void breakUserRelationship(AbstractUser theUser) {
         Set<Course> userCourses = theUser.getCourses();
         userCourses.removeIf(Objects::nonNull);
+    }
+
+    /****THIS METHOD IS CALL WHEN A COURSE IS TO BE DELETED FROM THE DATABASE****/
+    @PreRemove
+    public void breakRelationshipToDelete(){
+        for (AbstractUser user : users){
+            user.getCourses().remove(this);
+        }
     }
 
 

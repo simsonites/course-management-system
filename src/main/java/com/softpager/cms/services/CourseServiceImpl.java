@@ -2,6 +2,7 @@ package com.softpager.cms.services;
 
 import com.softpager.cms.abstracts.AbstractUser;
 import com.softpager.cms.entities.Course;
+import com.softpager.cms.entities.Student;
 import com.softpager.cms.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,19 +15,14 @@ import java.util.Optional;
 
 
 @Service
+@Transactional
 public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private CourseRepository courseRepository;
 
-    private Course course;
-    private  AbstractUser user;
+    private Course course = new Course();
 
-
-    @Override
-    public Page<Course> getCourses(PageRequest pageRequest) {
-        return courseRepository.findAll(pageRequest);
-    }
 
     @Override
     public void saveCourse(Course theCourse) {
@@ -49,6 +45,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void deleteCourse(long theId) {
+        course.breakRelationshipToDelete();
         courseRepository.deleteById(theId);
     }
 
@@ -64,18 +61,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public void removeUserFromCourse(Course theCourse, AbstractUser theUser) {
-       theCourse.removeUserFromCourse(theUser);
-       courseRepository.delete(theCourse);
-    }
-
-    @Override
-    public void delete(Course theCourse) {
-        courseRepository.delete(theCourse);
-    }
-
-    @Override
-    public Page<Course> searchCourseByTitle(String theTitle, PageRequest page) {
+    public Page<Course> findByTitle(String theTitle, PageRequest page) {
         return courseRepository.findByTitleLike("%"+theTitle+"%", page);
     }
 
@@ -93,4 +79,11 @@ public class CourseServiceImpl implements CourseService {
     public Course findCourseByTitle(String cTitle) {
         return  courseRepository.findByTitle(cTitle);
     }
+
+    @Override
+    public void removeCourse(Course theCourse, AbstractUser user) {
+        user.removeCourse(theCourse);
+    }
+
+
 }

@@ -11,8 +11,6 @@ import java.util.Set;
 
 public interface UserService {
 
-    Optional<AbstractUser> getUser(long theId);
-
     void save(AbstractUser theUser);
 
     void breakUserRelationship(String email);
@@ -20,9 +18,5 @@ public interface UserService {
     void deleteUser(String email);
 
     AbstractUser findByEmail(String email);
-
-    List findByRole(Role theRole);
-
-    Optional<AbstractUser> findById(long userId);
 
 }

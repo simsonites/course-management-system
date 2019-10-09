@@ -26,8 +26,7 @@ public class Role implements GrantedAuthority {
     @NotEmpty
     private String name;
 
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER,
-            cascade = {CascadeType.MERGE})
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY,cascade = {CascadeType.MERGE})
     @ToString.Exclude
     private List<AbstractUser> users = new ArrayList<>();
 
@@ -36,11 +35,9 @@ public class Role implements GrantedAuthority {
         this.name = name;
         this.users = users;
     }
-
     public Role(String name) {
         this.name = name;
     }
-
     public Role() {}
 
     @Override
@@ -53,9 +50,15 @@ public class Role implements GrantedAuthority {
         theUser.getRoles().add(this);
     }
 
+    @PreRemove
+    public void breakRelationshipToDeleteRole(){
+       for (AbstractUser user : users){
+           user.getRoles().remove(this);
+       }
+    }
+
     public void removeUserFromRoles(AbstractUser theUser){
         Set<Role> userRoles = theUser.getRoles();
         userRoles.removeIf(Objects::nonNull);
     }
-
 }

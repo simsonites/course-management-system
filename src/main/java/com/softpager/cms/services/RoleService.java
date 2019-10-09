@@ -12,19 +12,12 @@ public interface RoleService {
 
     void save(Role theRole);
 
-  Optional<Role> getRole(long theId);
+    Optional<Role> getRole(long theId);
 
-    Role findByName(String student);
-
-    void deleteRole(long theId);
-
-    void deleteByName(String name);
-
-   // void addUserToRole(Role role, AbstractUser theUser);
-
-    List<Role> getSelectedRoles(long[] theId);
+    Role findByName(String name);
 
     void addUserToRole(Role role, AbstractUser theUser);
 
-    void removeUserFromRole(Role role, AbstractUser byId);
+    void deleteByName(String name);
+
 }

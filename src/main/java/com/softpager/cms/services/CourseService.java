@@ -2,14 +2,13 @@ package com.softpager.cms.services;
 
 import com.softpager.cms.abstracts.AbstractUser;
 import com.softpager.cms.entities.Course;
+import com.softpager.cms.entities.Student;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
 public interface CourseService {
-    Page<Course> getCourses(PageRequest pageRequest);
-
 
     void saveCourse(Course theCourse);
 
@@ -19,11 +18,9 @@ public interface CourseService {
 
     List<Course> getAllCourses();
 
-    Page<Course> searchCourseByTitle(String theTitle, PageRequest page);
+    Page<Course> findByTitle(String theTitle, PageRequest page);
 
     void addUserToCourse(Course theCourse, AbstractUser theStudent);
-
-    void removeUserFromCourse(Course theCourse, AbstractUser user);
 
 
     List<Course> getSelectedCourses(long[] theId);
@@ -34,5 +31,6 @@ public interface CourseService {
 
     void saveAll(List<Course> coursesToAdd, AbstractUser theUser);
 
-    void delete(Course theCourse);
+    void removeCourse(Course theCourse, AbstractUser user);
+
 }

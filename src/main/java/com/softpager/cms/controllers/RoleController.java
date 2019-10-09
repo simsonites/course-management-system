@@ -29,9 +29,6 @@ public class RoleController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private UserHelper userHelper;
-
 
     @GetMapping()
     public String getRoles(Model model) {
@@ -42,7 +39,7 @@ public class RoleController {
     }
 
 
-    /*Here we use this method to create new role*/
+    /***Here we use this method to create new role***/
     @PostMapping("/add-role")
     public String addRole(@Valid @ModelAttribute("role") Role theRole,
                           BindingResult br, RedirectAttributes rd) {
@@ -63,24 +60,15 @@ public class RoleController {
         return "redirect:/admin/roles";
     }
 
-
     @GetMapping("/delete")
     public String deleteRole(@RequestParam("name") String name){
       Role theRole = roleService.findByName(name);
-      List<AbstractUser> usersInRole = userService.findByRole(theRole);
-      if (usersInRole != null){
-          for (AbstractUser user : usersInRole){
-          }
-       List<AbstractUser> usersInRole2 = userService.findByRole(theRole);
-      }
       roleService.deleteByName(theRole.getName());
-        return "redirect:/admin/roles";
+      return "redirect:/admin/roles";
     }
 
 
-    /*Here, we are using this method to get list of courses to  assign for a user
-    (instructors or students*/
-
+    /***Here, we are using this method to get form to  assign a user to a role***/
     @GetMapping("/get-roles")
     public String assignCourseToUserForm(@RequestParam("userEmail")String email,
                                          HttpSession httpSession){
@@ -89,8 +77,7 @@ public class RoleController {
     }
 
 
-    /*Here, we are using this method to assign roles to a
-   user  using the id*/
+    /***Here, we are using this method to assign roles to a user  using the id***/
     @RequestMapping("/assign-user-to-roles")
     public String assignCourse(@RequestParam("roleId") long theId,
                                RedirectAttributes rd, HttpSession httpSession) {
@@ -99,7 +86,7 @@ public class RoleController {
         Optional<Role> selectedRole = roleService.getRole(theId);
         if (selectedRole.isPresent()){
                 roleService.addUserToRole(selectedRole.get(),theUser);
-                       rd.addFlashAttribute("message", theUser.getFirstName()+ "  " +
+                       rd.addFlashAttribute("message", theUser.getFirstName()+
                     "has been assigned to "+ selectedRole.get().getName());
         }
         return "redirect:/admin/roles";

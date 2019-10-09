@@ -22,5 +22,4 @@ public final class ErrorMessage {
     public static final String SELECT_USER_AND_ROLE = "Error, Please, make sure a user and a role are select, then try again" ;
     public static final String ROLE_ALREADY_EXIST = "already exist in the database" ;
     public static final String ROLE_CREATED = "created successfully";
-    public static final String ALREADY_IN_ROLE = "Operation failed, user already in this role";
 }

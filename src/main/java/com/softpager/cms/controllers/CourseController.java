@@ -33,8 +33,6 @@ public class CourseController {
     @Autowired
     private UserService userService;
 
-    private CourseRepository courseRepo;
-
 
     @GetMapping("/course")
     public String getCourse(@RequestParam("courseId") long theId, Model model) {
@@ -74,51 +72,39 @@ public class CourseController {
         return "redirect:/user/profile";
     }
 
-
    @RequestMapping("/remove-user-course")
     public String removeUserFromCourse(@RequestParam("courseId") long theId , Model model,
                                        Principal principal) {
         String email = principal.getName();
-         model.addAttribute("userEmail", email);
-         Course theCourse = courseService.getCourse(theId);
-       courseService.removeUserFromCourse(theCourse, userService.findByEmail(email));
-        for (AbstractUser user : theCourse.getUsers()) {
-                if (user.getEmail().equals(email))
-                courseService.removeUserFromCourse(theCourse,user);
-            }
-         return "redirect:/user/profile";
+        Course theCourse = courseService.getCourse(theId);
+        if (email != null){
+         courseService.removeCourse(theCourse, userService.findByEmail(email));
+        }
+        model.addAttribute("userEmail", email);
+        return "redirect:/user/profile";
     }
 
 
-    private List<Course> getAllCourses() {
-        return courseService.getAllCourses();
-    }
-
-    /*********THIS PART IS ONLY AVAILABLE TO ADMIN USERS*********/
-    /**Here, we are using this method to assign multiple courses to a  user  using the email**/
-
+    /**THIS PART IS ONLY AVAILABLE TO ADMIN USERS****** */
+    /**Here, we are using this method to assign multiple courses to a  user  using the email****/
     @RequestMapping("/admin/assign-multiple-courses")
     public String assignCourse(@RequestParam("courseId") long[] theId, RedirectAttributes rd, HttpSession httpSession) {
         String theEmail = (String) httpSession.getAttribute("email");
         AbstractUser theUser = userService.findByEmail(theEmail);
         List<Course> theCourses = courseService.getSelectedCourses(theId);
-        List<Course> coursesToAdd = new ArrayList<>();
         if ((theCourses != null)){
-            coursesToAdd.addAll(theCourses);
+            List<Course> coursesToAdd = new ArrayList<>(theCourses);
             courseService.saveAll(coursesToAdd,theUser);
             rd.addFlashAttribute("message", "courses were successfully added to  "
                     + (theUser != null ? theUser.getFirstName() : null));
             assert theUser != null;
             rd.addFlashAttribute("email", theUser.getEmail());
-            return "redirect:/admin";
         }
-        rd.addFlashAttribute("courseAlreadyAdded","Duplicate courses found detected for  "
-                +theUser.getFirstName());
-        return "admin/manage-courses";
+        return "redirect:/admin";
     }
 
 
-    //This method show the form to create new courses
+    /**This method show the form to create new courses**/
     @GetMapping("/admin/course-form")
     public String showForm(Model model) {
         Course course = new Course();
@@ -126,8 +112,7 @@ public class CourseController {
         return "course/add-course";
     }
 
-    /****This method actually saves the course to the database****/
-
+    /**This method actually saves the course to the database**/
     @PostMapping("/admin/create-course")
     public String saveCourse(@Valid @ModelAttribute Course theCourse,
                              BindingResult br, Model model) {
@@ -142,29 +127,18 @@ public class CourseController {
         return "redirect:/courses/admin/manage-courses";
     }
 
-    private boolean courseExists(String cTitle){
-        Course theCourse = courseService.findCourseByTitle(cTitle);
-        if (theCourse != null){
-            return true;
-        }
-        return false;
-    }
 
-
-    //This method deletes a course from the database by the ID
+    /***This method deletes a course from the database by the ID ***/
     @GetMapping("/admin/delete-course")
     public String deleteCourse(@RequestParam("courseId") long theId) {
-        List<AbstractUser> coursesUsers = courseService.getCourse(theId).getUsers();
-        if (coursesUsers != null){
-            for (AbstractUser user : coursesUsers){
-                courseService.removeUserFromCourse(courseService.getCourse(theId),user);
-            }
-        }
-        courseService.deleteCourse(theId);
-        return "redirect:/admin/manage-courses";
+       Course theCourse = courseService.getCourse(theId);
+       if (theCourse != null){
+           courseService.deleteCourse(theId);
+       }
+        return "redirect:/courses/admin/manage-courses";
     }
 
-    //This method updates a course in the database by the ID
+    /**This method updates a course in the database by the ID**/
     @GetMapping("/admin/update-course")
     public String updateCourse(@RequestParam("courseId") long theId, Model model) {
         Course theCourse = courseService.getCourse(theId);
@@ -172,9 +146,10 @@ public class CourseController {
         return "course/add-course";
     }
 
-    /*Here, we are using this method to get list of courses to  assign for a user */
+    /***Here, we are using this method to get list of courses to  assign for a user ***/
     @GetMapping("/admin/get-courses")
-    public String assignCourseToUserForm(@RequestParam("userEmail")String email, HttpSession httpSession){
+    public String assignCourseToUserForm(@RequestParam("userEmail")String email,
+                                         HttpSession httpSession){
         if (email == null){
             return "redirect:/login";
         }
@@ -182,13 +157,21 @@ public class CourseController {
         return "redirect:/courses/admin/manage-courses";
     }
 
-    /* This method is used to perform search operation on courses in the admin panel*/
+    /** This method is used to perform search operation on courses in the admin panel**/
     @GetMapping("/admin/manage-courses")
     public String manageCourses(Model model, @RequestParam(defaultValue="") String title) {
         model.addAttribute("courses", courseService.manageCourse(title));
         return "admin/manage-courses";
     }
 
+    private boolean courseExists(String cTitle){
+        Course theCourse = courseService.findCourseByTitle(cTitle);
+        return theCourse != null;
+    }
+
+    private List<Course> getAllCourses() {
+        return courseService.getAllCourses();
+    }
 
 }
 
